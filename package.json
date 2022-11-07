@@ -1,0 +1,189 @@
+{
+  "name": "zenn-preview",
+  "publisher": "zenn",
+  "displayName": "Zenn Preview for github.dev",
+  "description": "Zenn のコンテンツを github.dev でプレビューできるようにする VSCode 拡張",
+  "icon": "public/assets/zenn-icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zenn-dev/zenn-vscode-extension.git"
+  },
+  "license": "MIT",
+  "version": "0.0.1",
+  "pricing": "Free",
+  "engines": {
+    "vscode": "^1.72.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "zenn",
+    "zenn.dev",
+    "github.dev",
+    "markdown"
+  ],
+  "activationEvents": [
+    "workspaceContains:/articles/",
+    "workspaceContains:/books/",
+    "onWebviewPanel:zenn-preview"
+  ],
+  "browser": "./dist/web/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "zenn-preview",
+          "title": "Zenn Preview",
+          "icon": "public/assets/svg/zenn-icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "zenn-preview": [
+        {
+          "id": "zenn-articles-tree-view",
+          "name": "Articles"
+        },
+        {
+          "id": "zenn-books-tree-view",
+          "name": "Books"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "zenn-articles-tree-view",
+        "contents": "記事が見つかりませんでした\n[記事を作成する](command:zenn-preview.new-article)"
+      },
+      {
+        "view": "zenn-books-tree-view",
+        "contents": "本が見つかりませんでした\n[本を作成する](command:zenn-preview.new-book)"
+      }
+    ],
+    "commands": [
+      {
+        "command": "zenn-preview.preview-zenn",
+        "title": "コンテンツをプレビュー",
+        "icon": {
+          "dark": "./public/assets/svg/dark/preview.svg",
+          "light": "./public/assets/svg/light/preview.svg"
+        }
+      },
+      {
+        "command": "zenn-preview.new-article",
+        "title": "記事を新規作成",
+        "icon": "$(new-file)"
+      },
+      {
+        "command": "zenn-preview.new-book",
+        "title": "本を新規作成",
+        "icon": {
+          "dark": "./public/assets/svg/dark/new-book.svg",
+          "light": "./public/assets/svg/light/new-book.svg"
+        }
+      },
+      {
+        "command": "zenn-preview.refresh-articles",
+        "title": "記事一覧を更新",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "zenn-preview.refresh-books",
+        "title": "本一覧を更新",
+        "icon": "$(refresh)"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "zenn-preview.new-article",
+          "when": "view == zenn-articles-tree-view",
+          "group": "navigation"
+        },
+        {
+          "command": "zenn-preview.refresh-articles",
+          "when": "view == zenn-articles-tree-view",
+          "group": "navigation"
+        },
+        {
+          "command": "zenn-preview.refresh-books",
+          "when": "view == zenn-books-tree-view",
+          "group": "navigation"
+        },
+        {
+          "command": "zenn-preview.new-book",
+          "when": "view == zenn-books-tree-view",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "zenn-preview.preview-zenn",
+          "when": "view == zenn-articles-tree-view && viewItem == article || view == zenn-books-tree-view && viewItem == book || viewItem == bookChapter",
+          "group": "inline"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "publish:vsce": "yes | vsce publish",
+    "dev": "run-p watch-web run-in-browser",
+    "pretest": "yarn run compile-web",
+    "vscode:prepublish": "yarn run package-web",
+    "compile-web": "webpack",
+    "watch-web": "webpack --watch",
+    "package-web": "webpack --mode production --devtool hidden-source-map",
+    "run-in-browser": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=. ./examples",
+    "lint": "run-s lint:*",
+    "lint:tsc": "tsc --noEmit -p tsconfig.lint.json",
+    "lint:eslint": "eslint 'src/**/*.{ts,tsx}'",
+    "lint:prettier": "prettier ./src",
+    "fix": "run-s fix:*",
+    "fix:prettier": "prettier -w ./src",
+    "fix:eslint": "eslint --fix 'src/**/*.{ts,tsx}'",
+    "test": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=. --extensionTestsPath=dist/web/test/suite/index.js"
+  },
+  "devDependencies": {
+    "@svgr/webpack": "^6.3.1",
+    "@types/mocha": "^9.1.1",
+    "@types/react": "^18.0.15",
+    "@types/react-dom": "^18.0.6",
+    "@types/vscode": "^1.72.0",
+    "@types/vscode-webview": "^1.57.0",
+    "@types/webpack-env": "^1.17.0",
+    "@typescript-eslint/eslint-plugin": "^5.30.0",
+    "@typescript-eslint/parser": "^5.30.0",
+    "@vscode/test-web": "^0.0.26",
+    "assert": "^2.0.0",
+    "crypto-browserify": "^3.12.0",
+    "css-loader": "^6.7.1",
+    "esbuild-loader": "^2.19.0",
+    "eslint": "^8.18.0",
+    "eslint-plugin-import": "^2.26.0",
+    "mocha": "^10.0.0",
+    "natural-compare-lite": "^1.4.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.7.1",
+    "process": "^0.11.10",
+    "sass": "^1.53.0",
+    "sass-loader": "^13.0.2",
+    "stream-browserify": "^3.0.0",
+    "style-loader": "^3.3.1",
+    "ts-loader": "^9.3.1",
+    "typescript": "^4.7.4",
+    "vsce": "^2.13.0",
+    "webpack": "^5.73.0",
+    "webpack-cli": "^4.10.0"
+  },
+  "dependencies": {
+    "emoji-regex": "^10.2.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "yaml": "^2.1.1",
+    "zenn-content-css": "^0.1.114",
+    "zenn-embed-elements": "^0.1.131",
+    "zenn-markdown-html": "^0.1.114",
+    "zenn-validator": "^0.1.132-alpha.0"
+  }
+}

@@ -1,0 +1,23 @@
+name: Lint Zenn VSCode Extension
+
+on:
+  pull_request:
+    branches:
+      - main
+      - canary
+    types:
+      - opened
+      - synchronize
+    paths:
+      - "src/**"
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install modules
+        run: yarn install --frozen-lockfile
+      - name: Lint
+        run: yarn lint

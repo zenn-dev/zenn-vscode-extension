@@ -1,0 +1,103 @@
+.headerContainer {
+  padding: 3.3rem 0;
+  background: var(--c-gray-bg);
+}
+
+.header {
+  padding: 0 1.8rem;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.titleContainer {
+  display: flex;
+  align-items: center;
+}
+
+.coverImage {
+  background: #fff;
+  object-fit: cover;
+  box-shadow: 0 9px 20px -9px rgb(0 27 68 / 52%), 0 0 3px rgb(0 21 60 / 10%);
+  border-radius: 5px;
+  width: 160px;
+  height: 224px;
+  aspect-ratio: auto 160 / 224;
+}
+
+.title {
+  flex: 1;
+  margin-top: -1em;
+  margin-left: 1.2em;
+  font-size: 1.8rem;
+}
+
+.headerPropertyContainer {
+  margin-top: 1.5rem;
+}
+
+.headerProperty {
+  display: flex;
+  font-size: 0.92rem;
+  color: var(--c-gray);
+  margin-top: 0.5rem;
+}
+
+.headerPropertyLabel {
+  font-weight: 700;
+  width: 140px;
+}
+
+.headerPropertyValue {
+  flex: 1;
+}
+
+.topic {
+  display: inline-flex;
+  color: var(--c-gray);
+  font-size: 0.9em;
+  border: solid 1px var(--c-gray-border);
+  background: #fff;
+  padding: 0.1em 0.4em;
+  border-radius: 5px;
+  margin: 3px 6px 3px 0;
+}
+
+.chaptersSection {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 3rem 1.8rem;
+}
+
+.sectionTitle {
+  font-size: 2rem;
+}
+
+.chapterList {
+  margin-top: 1rem;
+  line-height: 1.5;
+  list-style: decimal;
+  margin-left: 1.4em;
+  padding-left: 0.2em;
+  color: var(--c-gray);
+  font-weight: 700;
+}
+
+.chapterLink {
+  cursor: pointer;
+  font-weight: normal;
+  color: var(--c-primary-darker);
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.chapterFilename {
+  font-size: 0.8em;
+  opacity: 0.7;
+  text-decoration: none;
+}
+
+.validationErrors {
+  margin-top: 1.4rem;
+}

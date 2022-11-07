@@ -1,0 +1,34 @@
+name: ReleaseページのCHANGELOGを生成&更新する
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  update-changelog:
+    permissions:
+      contents: write
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+
+      - name: バージョン番号を環境変数に設定
+        run: node -p -e '`RELEASED_PACKAGE_VERSION=${require("./package.json").version}`' >> $GITHUB_ENV
+
+      - name: CHANGELOGを生成&更新する
+        uses: release-drafter/release-drafter@v5
+        with:
+          version: ${{ env.RELEASED_PACKAGE_VERSION }}
+          name: ${{ env.RELEASED_PACKAGE_VERSION }}
+          tag: ${{ env.RELEASED_PACKAGE_VERSION }}
+          publish: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

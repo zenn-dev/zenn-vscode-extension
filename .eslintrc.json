@@ -1,0 +1,62 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module"
+  },
+  "plugins": ["@typescript-eslint", "import"],
+  "ignorePatterns": ["**/*.d.ts"],
+  "rules": {
+    "@typescript-eslint/semi": "warn",
+    "eqeqeq": "warn",
+    "no-throw-literal": "warn",
+    "semi": "off",
+    "import/order": [
+      "warn",
+      {
+        "groups": [
+          "builtin",
+          "external",
+          "index",
+          "sibling",
+          "parent",
+          "object",
+          "type"
+        ],
+        "pathGroups": [
+          {
+            "pattern": "{react,react-dom/**,next,next/**}",
+            "group": "builtin",
+            "position": "before"
+          },
+          {
+            "pattern": "@types",
+            "group": "type",
+            "position": "after"
+          },
+          {
+            "pattern": "@components/**",
+            "group": "parent",
+            "position": "after"
+          },
+          {
+            "pattern": "@hooks/**",
+            "group": "parent",
+            "position": "after"
+          },
+          {
+            "pattern": "@lib/**",
+            "group": "parent",
+            "position": "after"
+          }
+        ],
+        "alphabetize": {
+          "order": "asc"
+        },
+        "newlines-between": "always",
+        "pathGroupsExcludedImportTypes": ["builtin"]
+      }
+    ]
+  }
+}

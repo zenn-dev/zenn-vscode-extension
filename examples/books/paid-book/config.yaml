@@ -1,0 +1,9 @@
+title: "この本は有料です"
+summary: "有料の本のサンプルです"
+topics:
+  - test
+published: false
+price: 5000
+chapters:
+  - paid-chapter
+  - free-chapter

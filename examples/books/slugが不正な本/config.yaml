@@ -1,0 +1,8 @@
+title: "slugが不正な本"
+summary: "この本はslugが不正なため表示できません"
+topics:
+  - test
+published: false
+price: 0
+chapters:
+  - example

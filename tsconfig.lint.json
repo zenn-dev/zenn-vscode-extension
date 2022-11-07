@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "lib": ["ESNext", "WebWorker", "dom"],
+    "skipLibCheck": true,
+    "esModuleInterop": true
+  }
+}

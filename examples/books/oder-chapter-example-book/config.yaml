@@ -1,0 +1,6 @@
+title: "数字付きのチャプターで構成されている本"
+summary: "チャプターが`0.slug.md`のように設定されていれば正しく表示できます"
+topics:
+  - test
+published: false
+price: 0

@@ -1,0 +1,71 @@
+.validationError {
+  padding: 1.2rem 1.4rem 1.3rem;
+  background: #fff;
+  border-radius: 10px;
+}
+
+.critical {
+  .errorIcon {
+    color: var(--c-error);
+  }
+}
+
+.warnings {
+  .errorIcon {
+    color: #ff9715;
+  }
+}
+
+.criticalTitle {
+  font-size: 0.95rem;
+  color: var(--c-error);
+  font-weight: 700;
+}
+
+.warningTitle {
+  font-size: 0.95rem;
+  color: #ff9715;
+  font-weight: 700;
+}
+
+.critical + .warnings {
+  margin-top: 1.2rem;
+}
+
+.validationErrorRow {
+  display: flex;
+  align-items: flex-start;
+  margin-top: 0.5rem;
+}
+
+.errorIcon {
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  transform: translateY(-0.1em);
+}
+
+.errorMessage {
+  flex: 1;
+  color: var(--c-gray);
+  font-size: 14px;
+  margin-left: 7px;
+}
+
+.detailLink {
+  margin-left: 6px;
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-color: var(--c-gray-border);
+  display: inline-flex;
+  align-items: center;
+  &:hover {
+    color: var(--c-body);
+  }
+}
+
+.callMadeIcon {
+  width: 15px;
+  height: 15px;
+}

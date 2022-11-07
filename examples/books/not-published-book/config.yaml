@@ -1,0 +1,8 @@
+title: "published が false に設定されている本"
+summary: "非公開の本です"
+topics:
+  - test
+published: false
+price: 0
+chapters:
+  - example

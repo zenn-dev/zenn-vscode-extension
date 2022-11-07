@@ -1,0 +1,8 @@
+title: "published が true に設定されている本"
+summary: "公開されている本です"
+topics:
+  - test
+published: true
+price: 0
+chapters:
+  - example

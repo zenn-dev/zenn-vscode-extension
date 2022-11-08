@@ -1,7 +1,7 @@
 import * as pkg from "../package.json";
 
 /** この拡張機能のID */
-export const APP_ID = pkg.displayName;
+export const APP_ID = pkg.name;
 
 /** コマンドを実行するときなどに使うID */
 export const APP_COMMAND = {

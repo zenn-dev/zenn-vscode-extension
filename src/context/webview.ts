@@ -7,7 +7,7 @@ import { ZennPreviewContents } from "../panels/types";
 import { ZennContentError } from "../schemas/types";
 import { StoreEvents } from "../store/common";
 import { toVSCodeUri } from "../utils/vscodeHelpers";
-import { APP_COMMAND } from "../variables";
+import { APP_COMMAND, APP_ID } from "../variables";
 import { WebViewState } from "../webviews/types";
 
 type WebviewPanel = vscode.WebviewPanel;
@@ -96,7 +96,7 @@ export const initializeWebview = (
     ),
 
     // Webviewを永続化する
-    vscode.window.registerWebviewPanelSerializer("zenn-preview", {
+    vscode.window.registerWebviewPanelSerializer(APP_ID, {
       async deserializeWebviewPanel(panel: WebviewPanel, state?: WebViewState) {
         const contents = state?.content;
 

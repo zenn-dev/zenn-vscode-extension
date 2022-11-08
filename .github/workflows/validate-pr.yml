@@ -1,4 +1,4 @@
-name: Validate PR
+name: Pull Request のラベリングを検証する
 
 on:
   pull_request:

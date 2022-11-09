@@ -22,3 +22,13 @@ jobs:
         run: yarn publish:vsce
         env:
           VSCE_PAT: ${{ secrets.VSCE_PAT }}
+
+      - name: canary へチェックアウト
+        uses: actions/checkout@v3
+        with:
+          ref: canary
+
+      - name: main ブランチの変更を canary ブランチに反映
+        run: |
+          git pull origin main
+          git push origin HEAD

@@ -1,4 +1,4 @@
-name: Lint Zenn VSCode Extension
+name: Lint を実行
 
 on:
   pull_request:

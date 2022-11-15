@@ -7,13 +7,14 @@ on:
     types:
       - opened
       - labeled
+      - unlabeled
 
 permissions:
   contents: write
   pull-requests: write
 
 jobs:
-  check_version:
+  check_release_label:
     runs-on: ubuntu-latest
     if: |
       !contains(github.event.pull_request.labels.*.name, 'release:patch') &&

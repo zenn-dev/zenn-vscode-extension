@@ -10,6 +10,7 @@ on:
 
 permissions:
   pull-requests: write
+  repository-projects: write
 
 jobs:
   check_version:

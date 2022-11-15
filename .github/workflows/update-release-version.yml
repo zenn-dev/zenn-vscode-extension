@@ -1,0 +1,107 @@
+name: ラベルに応じて package.json のバージョンを更新する
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - labeled
+      - unlabeled
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  check_release_label:
+    runs-on: ubuntu-latest
+    if: |
+      !contains(github.event.pull_request.labels.*.name, 'release:patch') &&
+      !contains(github.event.pull_request.labels.*.name, 'release:minor') &&
+      !contains(github.event.pull_request.labels.*.name, 'release:major')
+    steps:
+      - name: 古いコメントを削除
+        uses: kamatama41/hide-pr-comments-action@v0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          message_regex: "リリースラベルを付与してください"
+
+      - name: 警告文を Pull Request にコメントする
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: 'リリースラベルを付与してください。labels: `release:patch`, `release:minor`, `release:major`'
+            })
+
+      - name: ラベルがないためエラーとする
+        run: exit 1
+
+  version_diff:
+    runs-on: ubuntu-latest
+    if: |
+      contains(github.event.pull_request.labels.*.name, 'release:patch') ||
+      contains(github.event.pull_request.labels.*.name, 'release:minor') ||
+      contains(github.event.pull_request.labels.*.name, 'release:major')
+    outputs:
+      chagned: ${{ steps.get_diff.outputs.changed }}
+    steps:
+      - name: 古いコメントを削除
+        uses: kamatama41/hide-pr-comments-action@v0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          message_regex: "リリースラベルを付与してください"
+
+      - uses: actions/checkout@v3
+
+      - name: マージ先を取得
+        run: git fetch origin ${{ github.base_ref }} --depth=1
+
+      - name: パージョンの変更を保持する
+        id: get_diff
+        run: echo "changed=$(git diff origin/${{ github.base_ref }} HEAD --relative "./package.json" | grep "^+.\+version" | wc -l)" >> $GITHUB_OUTPUT
+
+  update_version:
+    runs-on: ubuntu-latest
+    needs: [version_diff]
+    if: needs.version_diff.outputs.chagned == '0'
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Gitの設定
+        if: steps.diff.outputs.changed == '0'
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git remote set-url origin https://github-actions:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: バージョンの更新(patch)
+        if: contains(github.event.pull_request.labels.*.name, 'release:patch')
+        run: yarn version --patch --no-git-tag-version
+
+      - name: バージョンの更新(minor)
+        if: contains(github.event.pull_request.labels.*.name, 'release:minor')
+        run: yarn version --minor --no-git-tag-version
+
+      - name: バージョンの更新(major)
+        if: contains(github.event.pull_request.labels.*.name, 'release:major')
+        run: yarn version --major --no-git-tag-version
+
+      - name: 変更を PR にプッシュする
+        run: |
+          git add .
+          git commit -m "v$(grep version package.json | awk -F \" '{print $4}')"
+          git push origin HEAD

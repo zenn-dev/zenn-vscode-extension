@@ -11,8 +11,7 @@ on:
       - unlabeled
 
 jobs:
-  validate-pr:
-    name: Validate PR
+  delete-comment:
     runs-on: ubuntu-latest
     steps:
       - name: 古いコメントを削除
@@ -21,13 +20,17 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           message_regex: "ラベルをどれか一つ付けてください"
 
-      - name: Check label
-        if: |
-          !contains(github.event.pull_request.labels.*.name, 'fix') && 
-          !contains(github.event.pull_request.labels.*.name, 'bugfix') && 
-          !contains(github.event.pull_request.labels.*.name, 'enhancement') && 
-          !contains(github.event.pull_request.labels.*.name, 'chore') && 
-          !contains(github.event.pull_request.labels.*.name, 'feature')
+  validate-pr:
+    name: Validate PR
+    runs-on: ubuntu-latest
+    if: |
+      !contains(github.event.pull_request.labels.*.name, 'fix') && 
+      !contains(github.event.pull_request.labels.*.name, 'bugfix') && 
+      !contains(github.event.pull_request.labels.*.name, 'enhancement') && 
+      !contains(github.event.pull_request.labels.*.name, 'chore') && 
+      !contains(github.event.pull_request.labels.*.name, 'feature')
+    steps:
+      - name: ラベルを付けるように警告コメントをする
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           URL: ${{ github.event.pull_request.comments_url }}

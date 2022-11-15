@@ -21,7 +21,6 @@ jobs:
           message_regex: "ラベルをどれか一つ付けてください"
 
   validate-pr:
-    name: Validate PR
     runs-on: ubuntu-latest
     if: |
       !contains(github.event.pull_request.labels.*.name, 'fix') && 

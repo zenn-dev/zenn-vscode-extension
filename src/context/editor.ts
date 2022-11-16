@@ -1,90 +1,52 @@
 import * as vscode from "vscode";
 
-import { newArticleCommand } from "../commands/newArticle";
-import { newBookCommand } from "../commands/newBook";
-import { ZennContext } from "../context/app";
-import { ZennContentsType } from "../schemas/types";
-import { APP_COMMAND } from "../variables";
+import { AppContext } from "../context/app";
 
 /**
  * エディターの初期化処理
  */
-export const initializeEditor = (context: ZennContext): vscode.Disposable[] => {
+export const initializeEditor = (context: AppContext): vscode.Disposable[] => {
   const watcher = vscode.workspace.createFileSystemWatcher(
     new vscode.RelativePattern(context.workspaceUri, "**/*.{md,yml,yaml}")
   );
 
-  const {
-    bookStore,
-    articleStore,
-    bookChapterStore,
-    panelStore,
-    getZennContentsType,
-  } = context;
+  const { cache, getContentsType, dispatchContentsEvent: dispatch } = context;
 
-  const updateContents = (
-    type: ZennContentsType,
-    uri: vscode.Uri,
-    text: string
-  ) => {
-    switch (type) {
-      case "article":
-        articleStore.updateContent(uri, text);
-        break;
-      case "book":
-      case "bookConfig":
-        bookStore.updateContent(uri, text);
-        break;
-      case "bookChapter":
-        bookChapterStore.updateContent(uri, text);
-        break;
-    }
+  const deleteContentCache = (uri: vscode.Uri) => {
+    const type = getContentsType(uri);
+    if (!type) return;
+
+    const key = cache.createKey(type, uri);
+    cache.deleteCache(key);
   };
 
   return [
     watcher,
 
     // ファイルが作成されたとき
-    watcher.onDidCreate(async (uri) => {
-      const type = getZennContentsType(uri);
-
-      if (!type) return;
-
-      const file = await vscode.workspace.openTextDocument(uri);
-
-      updateContents(type, uri, file.getText());
+    watcher.onDidCreate((uri) => {
+      dispatch({ type: "create-content", payload: { uri } });
     }),
 
     // ファイルが更新されたとき
-    vscode.workspace.onDidSaveTextDocument((document) => {
-      const uri = document.uri;
-      const type = getZennContentsType(uri);
-
-      if (!type) return;
-
-      updateContents(type, uri, document.getText());
+    vscode.workspace.onDidSaveTextDocument((doc) => {
+      deleteContentCache(doc.uri);
+      dispatch({ type: "update-content", payload: { uri: doc.uri } });
     }),
 
     // ファイル名が変更されたとき
     vscode.workspace.onDidRenameFiles(async (event) => {
-      const typeList = event.files
-        .flatMap((file) => [
-          getZennContentsType(file.oldUri),
-          getZennContentsType(file.newUri),
-        ])
-        .filter((type) => !!type);
-
-      if (!typeList.length) return;
-
-      await Promise.all([articleStore.refresh(), bookStore.refresh()]);
+      event.files.forEach((file) => {
+        deleteContentCache(file.oldUri);
+        dispatch({ type: "create-content", payload: { uri: file.newUri } });
+      });
     }),
 
     // ファイルが削除されたとき
     vscode.workspace.onDidDeleteFiles(async (event) => {
       event.files.forEach((uri) => {
-        articleStore.deleteContent(uri);
-        bookStore.deleteContent(uri);
-        bookChapterStore.deleteContent(uri);
+        deleteContentCache(uri);
+        dispatch({ type: "delete-content", payload: { uri } });
       });
     }),
 
@@ -92,25 +54,14 @@ export const initializeEditor = (context: ZennContext): vscode.Disposable[] => {
     vscode.window.onDidChangeActiveTextEditor((event) => {
       if (!event || !event.viewColumn) return;
 
-      const panel = panelStore.getPanel(event.document.uri);
+      const key = cache.createKey("previewPanel", event.document.uri);
+      const panel = cache.getCache(key)?.panel;
 
       if (!panel) return;
-      if (event.viewColumn === panel.getViewColumn()) return;
+      if (event.viewColumn === panel.viewColumn) return;
 
       // プレビューパネルを開く
-      panel?.open(true);
+      panel.reveal(void 0, true);
     }),
-
-    // 記事ファイルの作成コマンド
-    vscode.commands.registerCommand(
-      APP_COMMAND.NEW_ARTICLE,
-      newArticleCommand(context)
-    ),
-
-    // 本テンプレートの作成コマンド
-    vscode.commands.registerCommand(
-      APP_COMMAND.NEW_BOOK,
-      newBookCommand(context)
-    ),
   ];
 };

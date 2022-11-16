@@ -1,15 +1,12 @@
 import naturalCompare from "natural-compare-lite";
 import * as vscode from "vscode";
 
-import { ZennContext } from "../context/app";
-import {
-  ZennContents,
-  ZennContentError,
-  ZennContentsType,
-} from "../schemas/types";
+import { AppContext } from "../context/app";
+import { ContentError } from "../schemas/error";
+import { Contents, ContentsType } from "../types";
 
 /** TreeItem の `contextValue` に設定できる値 */
-export type ZennTreeItemType = ZennContentsType | "error" | "none";
+export type TreeItemType = ContentsType | "error" | "none";
 
 /** `TreeItem.getChildren()` で返すデータ型 */
 export type ChildTreeItem = PreviewTreeItem | vscode.TreeItem;
@@ -20,11 +17,11 @@ export type ChildTreeItem = PreviewTreeItem | vscode.TreeItem;
 export abstract class PreviewTreeItem extends vscode.TreeItem {
   /** ソート時に使うパス文字列 */
   protected readonly path: string;
-  protected readonly context: ZennContext;
+  protected readonly context: AppContext;
   protected readonly extensionUri: vscode.Uri;
 
   /** TreeItemをpackage.jsonの設定で判定するための値 */
-  contextValue: ZennTreeItemType = "none";
+  contextValue: TreeItemType = "none";
 
   /** Webviewでプレビューできるか */
   canPreview: boolean = false;
@@ -33,8 +30,8 @@ export abstract class PreviewTreeItem extends vscode.TreeItem {
   contentUri?: vscode.Uri;
 
   constructor(
-    context: ZennContext,
-    content: ZennContents | ZennContentError,
+    context: AppContext,
+    content: Contents | ContentError,
     collapsibleState: vscode.TreeItemCollapsibleState
   ) {
     super("", collapsibleState);

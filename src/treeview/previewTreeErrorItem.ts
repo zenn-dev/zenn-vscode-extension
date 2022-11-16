@@ -2,8 +2,8 @@ import * as vscode from "vscode";
 
 import { PreviewTreeItem } from "./previewTreeItem";
 
-import { ZennContext } from "../context/app";
-import { ZennContentError } from "../schemas/types";
+import { AppContext } from "../context/app";
+import { ContentError } from "../schemas/error";
 
 /**
  * TreeItemの基底クラス
@@ -12,7 +12,7 @@ export class PreviewTreeErrorItem extends PreviewTreeItem {
   readonly isError = true;
   readonly contextValue = "error";
 
-  constructor(context: ZennContext, error: ZennContentError) {
+  constructor(context: AppContext, error: ContentError) {
     super(context, error, vscode.TreeItemCollapsibleState.None);
 
     this.label = error.message || "エラーが発生しました";

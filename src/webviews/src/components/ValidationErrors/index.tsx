@@ -7,7 +7,7 @@ import styles from "./ValidationErrors.module.scss";
 import CallMadeSVG from "../../assets/svg/call-made.svg";
 import ErrorSVG from "../../assets/svg/error.svg";
 
-const ValidationErrorRow: React.VFC<ValidationError> = ({
+const ValidationErrorRow: React.FC<ValidationError> = ({
   message,
   isCritical,
   detailUrl,

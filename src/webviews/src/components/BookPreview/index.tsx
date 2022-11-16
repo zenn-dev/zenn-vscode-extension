@@ -4,7 +4,8 @@ import { validateBook } from "zenn-validator";
 
 import styles from "./BookPreview.module.scss";
 
-import { ZennPreviewEvent, BookPreviewContent } from "../../../../panels/types";
+import { BookPreviewContent } from "../../../../schemas/book";
+import { PreviewEvent } from "../../../../types";
 import { SLUG_PATTERN } from "../../../../utils/patterns";
 import defaultCoverImage from "../../assets/images/book-cover.png";
 import { useVSCodeApi } from "../../hooks/useVSCodeApi";
@@ -36,9 +37,9 @@ export const BookPreview = ({ content }: BookPreviewProps) => {
   const validationErrors = useMemo(() => validateBook(book), [book]);
 
   const previewChapterPage = (chapterPath: string) => {
-    const event: ZennPreviewEvent = {
-      type: "OPEN_PREVIEW",
-      payload: { openPath: chapterPath },
+    const event: PreviewEvent = {
+      type: "open-preview-panel",
+      payload: { path: chapterPath },
     };
 
     vscode.postMessage(event);

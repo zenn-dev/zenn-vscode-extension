@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 
-import { ZennContext } from "../../context/app";
+import { AppContext } from "../../context/app";
 import { BookChapterMeta } from "../../schemas/book";
 import { BookChapterContent } from "../../schemas/bookChapter";
 import { PreviewTreeItem } from "../previewTreeItem";
@@ -10,7 +10,7 @@ import { PreviewTreeItem } from "../previewTreeItem";
  */
 export class BookChapterTreeItem extends PreviewTreeItem {
   constructor(
-    context: ZennContext,
+    context: AppContext,
     meta: BookChapterMeta,
     content: BookChapterContent
   ) {

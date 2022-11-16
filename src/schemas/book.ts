@@ -1,11 +1,22 @@
 import * as vscode from "vscode";
 
-import { ZennContentBase, ZennContentError, ContentsLoadResult } from "./types";
+import { loadBookChapterContent } from "./bookChapter";
+import { ContentError } from "./error";
+import { withCache } from "./utils";
 
+import { AppContext } from "../context/app";
+import { ContentBase, ContentsLoadResult, PreviewContentBase } from "../types";
 import { FileResult } from "../types";
 import { parseYaml } from "../utils/helpers";
-import { getFilenameFromUrl, openTextDocument } from "../utils/vscodeHelpers";
+import {
+  toPath,
+  openTextDocument,
+  getFilenameFromUrl,
+} from "../utils/vscodeHelpers";
 
+/**
+ * 本の基本情報
+ */
 export interface Book {
   slug?: string;
   title?: string;
@@ -27,13 +38,12 @@ export interface BookChapterMeta {
   position: number | null;
   /** 本に含まれているかのフラグ */
   isExcluded: boolean;
-  title?: string | null;
 }
 
 /**
  * 本のデータ型
  */
-export interface BookContent extends ZennContentBase {
+export interface BookContent extends ContentBase {
   type: "book";
   value: Book;
   configUri: vscode.Uri; // TreeViewで使用する
@@ -45,6 +55,25 @@ export interface BookContent extends ZennContentBase {
  * 本の取得結果の型
  */
 export type BookLoadResult = ContentsLoadResult<BookContent>;
+
+/**
+ * プレビューで使う本のチャプターのメタデータ
+ */
+export interface PreviewChapterMeta {
+  path: string;
+  slug: string;
+  title: string | undefined | null;
+}
+
+/**
+ * 本のプレビュー時(postMessage)に使うデータ型
+ */
+export interface BookPreviewContent extends PreviewContentBase {
+  type: "book";
+  book: Book;
+  coverImagePath: string | null;
+  chapters: PreviewChapterMeta[];
+}
 
 /**
  * カバー画像へのUriを返す
@@ -131,7 +160,7 @@ const loadBook = async (uri: vscode.Uri): Promise<BookContent> => {
 
   const configUri = getBookConfigUri(uri, files);
 
-  if (!configUri) throw new ZennContentError("config.yamlがありません");
+  if (!configUri) throw new ContentError("config.yamlがありません");
 
   const configData = await loadBookConfigData(configUri);
 
@@ -164,19 +193,26 @@ const loadBook = async (uri: vscode.Uri): Promise<BookContent> => {
 /**
  * 本の情報を取得する
  */
-export const loadBookContent = (uri: vscode.Uri): Promise<BookLoadResult> => {
-  return loadBook(uri).catch(() => {
-    const filename = getFilenameFromUrl(uri) || "本";
-    return new ZennContentError(`${filename}の取得に失敗しました`, uri);
-  });
-};
+export const loadBookContent = withCache(
+  ({ cache }, uri) => cache.createKey("book", uri),
+
+  async (uri: vscode.Uri): Promise<BookLoadResult> => {
+    return loadBook(uri).catch(() => {
+      const filename = getFilenameFromUrl(uri) || "本";
+      return new ContentError(`${filename}の取得に失敗しました`, uri);
+    });
+  }
+);
 
 /**
  * `/books/[slug]`内の本一覧を取得する
  */
 export const loadBookContents = async (
-  rootUri: vscode.Uri
+  context: AppContext,
+  force?: boolean
 ): Promise<BookLoadResult[]> => {
+  const rootUri = context.booksFolderUri;
+
   const directories = await vscode.workspace.fs
     .readDirectory(rootUri)
     .then((r) =>
@@ -187,5 +223,44 @@ export const loadBookContents = async (
       })
     );
 
-  return Promise.all(directories.map((uri) => loadBookContent(uri)));
+  return Promise.all(
+    directories.map((uri) => loadBookContent(context, uri, force))
+  );
+};
+
+/**
+ * プレビューするためのデータを取得する
+ */
+export const loadBookPreviewContent = async (
+  context: AppContext,
+  uri: vscode.Uri,
+  panel: vscode.WebviewPanel
+): Promise<BookPreviewContent> => {
+  const book = await loadBookContent(context, uri);
+
+  if (ContentError.isError(book)) throw book;
+
+  return {
+    type: "book",
+    book: book.value,
+    path: toPath(book.uri),
+    filename: book.filename,
+    panelTitle: `${book.value.title || book.filename || "本"} のプレビュー`,
+
+    // カバー画像のURLをWebView内で表示できる形に変更する
+    coverImagePath: book.coverImageUri
+      ? panel.webview.asWebviewUri(book.coverImageUri).toString()
+      : null,
+
+    // チャプター情報を取得する
+    chapters: await Promise.all(
+      book.chapters.map((meta) =>
+        loadBookChapterContent(context, meta.uri).then((chapter) => ({
+          slug: meta.slug,
+          path: toPath(meta.uri),
+          title: !ContentError.isError(chapter) ? chapter.value.title : null,
+        }))
+      )
+    ),
+  };
 };

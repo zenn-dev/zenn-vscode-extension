@@ -2,24 +2,27 @@ import * as vscode from "vscode";
 
 import { BookTreeItem } from "./bookTreeItem";
 
-import { ZennContext } from "../../context/app";
-import { ZennContentError } from "../../schemas/types";
+import { AppContext } from "../../context/app";
+import { loadBookContents } from "../../schemas/book";
+import { ContentError } from "../../schemas/error";
 import { PreviewTreeErrorItem } from "../previewTreeErrorItem";
 import { ChildTreeItem, PreviewTreeItem } from "../previewTreeItem";
 
 type TreeDataProvider = vscode.TreeDataProvider<ChildTreeItem>;
 
 export class BooksTreeViewProvider implements TreeDataProvider {
-  private readonly context: ZennContext;
+  private readonly context: AppContext;
+  private forceRefresh: boolean = false;
 
   _onDidChangeTreeData = new vscode.EventEmitter<PreviewTreeItem | void>();
   onDidChangeTreeData = this._onDidChangeTreeData.event;
 
-  constructor(context: ZennContext) {
+  constructor(context: AppContext) {
     this.context = context;
   }
 
-  reload() {
+  reload(options?: { force?: boolean }) {
+    this.forceRefresh = !!options?.force;
     this._onDidChangeTreeData.fire();
   }
 
@@ -30,15 +33,16 @@ export class BooksTreeViewProvider implements TreeDataProvider {
   async getChildren(element?: PreviewTreeItem): Promise<ChildTreeItem[]> {
     if (element) return element.getChildren();
 
-    const treeItems = await this.context.bookStore
-      .loadBooks()
-      .then((results) =>
-        results.map((result) =>
-          ZennContentError.isError(result)
-            ? new PreviewTreeErrorItem(this.context, result)
-            : new BookTreeItem(this.context, result)
-        )
-      );
+    const bookContents = await loadBookContents(
+      this.context,
+      this.forceRefresh
+    );
+
+    const treeItems = bookContents.map((result) =>
+      ContentError.isError(result)
+        ? new PreviewTreeErrorItem(this.context, result)
+        : new BookTreeItem(this.context, result)
+    );
 
     return PreviewTreeItem.sortTreeItems(treeItems);
   }

@@ -6,9 +6,7 @@ import { APP_ID } from "../variables";
  * Uri を文字列に変換する
  */
 export const toPath = (uri: string | vscode.Uri): string => {
-  return typeof uri === "string"
-    ? vscode.Uri.parse(uri).toString()
-    : uri.toString();
+  return typeof uri === "string" ? vscode.Uri.parse(uri).path : uri.path;
 };
 
 /**

@@ -4,9 +4,10 @@ import { BookChapterTreeItem } from "./bookChapterTreeItem";
 import { BookConfigTreeItem } from "./bookConfigTreeItem";
 import { BookCoverImageTreeItem } from "./bookCoverImageTreeItem";
 
-import { ZennContext } from "../../context/app";
+import { AppContext } from "../../context/app";
 import { BookContent } from "../../schemas/book";
-import { ZennContentError } from "../../schemas/types";
+import { loadBookChapterContent } from "../../schemas/bookChapter";
+import { ContentError } from "../../schemas/error";
 import { PreviewTreeErrorItem } from "../previewTreeErrorItem";
 import { ChildTreeItem, PreviewTreeItem } from "../previewTreeItem";
 
@@ -18,7 +19,7 @@ export class BookTreeItem extends PreviewTreeItem {
 
   readonly contextValue = "book";
 
-  constructor(context: ZennContext, bookContent: BookContent) {
+  constructor(context: AppContext, bookContent: BookContent) {
     super(context, bookContent, vscode.TreeItemCollapsibleState.Collapsed);
 
     const published = bookContent.value.published;
@@ -37,18 +38,14 @@ export class BookTreeItem extends PreviewTreeItem {
   async getChildren() {
     if (!this.bookContent) return [];
 
-    const { bookChapterStore } = this.context;
     const { coverImageUri, uri: bookUri } = this.bookContent;
 
     // チャプターのTreeItemを作成
     const chapterTreeItems = await Promise.all(
       this.bookContent.chapters.map(async (meta) => {
-        const content = await bookChapterStore.loadBookChapter(
-          bookUri,
-          meta.uri
-        );
+        const content = await loadBookChapterContent(this.context, meta.uri);
 
-        return ZennContentError.isError(content)
+        return ContentError.isError(content)
           ? new PreviewTreeErrorItem(this.context, content)
           : new BookChapterTreeItem(this.context, meta, content);
       })

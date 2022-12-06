@@ -12,7 +12,8 @@
       "request": "launch",
       "args": [
         "--extensionDevelopmentPath=${workspaceFolder}",
-        "--extensionDevelopmentKind=web"
+        "--extensionDevelopmentKind=web",
+        "${workspaceFolder}/examples"
       ],
       "outFiles": ["${workspaceFolder}/dist/web/**/*.js"],
       "preLaunchTask": "Watch Web"

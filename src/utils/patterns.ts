@@ -26,6 +26,16 @@ export const BOOK_SLUG_PATTERN = new RegExp(`^${SLUG_PATTERN.source}$`);
 export const BOOK_CHAPTER_SLUG_PATTERN = new RegExp(`^${SLUG_PATTERN.source}$`);
 
 /**
+ * 本の設定ファイル名の正規表現
+ */
+export const BOOK_CONFIG_PATTERN = /\/?config\.(?:yaml|yml)$/;
+
+/**
+ * 本のカバー画像ファイル名の正規表現
+ */
+export const BOOK_COVER_IMAGE_PATTERN = /^cover\.(?:png|jpg|jpeg|webp)$/;
+
+/**
  * front matterを取得するための正規表現
  */
 export const FRONT_MATTER_PATTERN = /^(-{3}(?:\n|\r)([\w\W]+?)(?:\n|\r)-{3})/;

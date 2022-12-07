@@ -157,5 +157,5 @@ export const disposePreviewPanel = async (
   if (!previewPanel) return;
 
   previewPanel.panel.dispose();
-  cache.deleteCacheWithKey(key);
+  cache.deleteCache(key);
 };

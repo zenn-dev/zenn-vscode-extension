@@ -39,6 +39,7 @@ export const createAppContext = (
     book: new RegExp(`^${booksFolderUri}/${slug}/?$`),
     article: new RegExp(`^${articlesFolderUri}/${slug}\\.md$`),
     bookConfig: new RegExp(`^${booksFolderUri}/${slug}/config\\.(?:yaml|yml)$`),
+    bookCoverImage: new RegExp(`^${booksFolderUri}/${slug}/cover\\.(?:png|jpg|jpeg|gif|webp)$`), // prettier-ignore
     bookChapter: new RegExp(`^${booksFolderUri}/${slug}/(?:\\d+\\.)?${slug}\\.md$`), // prettier-ignore
   };
 
@@ -56,6 +57,7 @@ export const createAppContext = (
       if (patterns.book.test(path)) return "book";
       if (patterns.bookConfig.test(path)) return "bookConfig";
       if (patterns.bookChapter.test(path)) return "bookChapter";
+      if (patterns.bookCoverImage.test(path)) return "bookCoverImage";
     },
 
     dispatchContentsEvent: (event) => {

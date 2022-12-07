@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
 
 import { AppContext } from "../context/app";
+import { ContentsType } from "../types";
 
 /**
  * エディターの初期化処理
@@ -11,21 +12,37 @@ export const initializeEditor = (context: AppContext): vscode.Disposable[] => {
   const watcher = vscode.workspace.createFileSystemWatcher(
     new vscode.RelativePattern(
       context.workspaceUri,
-      "{articles,books}/**/*.{md,yml,yaml,png,jpeg}"
+      "{articles,books}/**/*.{md,yml,yaml,png,jpg,jpeg,gif,webp}"
     )
   );
+
+  const deleteCache = (type: ContentsType, uri: vscode.Uri): boolean => {
+    return cache.deleteCache(cache.createKey(type, uri));
+  };
 
   return [
     watcher,
 
-    // ファイルが作成された時
+    // ファイルが作成された時。
+    // note:
     // `vscode.workspace.onDidCreateFiles()`ではイベントが発火しない場合があるので、
-    // `watcher.onDidCreate()`を使用しています。
+    // `watcher.onDidCreate()`の方を使う
     watcher.onDidCreate((uri) => {
       const type = getContentsType(uri);
       if (!type) return;
 
       dispatch({ type: "create-content", payload: { type, uri } });
+    }),
+
+    // ファイルが更新されたとき
+    vscode.workspace.onDidSaveTextDocument((doc) => {
+      const uri = doc.uri;
+      const type = getContentsType(uri);
+
+      if (!type) return;
+
+      deleteCache(type, uri);
+      dispatch({ type: "update-content", payload: { type, uri } });
     }),
 
     // ファイル名が変更されたとき
@@ -35,7 +52,7 @@ export const initializeEditor = (context: AppContext): vscode.Disposable[] => {
         const newType = getContentsType(newUri);
 
         if (oldType) {
-          cache.deleteCacheWithType(oldType, oldUri);
+          deleteCache(oldType, oldUri);
         }
 
         if (newType) {
@@ -50,7 +67,7 @@ export const initializeEditor = (context: AppContext): vscode.Disposable[] => {
       event.files.forEach((uri) => {
         const type = getContentsType(uri);
         if (!type) return;
-        if (!cache.deleteCacheWithType(type, uri)) return;
+        if (!deleteCache(type, uri)) return;
 
         dispatch({ type: "delete-content", payload: { type, uri } });
       });

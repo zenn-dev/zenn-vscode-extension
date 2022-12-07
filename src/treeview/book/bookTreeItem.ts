@@ -35,28 +35,37 @@ export class BookTreeItem extends PreviewTreeItem {
     this.iconPath = this.getIconPath(published ? "release-book" : "edit-book");
   }
 
+  createErrorTreeItem(message: string) {
+    return new PreviewTreeErrorItem(this.context, new ContentError(message));
+  }
+
   async getChildren() {
     if (!this.bookContent) return [];
 
-    const { coverImageUri, uri: bookUri } = this.bookContent;
+    const ctx = this.context;
+    const { configUri, coverImageUri, uri: bookUri } = this.bookContent;
 
     // チャプターのTreeItemを作成
     const chapterTreeItems = await Promise.all(
       this.bookContent.chapters.map(async (meta) => {
-        const content = await loadBookChapterContent(this.context, meta.uri);
+        const content = await loadBookChapterContent(ctx, meta.uri);
 
         return ContentError.isError(content)
-          ? new PreviewTreeErrorItem(this.context, content)
-          : new BookChapterTreeItem(this.context, meta, content);
+          ? new PreviewTreeErrorItem(ctx, content)
+          : new BookChapterTreeItem(ctx, meta, content);
       })
     );
 
     return [
       // 設定ファイルのTreeItem
-      new BookConfigTreeItem(this.bookContent.configUri),
+      !ContentError.isError(configUri)
+        ? new BookConfigTreeItem(configUri)
+        : new PreviewTreeErrorItem(ctx, configUri),
 
       // カバー画像のTreeItem
-      coverImageUri ? new BookCoverImageTreeItem(coverImageUri) : null,
+      coverImageUri
+        ? new BookCoverImageTreeItem(coverImageUri)
+        : this.createErrorTreeItem("カバー画像がありません"),
 
       // チャプターのTreeItem一覧
       ...PreviewTreeItem.sortTreeItems(chapterTreeItems),

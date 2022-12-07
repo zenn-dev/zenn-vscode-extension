@@ -16,7 +16,12 @@ export type FileResult = [string, vscode.FileType];
 /**
  * コンテンツの種別
  */
-export type ContentsType = "article" | "book" | "bookConfig" | "bookChapter";
+export type ContentsType =
+  | "article"
+  | "book"
+  | "bookConfig"
+  | "bookCoverImage"
+  | "bookChapter";
 
 /**
  * コンテンツの基底型

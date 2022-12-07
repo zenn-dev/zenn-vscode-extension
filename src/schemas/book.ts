@@ -1,18 +1,15 @@
 import * as vscode from "vscode";
 
 import { loadBookChapterContent } from "./bookChapter";
+import { loadBookConfigData } from "./bookConfig";
+import { getBookCoverImageUri } from "./bookCoverImage";
 import { ContentError } from "./error";
 import { withCache } from "./utils";
 
 import { AppContext } from "../context/app";
 import { ContentBase, ContentsLoadResult, PreviewContentBase } from "../types";
 import { FileResult } from "../types";
-import { parseYaml } from "../utils/helpers";
-import {
-  toPath,
-  openTextDocument,
-  getFilenameFromUrl,
-} from "../utils/vscodeHelpers";
+import { toPath, getFilenameFromUrl } from "../utils/vscodeHelpers";
 
 /**
  * 本の基本情報
@@ -46,8 +43,8 @@ export interface BookChapterMeta {
 export interface BookContent extends ContentBase {
   type: "book";
   value: Book;
-  configUri: vscode.Uri; // TreeViewで使用する
   chapters: BookChapterMeta[];
+  configUri: vscode.Uri | ContentError;
   coverImageUri?: vscode.Uri | null;
 }
 
@@ -76,34 +73,6 @@ export interface BookPreviewContent extends PreviewContentBase {
 }
 
 /**
- * カバー画像へのUriを返す
- */
-const getCoverImageUri = (
-  bookUri: vscode.Uri,
-  files: FileResult[]
-): vscode.Uri | undefined => {
-  const coverImage = files.find(
-    ([filename]) => !!filename.match(/^cover\.(?:png|jpg|jpeg|webp)$/)
-  );
-
-  return coverImage && vscode.Uri.joinPath(bookUri, coverImage[0]);
-};
-
-/**
- * 設定ファイルへのUriを返す
- */
-const getBookConfigUri = (
-  bookUri: vscode.Uri,
-  files: FileResult[]
-): vscode.Uri | undefined => {
-  const result = files.find(
-    ([filename]) => !!filename.match(/\/?config\.(?:yaml|yml)$/)
-  );
-
-  return result && vscode.Uri.joinPath(bookUri, result[0]);
-};
-
-/**
  * チャプターファイルへのUriを返す
  */
 const getBookChapterUris = (
@@ -115,13 +84,6 @@ const getBookChapterUris = (
       ? [vscode.Uri.joinPath(bookUri, filename)]
       : [];
   });
-};
-
-/**
- * 本の設定ファイルの値を取得する
- */
-const loadBookConfigData = async (uri: vscode.Uri): Promise<Book> => {
-  return openTextDocument(uri).then((doc) => parseYaml(doc.getText()));
 };
 
 /**
@@ -157,29 +119,24 @@ export const createBookChapterMeta = (
 /** 本情報を取得する */
 const loadBook = async (uri: vscode.Uri): Promise<BookContent> => {
   const files = await vscode.workspace.fs.readDirectory(uri);
-
-  const configUri = getBookConfigUri(uri, files);
-
-  if (!configUri) throw new ContentError("config.yamlがありません");
-
-  const configData = await loadBookConfigData(configUri);
+  const config = await loadBookConfigData(uri, files);
 
   const filename = getFilenameFromUrl(uri) || "";
-  const coverImageUri = getCoverImageUri(uri, files);
-  const chapterUris = getBookChapterUris(uri, files); // フォルダー内の全てのMarkdownファイルのUriを取得する
+  const isConfigError = ContentError.isError(config);
+  const chapters = !isConfigError ? config.value.chapters : [];
 
   return {
     uri,
     filename,
-    configUri,
-    coverImageUri,
     type: "book",
+    configUri: isConfigError ? config : config.uri,
+    coverImageUri: getBookCoverImageUri(uri, files),
     value: {
       slug: filename.replace(".md", ""),
-      ...configData,
+      ...(!isConfigError ? config.value : {}),
     },
-    chapters: chapterUris
-      .map((uri) => createBookChapterMeta(uri, configData.chapters))
+    chapters: getBookChapterUris(uri, files)
+      .map((uri) => createBookChapterMeta(uri, chapters))
       .filter((v): v is BookChapterMeta => !!v)
       .sort((a, b) => {
         return (
@@ -197,7 +154,7 @@ export const loadBookContent = withCache(
   ({ cache }, uri) => cache.createKey("book", uri),
 
   async (uri: vscode.Uri): Promise<BookLoadResult> => {
-    return loadBook(uri).catch(() => {
+    return loadBook(uri).catch((error) => {
       const filename = getFilenameFromUrl(uri) || "本";
       return new ContentError(`${filename}の取得に失敗しました`, uri);
     });

@@ -3,6 +3,8 @@ import * as vscode from "vscode";
 import { ArticleContent } from "./schemas/article";
 import { BookContent } from "./schemas/book";
 import { BookChapterContent } from "./schemas/bookChapter";
+import { getBookUriFromBookConfigUri } from "./schemas/bookConfig";
+import { getBookUriFromCoverImageUri } from "./schemas/bookCoverImage";
 import { PreviewPanel } from "./schemas/previewPanel";
 import { Contents, ContentsType } from "./types";
 
@@ -36,12 +38,24 @@ export class ContentsCache {
   }
 
   createKey(type: "book", uri: vscode.Uri): BookCacheKey;
+  createKey(type: "bookConfig", uri: vscode.Uri): BookCacheKey;
   createKey(type: "article", uri: vscode.Uri): ArticleCacheKey;
   createKey(type: "bookChapter", uri: vscode.Uri): BookChapterCacheKey;
+  createKey(type: "bookCoverImage", uri: vscode.Uri): BookChapterCacheKey;
   createKey(type: "previewPanel", uri: vscode.Uri): PreviewPanelCacheKey;
   createKey(type: CacheType, uri: vscode.Uri): CacheKey;
-  createKey(type: string, uri: vscode.Uri) {
-    return `${type}:${uri.path}`;
+  createKey(type: CacheType, uri: vscode.Uri) {
+    switch (type) {
+      case "article":
+      case "book":
+      case "bookChapter":
+      case "previewPanel":
+        return `${type}:${uri.path}`;
+      case "bookConfig":
+        return `book:${getBookUriFromBookConfigUri(uri).path}`;
+      case "bookCoverImage":
+        return `book:${getBookUriFromCoverImageUri(uri).path}`;
+    }
   }
 
   getCache(key: BookCacheKey): BookContent | undefined;
@@ -64,11 +78,7 @@ export class ContentsCache {
     this.getCacheObj(type)?.set(key, value);
   }
 
-  deleteCacheWithKey(key: CacheKey): boolean {
+  deleteCache(key: CacheKey): boolean {
     return !!this.getCacheObj(this.getCacheType(key))?.delete(key);
-  }
-
-  deleteCacheWithType(type: CacheType, uri: vscode.Uri): boolean {
-    return !!this.getCacheObj(type)?.delete(this.createKey(type, uri));
   }
 }

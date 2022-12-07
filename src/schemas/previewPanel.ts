@@ -83,7 +83,7 @@ export const openPreviewPanel = async (context: AppContext, path: string) => {
 };
 
 /**
- * 渡されたプレビューパネルに初期化処理をして保存する
+ * 渡されたプレビューパネルに初期化処理をしてキャッシュに保存する
  */
 export const registerPreviewPanel = (
   context: AppContext,
@@ -117,6 +117,9 @@ export const registerPreviewPanel = (
   context.cache.setCache(cacheKey, previewPanel);
 };
 
+/**
+ * プレビューの内容を更新する
+ */
 export const updatePreviewPanel = async (
   context: AppContext,
   uri: vscode.Uri
@@ -140,6 +143,9 @@ export const updatePreviewPanel = async (
   cache.setCache(key, createPreviewPanel(uri, panel, content));
 };
 
+/**
+ * プレビューパネルを閉じる
+ */
 export const disposePreviewPanel = async (
   context: AppContext,
   uri: vscode.Uri
@@ -151,5 +157,5 @@ export const disposePreviewPanel = async (
   if (!previewPanel) return;
 
   previewPanel.panel.dispose();
-  cache.deleteCache(key);
+  cache.deleteCacheWithKey(key);
 };

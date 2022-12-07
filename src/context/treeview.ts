@@ -29,10 +29,8 @@ export const initializeTreeView = (
         case "create-content":
         case "update-content":
         case "delete-content": {
-          const uri = event.payload.uri;
-          const type = getContentsType(uri);
+          const { type } = event.payload;
 
-          if (!type) return;
           if (type === "article") articlesTreeViewProvider.reload();
           else booksTreeViewProvider.reload();
           break;

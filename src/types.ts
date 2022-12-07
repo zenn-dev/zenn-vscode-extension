@@ -43,19 +43,15 @@ export type ContentsLoadResult<T> = T | ContentError;
 export type ContentsEvent =
   | {
       type: "create-content";
-      payload: { uri: vscode.Uri };
+      payload: { uri: vscode.Uri; type: ContentsType };
     }
   | {
       type: "update-content";
-      payload: { uri: vscode.Uri };
-    }
-  | {
-      type: "rename-content";
-      payload: { oldUri: vscode.Uri; newUri: vscode.Uri };
+      payload: { uri: vscode.Uri; type: ContentsType };
     }
   | {
       type: "delete-content";
-      payload: { uri: vscode.Uri };
+      payload: { uri: vscode.Uri; type: ContentsType };
     }
   | {
       type: "refresh-articles";

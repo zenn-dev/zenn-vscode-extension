@@ -39,7 +39,7 @@ export class ContentsCache {
   createKey(type: "article", uri: vscode.Uri): ArticleCacheKey;
   createKey(type: "bookChapter", uri: vscode.Uri): BookChapterCacheKey;
   createKey(type: "previewPanel", uri: vscode.Uri): PreviewPanelCacheKey;
-  createKey(type: ContentsType, uri: vscode.Uri): CacheKey;
+  createKey(type: CacheType, uri: vscode.Uri): CacheKey;
   createKey(type: string, uri: vscode.Uri) {
     return `${type}:${uri.path}`;
   }
@@ -64,8 +64,11 @@ export class ContentsCache {
     this.getCacheObj(type)?.set(key, value);
   }
 
-  deleteCache(key: CacheKey) {
-    const type = this.getCacheType(key);
-    this.getCacheObj(type)?.delete(key);
+  deleteCacheWithKey(key: CacheKey): boolean {
+    return !!this.getCacheObj(this.getCacheType(key))?.delete(key);
+  }
+
+  deleteCacheWithType(type: CacheType, uri: vscode.Uri): boolean {
+    return !!this.getCacheObj(type)?.delete(this.createKey(type, uri));
   }
 }

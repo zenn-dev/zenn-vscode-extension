@@ -6,47 +6,53 @@ import { AppContext } from "../context/app";
  * エディターの初期化処理
  */
 export const initializeEditor = (context: AppContext): vscode.Disposable[] => {
-  const watcher = vscode.workspace.createFileSystemWatcher(
-    new vscode.RelativePattern(context.workspaceUri, "**/*.{md,yml,yaml}")
-  );
-
   const { cache, getContentsType, dispatchContentsEvent: dispatch } = context;
 
-  const deleteContentCache = (uri: vscode.Uri) => {
-    const type = getContentsType(uri);
-    if (!type) return;
-
-    const key = cache.createKey(type, uri);
-    cache.deleteCache(key);
-  };
+  const watcher = vscode.workspace.createFileSystemWatcher(
+    new vscode.RelativePattern(
+      context.workspaceUri,
+      "{articles,books}/**/*.{md,yml,yaml,png,jpeg}"
+    )
+  );
 
   return [
     watcher,
 
-    // ファイルが作成されたとき
+    // ファイルが作成された時
+    // `vscode.workspace.onDidCreateFiles()`ではイベントが発火しない場合があるので、
+    // `watcher.onDidCreate()`を使用しています。
     watcher.onDidCreate((uri) => {
-      dispatch({ type: "create-content", payload: { uri } });
-    }),
+      const type = getContentsType(uri);
+      if (!type) return;
 
-    // ファイルが更新されたとき
-    vscode.workspace.onDidSaveTextDocument((doc) => {
-      deleteContentCache(doc.uri);
-      dispatch({ type: "update-content", payload: { uri: doc.uri } });
+      dispatch({ type: "create-content", payload: { type, uri } });
     }),
 
     // ファイル名が変更されたとき
     vscode.workspace.onDidRenameFiles(async (event) => {
-      event.files.forEach((file) => {
-        deleteContentCache(file.oldUri);
-        dispatch({ type: "create-content", payload: { uri: file.newUri } });
+      event.files.forEach(({ oldUri, newUri }) => {
+        const oldType = getContentsType(oldUri);
+        const newType = getContentsType(newUri);
+
+        if (oldType) {
+          cache.deleteCacheWithType(oldType, oldUri);
+        }
+
+        if (newType) {
+          const payload = { type: newType, uri: newUri };
+          dispatch({ type: "create-content", payload });
+        }
       });
     }),
 
     // ファイルが削除されたとき
     vscode.workspace.onDidDeleteFiles(async (event) => {
       event.files.forEach((uri) => {
-        deleteContentCache(uri);
-        dispatch({ type: "delete-content", payload: { uri } });
+        const type = getContentsType(uri);
+        if (!type) return;
+        if (!cache.deleteCacheWithType(type, uri)) return;
+
+        dispatch({ type: "delete-content", payload: { type, uri } });
       });
     }),
 

@@ -33,12 +33,12 @@ export const loadBookConfigData = async (
 
   const uri = vscode.Uri.joinPath(bookUri, file);
   const doc = await openTextDocument(uri).catch(() => void 0);
-  if (!doc) return new ContentError(`${file}の取得に失敗しました`);
+  if (!doc) return new ContentError(`${file}の取得に失敗しました`, uri);
 
   try {
     const value = parseYaml(doc.getText()) || {};
     return { uri, value };
   } catch {
-    return new ContentError(`${file}のフォーマットが不正です`);
+    return new ContentError(`${file}のフォーマットが不正です`, uri);
   }
 };

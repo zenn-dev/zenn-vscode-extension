@@ -22,5 +22,13 @@ export class PreviewTreeErrorItem extends PreviewTreeItem {
       "warning",
       new vscode.ThemeColor("inputValidation.warningBorder")
     );
+
+    if (error.uri) {
+      this.command = {
+        command: "vscode.open",
+        title: "ファイルを開く",
+        arguments: [error.uri],
+      };
+    }
   }
 }

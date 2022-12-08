@@ -5,6 +5,6 @@ import { AppContext } from "../context/app";
  */
 export const refreshBooksCommand = (context: AppContext) => {
   return async () => {
-    context.dispatchContentsEvent({ type: "refresh-articles" });
+    context.dispatchContentsEvent({ type: "refresh-books" });
   };
 };

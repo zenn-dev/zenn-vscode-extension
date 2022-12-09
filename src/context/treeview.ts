@@ -32,7 +32,7 @@ export const initializeTreeView = (
           const { type } = event.payload;
 
           if (type === "article") articlesTreeViewProvider.reload();
-          else booksTreeViewProvider.reload();
+          else if (type.includes("book")) booksTreeViewProvider.reload();
           break;
         }
       }

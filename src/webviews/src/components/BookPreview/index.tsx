@@ -6,7 +6,7 @@ import styles from "./BookPreview.module.scss";
 
 import { BookPreviewContent } from "../../../../schemas/book";
 import { PreviewEvent } from "../../../../types";
-import { SLUG_PATTERN } from "../../../../utils/patterns";
+import { BOOK_SLUG_PATTERN } from "../../../../utils/patterns";
 import defaultCoverImage from "../../assets/images/book-cover.png";
 import { useVSCodeApi } from "../../hooks/useVSCodeApi";
 import { ValidationErrors } from "../ValidationErrors";
@@ -31,7 +31,9 @@ interface BookPreviewProps {
 
 export const BookPreview = ({ content }: BookPreviewProps) => {
   const { book, chapters, filename, coverImagePath } = content;
-  const slug = SLUG_PATTERN.test(filename) ? filename : "不正なスラッグです";
+  const slug = BOOK_SLUG_PATTERN.test(filename)
+    ? filename
+    : "不正なスラッグです";
 
   const vscode = useVSCodeApi();
   const validationErrors = useMemo(() => validateBook(book), [book]);

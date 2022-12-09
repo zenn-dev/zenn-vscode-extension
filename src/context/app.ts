@@ -3,7 +3,10 @@ import * as vscode from "vscode";
 import { ContentsCache } from "../contentsCache";
 import { ContentsType } from "../types";
 import { ContentsEvent } from "../types";
-import { SLUG_PATTERN } from "../utils/patterns";
+import {
+  BOOK_CONFIG_FILE_PATTERN,
+  BOOK_COVER_IMAGE_FILE_PATTERN,
+} from "../utils/patterns";
 
 type EventCallback = (event: ContentsEvent) => void;
 
@@ -32,15 +35,15 @@ export const createAppContext = (
   if (!workspaceUri) return null;
 
   const callbacks = new Set<EventCallback>();
-  const slug = SLUG_PATTERN.source;
   const booksFolderUri = vscode.Uri.joinPath(workspaceUri, "books");
   const articlesFolderUri = vscode.Uri.joinPath(workspaceUri, "articles");
-  const patterns = {
-    book: new RegExp(`^${booksFolderUri}/${slug}/?$`),
-    article: new RegExp(`^${articlesFolderUri}/${slug}\\.md$`),
-    bookConfig: new RegExp(`^${booksFolderUri}/${slug}/config\\.(?:yaml|yml)$`),
-    bookCoverImage: new RegExp(`^${booksFolderUri}/${slug}/cover\\.(?:png|jpg|jpeg|gif|webp)$`), // prettier-ignore
-    bookChapter: new RegExp(`^${booksFolderUri}/${slug}/(?:\\d+\\.)?${slug}\\.md$`), // prettier-ignore
+
+  const uriPatterns = {
+    book: new RegExp(`^${booksFolderUri}/[^/]+/?$`),
+    article: new RegExp(`^${articlesFolderUri}/[^/]+\\.md$`),
+    bookChapter: new RegExp(`^${booksFolderUri}/[^/]+/[^/]+\\.md$`),
+    bookConfig: new RegExp(`^${booksFolderUri}/[^/]+/${BOOK_CONFIG_FILE_PATTERN.source}$`), // prettier-ignore
+    bookCoverImage: new RegExp(`^${booksFolderUri}/[^/]+/${BOOK_COVER_IMAGE_FILE_PATTERN.source}$`), // prettier-ignore
   };
 
   return {
@@ -50,14 +53,18 @@ export const createAppContext = (
     articlesFolderUri,
     cache: new ContentsCache(),
 
+    /**
+     * Uri から対応する ContentsType を返す
+     * @note slug が不正でも ContentsType を取得したい場合があるため、slug は考慮されていません
+     */
     getContentsType: (uri: vscode.Uri): ContentsType | undefined => {
       const path = uri.toString();
 
-      if (patterns.article.test(path)) return "article";
-      if (patterns.book.test(path)) return "book";
-      if (patterns.bookConfig.test(path)) return "bookConfig";
-      if (patterns.bookChapter.test(path)) return "bookChapter";
-      if (patterns.bookCoverImage.test(path)) return "bookCoverImage";
+      if (uriPatterns.article.test(path)) return "article";
+      if (uriPatterns.book.test(path)) return "book";
+      if (uriPatterns.bookConfig.test(path)) return "bookConfig";
+      if (uriPatterns.bookChapter.test(path)) return "bookChapter";
+      if (uriPatterns.bookCoverImage.test(path)) return "bookCoverImage";
     },
 
     dispatchContentsEvent: (event) => {

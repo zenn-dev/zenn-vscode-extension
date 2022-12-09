@@ -5,8 +5,13 @@ import { ContentError } from "./error";
 
 import { FileResult } from "../types";
 import { parseYaml } from "../utils/helpers";
-import { BOOK_CONFIG_PATTERN } from "../utils/patterns";
+import { BOOK_CONFIG_FILE_PATTERN } from "../utils/patterns";
 import { openTextDocument } from "../utils/vscodeHelpers";
+
+/** Uri内の本の設定ファイル名を置き換えるための正規表現 */
+const BOOK_CONFIG_REPLACE_PATTERN = new RegExp(
+  `/?${BOOK_CONFIG_FILE_PATTERN.source}$`
+);
 
 /**
  * 本の設定Uriから本のUriを取得する
@@ -15,7 +20,7 @@ export const getBookUriFromBookConfigUri = (
   bookConfigUri: vscode.Uri
 ): vscode.Uri => {
   return vscode.Uri.parse(
-    bookConfigUri.toString().replace(BOOK_CONFIG_PATTERN, "")
+    bookConfigUri.toString().replace(BOOK_CONFIG_REPLACE_PATTERN, "")
   );
 };
 
@@ -28,7 +33,7 @@ export const loadBookConfigData = async (
   bookUri: vscode.Uri,
   files: FileResult[]
 ): Promise<LoadBookConfigResult | ContentError> => {
-  const file = files.find(([name]) => !!name.match(BOOK_CONFIG_PATTERN))?.[0];
+  const file = files.find(([n]) => !!n.match(BOOK_CONFIG_FILE_PATTERN))?.[0];
   if (!file) return new ContentError("config.yamlがありません");
 
   const uri = vscode.Uri.joinPath(bookUri, file);

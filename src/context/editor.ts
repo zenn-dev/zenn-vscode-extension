@@ -9,11 +9,17 @@ import { ContentsType } from "../types";
 export const initializeEditor = (context: AppContext): vscode.Disposable[] => {
   const { cache, getContentsType, dispatchContentsEvent: dispatch } = context;
 
-  const watcher = vscode.workspace.createFileSystemWatcher(
+  // コンテンツファイルを監視するためのwatcher
+  const fileWatcher = vscode.workspace.createFileSystemWatcher(
     new vscode.RelativePattern(
       context.workspaceUri,
       "{articles,books}/**/*.{md,yml,yaml,png,jpg,jpeg,gif,webp}"
     )
+  );
+
+  // 本のフォルダーを監視するためのwatcher
+  const bookFolderWatcher = vscode.workspace.createFileSystemWatcher(
+    new vscode.RelativePattern(context.workspaceUri, "books/*")
   );
 
   const deleteCache = (type: ContentsType, uri: vscode.Uri): boolean => {
@@ -21,16 +27,23 @@ export const initializeEditor = (context: AppContext): vscode.Disposable[] => {
   };
 
   return [
-    watcher,
+    fileWatcher,
+    bookFolderWatcher,
 
     // ファイルが作成された時。
     // note:
     // `vscode.workspace.onDidCreateFiles()`ではイベントが発火しない場合があるので、
     // `watcher.onDidCreate()`の方を使う
-    watcher.onDidCreate((uri) => {
+    fileWatcher.onDidCreate((uri) => {
       const type = getContentsType(uri);
       if (!type) return;
 
+      dispatch({ type: "create-content", payload: { type, uri } });
+    }),
+
+    bookFolderWatcher.onDidCreate((uri) => {
+      const type = getContentsType(uri);
+      if (type !== "book") return;
       dispatch({ type: "create-content", payload: { type, uri } });
     }),
 

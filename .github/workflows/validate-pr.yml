@@ -3,7 +3,6 @@ name: Pull Request のラベリングを検証する
 on:
   pull_request:
     branches:
-      - main
       - canary
     types:
       - opened

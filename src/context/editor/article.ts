@@ -28,7 +28,7 @@ export const initializeArticleEditor = (
   });
 
   // 記事ファイルが削除された時
-  articleWatcher.onDidChange((uri) => {
+  articleWatcher.onDidDelete((uri) => {
     cache.deleteCacheWithType("article", uri);
     dispatch({ type: "delete-content", payload: { type: "article", uri } });
   });

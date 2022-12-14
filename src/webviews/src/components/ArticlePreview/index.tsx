@@ -4,7 +4,7 @@ import { validateArticle } from "zenn-validator";
 
 import styles from "./ArticlePreview.module.scss";
 
-import { ArticlePreviewContent } from "../../../../panels/types";
+import { ArticlePreviewContent } from "../../../../schemas/article";
 import { formatPublishedAt } from "../../../../utils/helpers";
 import { ValidationErrors } from "../ValidationErrors";
 

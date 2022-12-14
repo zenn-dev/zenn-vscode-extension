@@ -1,50 +1,46 @@
 import * as vscode from "vscode";
-import markdownToHtml from "zenn-markdown-html";
+import ZennMarkdownToHtml from "zenn-markdown-html";
 
-type Transformer = (panel: vscode.WebviewPanel, markdown: string) => string;
+import { createWebViewPanel } from "./vscodeHelpers";
+
+type Transformer = (markdown: string) => string;
 
 /**
  * <img /> の URL を WebView 内で読み込める形に変換する
  */
-export const transformLocalImage: Transformer = (panel, html) => {
-  const imgPattern = /<img\s[^>]*src="(\/images\/[^"]+)"[^>]*>/gm;
-  const root = vscode.workspace.workspaceFolders?.[0].uri;
-  const matches = [...html.matchAll(imgPattern)];
-  const srcList = [...new Set(matches.map(([, url]) => url))];
+export const transformLocalImage =
+  (panel: vscode.WebviewPanel): Transformer =>
+  (html) => {
+    const imgPattern = /<img\s[^>]*src="(\/images\/[^"]+)"[^>]*>/gm;
+    const root = vscode.workspace.workspaceFolders?.[0].uri;
+    const matches = [...html.matchAll(imgPattern)];
+    const srcList = [...new Set(matches.map(([, url]) => url))];
 
-  if (!root || !srcList.length) return html;
+    if (!root || !srcList.length) return html;
 
-  // img タグの src を変換する
-  const newHtml = srcList.reduce((htmlText, src) => {
-    const imageUri = vscode.Uri.joinPath(root, src);
-    const url = panel.webview.asWebviewUri(imageUri);
+    // img タグの src を変換する
+    const newHtml = srcList.reduce((htmlText, src) => {
+      const imageUri = vscode.Uri.joinPath(root, src);
+      const url = panel.webview.asWebviewUri(imageUri);
 
-    return htmlText.replace(
-      new RegExp(`(<img\\s[^>]*src=")/images/[^"]+("[^>]*>)`),
-      `$1${url}$2`
-    );
-  }, html);
+      return htmlText.replace(
+        new RegExp(`(<img\\s[^>]*src=")/images/[^"]+("[^>]*>)`),
+        `$1${url}$2`
+      );
+    }, html);
 
-  return newHtml;
-};
+    return newHtml;
+  };
 
 /**
- * Markdown から変換された HTML を `transformer` で変換する
+ * Markdown を HTML に変換する
  */
-export const transformMarkdownHtml = (
-  panel: vscode.WebviewPanel,
-  html: string,
-  transformers: Transformer[] = [transformLocalImage]
+export const markdownToHtml = (
+  markdown: string,
+  panel: vscode.WebviewPanel
 ): string => {
-  return transformers.reduce(
-    (text, transformer) => transformer(panel, text),
-    html
+  return [transformLocalImage(panel)].reduce(
+    (text, transformer) => transformer(text),
+    ZennMarkdownToHtml(markdown)
   );
-};
-
-export const renderMarkdown = (
-  panel: vscode.WebviewPanel,
-  markdown: string
-): string => {
-  return transformMarkdownHtml(panel, markdownToHtml(markdown));
 };

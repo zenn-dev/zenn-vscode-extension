@@ -4,8 +4,9 @@ import { validateBook } from "zenn-validator";
 
 import styles from "./BookPreview.module.scss";
 
-import { ZennPreviewEvent, BookPreviewContent } from "../../../../panels/types";
-import { SLUG_PATTERN } from "../../../../utils/patterns";
+import { BookPreviewContent } from "../../../../schemas/book";
+import { PreviewEvent } from "../../../../types";
+import { BOOK_SLUG_PATTERN } from "../../../../utils/patterns";
 import defaultCoverImage from "../../assets/images/book-cover.png";
 import { useVSCodeApi } from "../../hooks/useVSCodeApi";
 import { ValidationErrors } from "../ValidationErrors";
@@ -30,15 +31,17 @@ interface BookPreviewProps {
 
 export const BookPreview = ({ content }: BookPreviewProps) => {
   const { book, chapters, filename, coverImagePath } = content;
-  const slug = SLUG_PATTERN.test(filename) ? filename : "不正なスラッグです";
+  const slug = BOOK_SLUG_PATTERN.test(filename)
+    ? filename
+    : "不正なスラッグです";
 
   const vscode = useVSCodeApi();
   const validationErrors = useMemo(() => validateBook(book), [book]);
 
   const previewChapterPage = (chapterPath: string) => {
-    const event: ZennPreviewEvent = {
-      type: "OPEN_PREVIEW",
-      payload: { openPath: chapterPath },
+    const event: PreviewEvent = {
+      type: "open-preview-panel",
+      payload: { path: chapterPath },
     };
 
     vscode.postMessage(event);

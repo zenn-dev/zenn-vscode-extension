@@ -1,11 +1,10 @@
-import { TreeViewContext } from "../context/treeview";
+import { AppContext } from "../context/app";
 
 /**
- * `zenn-preview-for-github-dev.refresh-articles`コマンドの実装
+ * `zenn-preview.refresh-articles`コマンドの実装
  */
-export const refreshArticlesCommand = (context: TreeViewContext) => {
+export const refreshArticlesCommand = (context: AppContext) => {
   return async () => {
-    await context.articleStore.loadArticles(true);
-    context.articlesTreeViewProvider.reload();
+    context.dispatchContentsEvent({ type: "refresh-articles" });
   };
 };

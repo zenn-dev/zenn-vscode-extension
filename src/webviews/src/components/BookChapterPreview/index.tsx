@@ -4,10 +4,8 @@ import { validateBookChapter } from "zenn-validator";
 
 import styles from "./BookChapterPreview.module.scss";
 
-import {
-  ZennPreviewEvent,
-  BookChapterPreviewContents,
-} from "../../../../panels/types";
+import { BookChapterPreviewContent } from "../../../../schemas/bookChapter";
+import { PreviewEvent } from "../../../../types";
 import LeftArrowSVG from "../../assets/svg/left-arrow.svg";
 import { useVSCodeApi } from "../../hooks/useVSCodeApi";
 import { ValidationErrors } from "../ValidationErrors";
@@ -30,7 +28,7 @@ export const BookChapterProperty = ({
 };
 
 interface BookChapterPreviewProps {
-  content: BookChapterPreviewContents;
+  content: BookChapterPreviewContent;
 }
 
 export const BookChapterPreview = ({ content }: BookChapterPreviewProps) => {
@@ -43,9 +41,9 @@ export const BookChapterPreview = ({ content }: BookChapterPreviewProps) => {
   );
 
   const goToBookPreviewPage = () => {
-    const event: ZennPreviewEvent = {
-      type: "OPEN_PREVIEW",
-      payload: { openPath: bookPath },
+    const event: PreviewEvent = {
+      type: "open-preview-panel",
+      payload: { path: bookPath },
     };
 
     vscode.postMessage(event);

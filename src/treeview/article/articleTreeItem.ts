@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 
-import { ZennContext } from "../../context/app";
+import { AppContext } from "../../context/app";
 import { ArticleContent, getArticleTitle } from "../../schemas/article";
 import { PreviewTreeItem } from "../previewTreeItem";
 
@@ -11,7 +11,7 @@ export class ArticleTreeItem extends PreviewTreeItem {
   readonly canPreview = true;
   readonly contextValue = "article";
 
-  constructor(context: ZennContext, content: ArticleContent) {
+  constructor(context: AppContext, content: ArticleContent) {
     super(context, content, vscode.TreeItemCollapsibleState.None);
 
     const published = content.value.published;

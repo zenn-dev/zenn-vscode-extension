@@ -1,3 +1,5 @@
+import { Disposable } from "vscode";
+
 type Callback<E> = (event: E) => void;
 
 export class Subscription<E> {
@@ -7,11 +9,13 @@ export class Subscription<E> {
     this.__callbacks.forEach((callback) => callback(event));
   }
 
-  addEventListener(callback: Callback<E>) {
+  addEventListener(callback: Callback<E>): Disposable {
     this.__callbacks.add(callback);
 
-    return () => {
-      this.__callbacks.delete(callback);
+    return {
+      dispose: () => {
+        this.__callbacks.delete(callback);
+      },
     };
   }
 }

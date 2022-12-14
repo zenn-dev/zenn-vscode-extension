@@ -1,15 +1,16 @@
 import * as vscode from "vscode";
 
-import { createZennContext } from "./context/app";
-import { initializeEditor } from "./context/editor";
+import { createAppContext } from "./context/app";
+import { initializeCommands } from "./context/commands";
+import { initializeEditor } from "./context/editor/index";
 import { initializeTreeView } from "./context/treeview";
 import { initializeWebview } from "./context/webview";
 
 export function activate(extension: vscode.ExtensionContext) {
-  const context = createZennContext(extension);
+  const context = createAppContext(extension);
 
   if (!context) {
-    console.warn("表示できるワークスペースがありません");
+    vscode.window.showErrorMessage("表示できるワークスペースがありません");
     return;
   }
 
@@ -21,7 +22,10 @@ export function activate(extension: vscode.ExtensionContext) {
     ...initializeEditor(context),
 
     // Webviewの初期化処理
-    ...initializeWebview(context)
+    ...initializeWebview(context),
+
+    // コマンドの初期化処理
+    ...initializeCommands(context)
   );
 }
 

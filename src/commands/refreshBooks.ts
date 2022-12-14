@@ -1,11 +1,10 @@
-import { TreeViewContext } from "../context/treeview";
+import { AppContext } from "../context/app";
 
 /**
- * `zenn-preview-for-github-dev.refresh-books`コマンドの実装
+ * `zenn-preview.refresh-books`コマンドの実装
  */
-export const refreshBooksCommand = (context: TreeViewContext) => {
+export const refreshBooksCommand = (context: AppContext) => {
   return async () => {
-    await context.bookStore.loadBooks(true);
-    context.booksTreeViewProvider.reload();
+    context.dispatchContentsEvent({ type: "refresh-books" });
   };
 };

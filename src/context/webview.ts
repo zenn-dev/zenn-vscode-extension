@@ -1,108 +1,52 @@
 import * as vscode from "vscode";
 
-import { ZennContext } from "./app";
+import { AppContext } from "./app";
 
-import { previewCommand } from "../commands/preview";
-import { ZennPreviewContents } from "../panels/types";
-import { ZennContentError } from "../schemas/types";
-import { StoreEvents } from "../store/common";
+import {
+  openPreviewPanel,
+  createPreviewPanel,
+  registerPreviewPanel,
+  updatePreviewPanel,
+  disposePreviewPanel,
+} from "../schemas/previewPanel";
+import { WebViewState } from "../types";
 import { toVSCodeUri } from "../utils/vscodeHelpers";
-import { APP_COMMAND, APP_ID } from "../variables";
-import { WebViewState } from "../webviews/types";
+import { APP_ID } from "../variables";
 
 type WebviewPanel = vscode.WebviewPanel;
-
-export interface WebViewContext {
-  openPreviewPanel(uri: vscode.Uri): void;
-  onUpdateContents(event: StoreEvents): void;
-  registerPanel(
-    panel: vscode.WebviewPanel,
-    contents: ZennPreviewContents
-  ): void;
-}
 
 /**
  * Webviewの初期化処理
  */
-export const initializeWebview = (
-  context: ZennContext
-): vscode.Disposable[] => {
-  const { bookStore, articleStore, bookChapterStore, panelStore } = context;
-
-  const webViewContext: WebViewContext = {
-    openPreviewPanel(uri) {
-      const panel = panelStore.getPanel(uri);
-
-      if (panel) return panel.open();
-
-      const newPanel = panelStore.createPreviewPanelFromContents(context, uri);
-
-      if (newPanel) {
-        panelStore.setPanel(newPanel);
-      } else {
-        vscode.window.showErrorMessage("プレビューできないファイルです");
-      }
-    },
-
-    registerPanel(panel, contents) {
-      const previewPanel = panelStore.createPreviewPanelFromPreviewContents(
-        context,
-        panel,
-        contents
-      );
-
-      if (!previewPanel) return;
-
-      panelStore.setPanel(previewPanel);
-    },
-
-    onUpdateContents(event) {
-      switch (event.type) {
-        case "update": {
-          if (!ZennContentError.isError(event.value)) {
-            panelStore.updatePreview(event.value);
-          }
-          break;
-        }
-        case "delete": {
-          if (!ZennContentError.isError(event.value)) {
-            panelStore.disposePanel(event.value);
-          }
-          break;
-        }
-      }
-    },
-  };
-
-  bookStore.addEventListener(webViewContext.onUpdateContents);
-  articleStore.addEventListener(webViewContext.onUpdateContents);
-  bookChapterStore.addEventListener(webViewContext.onUpdateContents);
-
-  panelStore.addEventListener((event) => {
-    switch (event.type) {
-      case "OPEN_PREVIEW": {
-        const uri = toVSCodeUri(event.payload.openPath);
-        webViewContext.openPreviewPanel(uri);
-        break;
-      }
-    }
-  });
+export const initializeWebview = (context: AppContext): vscode.Disposable[] => {
+  const { listenContentsEvent } = context;
 
   return [
-    // プレビューコマンドを設定
-    vscode.commands.registerCommand(
-      APP_COMMAND.PREVIEW,
-      previewCommand(webViewContext)
-    ),
+    listenContentsEvent((event) => {
+      switch (event.type) {
+        case "open-preview-panel":
+          openPreviewPanel(context, event.payload.path);
+          break;
+        case "update-content":
+          updatePreviewPanel(context, event.payload.uri);
+          break;
+        case "delete-content":
+          disposePreviewPanel(context, event.payload.uri);
+          break;
+      }
+    }),
 
     // Webviewを永続化する
     vscode.window.registerWebviewPanelSerializer(APP_ID, {
       async deserializeWebviewPanel(panel: WebviewPanel, state?: WebViewState) {
-        const contents = state?.content;
+        const content = state?.content;
 
-        if (contents) {
-          webViewContext.registerPanel(panel, contents);
-        }
+        if (!content) return;
+
+        const uri = toVSCodeUri(content.path);
+        const previewPanel = createPreviewPanel(uri, panel, content);
+
+        registerPreviewPanel(context, previewPanel);
       },
     }),
   ];

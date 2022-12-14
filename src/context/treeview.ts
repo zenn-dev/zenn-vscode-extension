@@ -11,7 +11,7 @@ import { TREE_VIEW_ID } from "../variables";
 export const initializeTreeView = (
   context: AppContext
 ): vscode.Disposable[] => {
-  const { getContentsType, listenContentsEvent } = context;
+  const { listenContentsEvent } = context;
   const booksTreeViewProvider = new BooksTreeViewProvider(context);
   const articlesTreeViewProvider = new ArticlesTreeViewProvider(context);
 

@@ -4,9 +4,10 @@ import { BookChapterTreeItem } from "./bookChapterTreeItem";
 import { BookConfigTreeItem } from "./bookConfigTreeItem";
 import { BookCoverImageTreeItem } from "./bookCoverImageTreeItem";
 
-import { ZennContext } from "../../context/app";
+import { AppContext } from "../../context/app";
 import { BookContent } from "../../schemas/book";
-import { ZennContentError } from "../../schemas/types";
+import { loadBookChapterContent } from "../../schemas/bookChapter";
+import { ContentError } from "../../schemas/error";
 import { PreviewTreeErrorItem } from "../previewTreeErrorItem";
 import { ChildTreeItem, PreviewTreeItem } from "../previewTreeItem";
 
@@ -18,7 +19,7 @@ export class BookTreeItem extends PreviewTreeItem {
 
   readonly contextValue = "book";
 
-  constructor(context: ZennContext, bookContent: BookContent) {
+  constructor(context: AppContext, bookContent: BookContent) {
     super(context, bookContent, vscode.TreeItemCollapsibleState.Collapsed);
 
     const published = bookContent.value.published;
@@ -34,32 +35,37 @@ export class BookTreeItem extends PreviewTreeItem {
     this.iconPath = this.getIconPath(published ? "release-book" : "edit-book");
   }
 
+  createErrorTreeItem(message: string) {
+    return new PreviewTreeErrorItem(this.context, new ContentError(message));
+  }
+
   async getChildren() {
     if (!this.bookContent) return [];
 
-    const { bookChapterStore } = this.context;
-    const { coverImageUri, uri: bookUri } = this.bookContent;
+    const ctx = this.context;
+    const { configUri, coverImageUri } = this.bookContent;
 
     // チャプターのTreeItemを作成
     const chapterTreeItems = await Promise.all(
       this.bookContent.chapters.map(async (meta) => {
-        const content = await bookChapterStore.loadBookChapter(
-          bookUri,
-          meta.uri
-        );
+        const content = await loadBookChapterContent(ctx, meta.uri);
 
-        return ZennContentError.isError(content)
-          ? new PreviewTreeErrorItem(this.context, content)
-          : new BookChapterTreeItem(this.context, meta, content);
+        return ContentError.isError(content)
+          ? new PreviewTreeErrorItem(ctx, content)
+          : new BookChapterTreeItem(ctx, meta, content);
       })
     );
 
     return [
       // 設定ファイルのTreeItem
-      new BookConfigTreeItem(this.bookContent.configUri),
+      !ContentError.isError(configUri)
+        ? new BookConfigTreeItem(configUri)
+        : new PreviewTreeErrorItem(ctx, configUri),
 
       // カバー画像のTreeItem
-      coverImageUri ? new BookCoverImageTreeItem(coverImageUri) : null,
+      coverImageUri
+        ? new BookCoverImageTreeItem(coverImageUri)
+        : this.createErrorTreeItem("カバー画像がありません"),
 
       // チャプターのTreeItem一覧
       ...PreviewTreeItem.sortTreeItems(chapterTreeItems),

@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 
-import { ZennContext } from "../context/app";
+import { AppContext } from "../context/app";
 import { generateSlug, pickRandomEmoji } from "../utils/helpers";
 import { ARTICLE_SLUG_PATTERN } from "../utils/patterns";
 import { generateUniqueUri, isExistsUri } from "../utils/vscodeHelpers";
@@ -22,7 +22,7 @@ const generateArticleTemplate = () =>
 /**
  * 記事の新規作成コマンドの実装
  */
-export const newArticleCommand = (context?: ZennContext) => {
+export const newArticleCommand = (context?: AppContext) => {
   const generator = async (): Promise<boolean> => {
     if (!context) throw new Error("コマンドを実行できません");
 

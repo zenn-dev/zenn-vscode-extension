@@ -30,5 +30,6 @@ jobs:
 
       - name: main ブランチの変更を canary ブランチに反映
         run: |
+          git config pull.rebase false
           git pull origin main
           git push origin HEAD

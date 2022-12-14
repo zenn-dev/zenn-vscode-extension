@@ -1,10 +1,18 @@
 import * as vscode from "vscode";
 
-import { ZennContentBase, ZennContentError, ContentsLoadResult } from "./types";
+import { ContentError } from "./error";
+import { withCache } from "./utils";
 
+import { AppContext } from "../context/app";
+import { ContentBase, ContentsLoadResult, PreviewContentBase } from "../types";
 import { parseFrontMatter } from "../utils/helpers";
+import { markdownToHtml } from "../utils/markdownHelpers";
 import { EMOJI_REGEX, FRONT_MATTER_PATTERN } from "../utils/patterns";
-import { getFilenameFromUrl, openTextDocument } from "../utils/vscodeHelpers";
+import {
+  getFilenameFromUrl,
+  openTextDocument,
+  toPath,
+} from "../utils/vscodeHelpers";
 
 /**
  * 記事のメタ情報
@@ -23,7 +31,7 @@ export interface Article {
 /**
  * 記事の情報を含んだ型
  */
-export interface ArticleContent extends ZennContentBase {
+export interface ArticleContent extends ContentBase {
   type: "article";
   markdown: string;
   value: Article;
@@ -33,6 +41,13 @@ export interface ArticleContent extends ZennContentBase {
  * 記事の取得結果
  */
 export type ArticleLoadResult = ContentsLoadResult<ArticleContent>;
+
+/** 記事のプレビュー時(postMessage)に使うデータ型 */
+export interface ArticlePreviewContent extends PreviewContentBase {
+  type: "article";
+  html: string;
+  article: Article;
+}
 
 /**
  * 記事のタイトルを返す
@@ -79,32 +94,64 @@ export const createArticleContent = (
 /**
  * 記事情報を取得する
  */
-export const loadArticleContent = async (
-  uri: vscode.Uri
-): Promise<ArticleLoadResult> => {
-  return openTextDocument(uri)
-    .then((doc) => createArticleContent(uri, doc.getText()))
-    .catch(() => {
-      const filename = getFilenameFromUrl(uri) || "記事";
-      const message = `${filename}の取得に失敗しました`;
+export const loadArticleContent = withCache(
+  ({ cache }, uri) => cache.createKey("article", uri),
 
-      return new ZennContentError(message, uri);
-    });
-};
+  async (uri): Promise<ArticleLoadResult> => {
+    return openTextDocument(uri)
+      .then((doc) => createArticleContent(uri, doc.getText()))
+      .catch(() => {
+        const filename = getFilenameFromUrl(uri) || "記事";
+        const message = `${filename}の取得に失敗しました`;
+
+        return new ContentError(message, uri);
+      });
+  }
+);
 
 /**
  * 記事一覧情報を取得する
  */
 export const loadArticleContents = async (
-  uri: vscode.Uri
+  context: AppContext,
+  force?: boolean
 ): Promise<ArticleLoadResult[]> => {
-  const files = await vscode.workspace.fs.readDirectory(uri).then((r) =>
+  const rootUri = context.articlesFolderUri;
+
+  const files = await vscode.workspace.fs.readDirectory(rootUri).then((r) =>
     r.flatMap((file) => {
       return file[1] === vscode.FileType.File && file[0].endsWith(".md")
-        ? [vscode.Uri.joinPath(uri, file[0])]
+        ? [vscode.Uri.joinPath(rootUri, file[0])]
         : [];
     })
   );
 
-  return Promise.all(files.map((uri) => loadArticleContent(uri)));
+  return Promise.all(
+    files.map((uri) => loadArticleContent(context, uri, force))
+  );
+};
+
+export const loadArticlePreviewContent = async (
+  context: AppContext,
+  uri: vscode.Uri,
+  panel: vscode.WebviewPanel
+): Promise<ArticlePreviewContent> => {
+  const article = await loadArticleContent(context, uri);
+
+  if (ContentError.isError(article)) throw article;
+
+  return {
+    type: "article",
+    article: article.value,
+    path: toPath(uri),
+    filename: article.filename,
+    html: markdownToHtml(article.markdown, panel),
+    panelTitle: `${
+      getArticleTitle({
+        emoji: article.value.emoji,
+        title: article.value.title,
+        filename: article.filename,
+      }) || "記事"
+    } のプレビュー`,
+  };
 };

@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 
-import { ZennContext } from "../context/app";
+import { AppContext } from "../context/app";
 import { generateSlug } from "../utils/helpers";
 import { BOOK_SLUG_PATTERN } from "../utils/patterns";
 import { isExistsUri } from "../utils/vscodeHelpers";
@@ -59,7 +59,7 @@ const createBookChapterFiles = async (bookUri: vscode.Uri) => {
 /**
  * 本の新規作成コマンドの実装
  */
-export const newBookCommand = (context?: ZennContext) => {
+export const newBookCommand = (context?: AppContext) => {
   const generator = async (): Promise<boolean> => {
     if (!context) throw new Error("コマンドを実行できません");
 

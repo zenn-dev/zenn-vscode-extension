@@ -6,9 +6,7 @@ import { APP_ID } from "../variables";
  * Uri を文字列に変換する
  */
 export const toPath = (uri: string | vscode.Uri): string => {
-  return typeof uri === "string"
-    ? vscode.Uri.parse(uri).toString()
-    : uri.toString();
+  return typeof uri === "string" ? vscode.Uri.parse(uri).path : uri.path;
 };
 
 /**
@@ -84,4 +82,15 @@ export const createWebViewPanel = (title?: string): vscode.WebviewPanel => {
       retainContextWhenHidden: true, // WebViewがバックグラウンドに移動しても内容を保持するようにする
     }
   );
+};
+
+/**
+ * ファイルを監視するためのWatcherを作成する
+ */
+export const createFileSystemWatcher = (
+  pattern: vscode.RelativePattern,
+  ignore?: { created?: false; updated?: false; deleted?: false }
+) => {
+  const ignores = [ignore?.created, ignore?.updated, ignore?.deleted] as const;
+  return vscode.workspace.createFileSystemWatcher(pattern, ...ignores);
 };

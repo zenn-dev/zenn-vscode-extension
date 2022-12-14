@@ -1,3 +1,6 @@
+import "zenn-content-css";
+import "./styles/index.scss";
+
 import { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 
@@ -6,16 +9,12 @@ import { BookChapterPreview } from "./components/BookChapterPreview";
 import { BookPreview } from "./components/BookPreview";
 import { useVSCodeApi } from "./hooks/useVSCodeApi";
 
-import { ZennPreviewContents, ZennPreviewEvent } from "../../panels/types";
-import "zenn-content-css";
-import "./styles/index.scss";
+import { PreviewContents, PreviewEvent } from "../../types";
 
 const App = () => {
   const vscode = useVSCodeApi();
   const defaultValue = (vscode.getState() as any)?.content || null;
-  const [content, setContent] = useState<ZennPreviewContents | null>(
-    defaultValue
-  );
+  const [content, setContent] = useState<PreviewContents | null>(defaultValue);
 
   // init embed elements
   useEffect(() => {
@@ -24,12 +23,12 @@ const App = () => {
 
   useEffect(() => {
     const onMessage = (event: MessageEvent) => {
-      const msg = event.data as ZennPreviewEvent;
+      const msg = event.data as PreviewEvent;
 
       console.log("メッセージを受信", { msg });
 
       switch (msg.type) {
-        case "READY_PREVIEW": {
+        case "ready-preview-panel": {
           if (msg.result) {
             setContent(msg.result);
             vscode.setState({ content: msg.result });
@@ -37,7 +36,7 @@ const App = () => {
           break;
         }
 
-        case "UPDATE_PREVIEW": {
+        case "update-preview-panel": {
           const result = msg.result;
 
           if (result && result.type === content?.type) {
@@ -51,7 +50,7 @@ const App = () => {
     window.addEventListener("message", onMessage);
 
     if (content === null) {
-      const event: ZennPreviewEvent = { type: "READY_PREVIEW" };
+      const event: PreviewEvent = { type: "ready-preview-panel" };
       vscode.postMessage(event);
     }
 

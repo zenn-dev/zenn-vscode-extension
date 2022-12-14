@@ -54,7 +54,7 @@ export interface BookChapterPreviewContent extends PreviewContentBase {
 /**
  * チャプターのURIから本のURIを取り出す
  */
-const getBookUriFromChapterUri = (uri: vscode.Uri) => {
+export const getBookUriFromChapterUri = (uri: vscode.Uri) => {
   return vscode.Uri.parse(uri.toString().replace(/\/[^\/]+\.md$/, ""));
 };
 

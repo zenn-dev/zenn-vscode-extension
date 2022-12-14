@@ -83,3 +83,14 @@ export const createWebViewPanel = (title?: string): vscode.WebviewPanel => {
     }
   );
 };
+
+/**
+ * ファイルを監視するためのWatcherを作成する
+ */
+export const createFileSystemWatcher = (
+  pattern: vscode.RelativePattern,
+  ignore?: { created?: false; updated?: false; deleted?: false }
+) => {
+  const ignores = [ignore?.created, ignore?.updated, ignore?.deleted] as const;
+  return vscode.workspace.createFileSystemWatcher(pattern, ...ignores);
+};

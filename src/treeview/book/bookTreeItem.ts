@@ -43,7 +43,7 @@ export class BookTreeItem extends PreviewTreeItem {
     if (!this.bookContent) return [];
 
     const ctx = this.context;
-    const { configUri, coverImageUri, uri: bookUri } = this.bookContent;
+    const { configUri, coverImageUri } = this.bookContent;
 
     // チャプターのTreeItemを作成
     const chapterTreeItems = await Promise.all(

@@ -154,7 +154,7 @@ export const loadBookContent = withCache(
   ({ cache }, uri) => cache.createKey("book", uri),
 
   async (uri: vscode.Uri): Promise<BookLoadResult> => {
-    return loadBook(uri).catch((error) => {
+    return loadBook(uri).catch(() => {
       const filename = getFilenameFromUrl(uri) || "本";
       return new ContentError(`${filename}の取得に失敗しました`, uri);
     });

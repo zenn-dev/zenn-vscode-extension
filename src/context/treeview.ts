@@ -18,6 +18,11 @@ export const initializeTreeView = (
   return [
     listenContentsEvent((event) => {
       switch (event.type) {
+        case "refresh":
+          articlesTreeViewProvider.reload();
+          booksTreeViewProvider.reload();
+          break;
+
         case "refresh-articles":
           articlesTreeViewProvider.reload({ force: true });
           break;
@@ -32,7 +37,8 @@ export const initializeTreeView = (
           const { type } = event.payload;
 
           if (type === "article") articlesTreeViewProvider.reload();
-          else if (type.includes("book")) booksTreeViewProvider.reload();
+          else if (type === "book") booksTreeViewProvider.reload();
+          else if (type === "bookChapter") booksTreeViewProvider.reload();
           break;
         }
       }

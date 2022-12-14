@@ -2,7 +2,7 @@ import * as vscode from "vscode";
 
 import { createAppContext } from "./context/app";
 import { initializeCommands } from "./context/commands";
-import { initializeEditor } from "./context/editor";
+import { initializeEditor } from "./context/editor/index";
 import { initializeTreeView } from "./context/treeview";
 import { initializeWebview } from "./context/webview";
 

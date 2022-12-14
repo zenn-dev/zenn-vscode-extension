@@ -81,4 +81,8 @@ export class ContentsCache {
   deleteCache(key: CacheKey): boolean {
     return !!this.getCacheObj(this.getCacheType(key))?.delete(key);
   }
+
+  deleteCacheWithType(type: CacheType, uri: vscode.Uri): boolean {
+    return this.deleteCache(this.createKey(type, uri));
+  }
 }

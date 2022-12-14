@@ -59,6 +59,9 @@ export type ContentsEvent =
       payload: { uri: vscode.Uri; type: ContentsType };
     }
   | {
+      type: "refresh";
+    }
+  | {
       type: "refresh-articles";
     }
   | {

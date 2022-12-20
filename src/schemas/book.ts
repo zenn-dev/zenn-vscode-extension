@@ -60,6 +60,7 @@ export interface PreviewChapterMeta {
   path: string;
   slug: string;
   title: string | undefined | null;
+  isExcluded: boolean;
 }
 
 /**
@@ -216,6 +217,7 @@ export const loadBookPreviewContent = async (
           slug: meta.slug,
           path: toPath(meta.uri),
           title: !ContentError.isError(chapter) ? chapter.value.title : null,
+          isExcluded: meta.isExcluded,
         }))
       )
     ),

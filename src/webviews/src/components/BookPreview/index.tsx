@@ -31,8 +31,8 @@ interface BookPreviewProps {
 
 export const BookPreview = ({ content }: BookPreviewProps) => {
   const { book, chapters, filename, coverImagePath } = content;
-  const slug = BOOK_SLUG_PATTERN.test(filename)
-    ? filename
+  const slug = BOOK_SLUG_PATTERN.test(book.slug || filename)
+    ? book.slug || filename
     : "不正なスラッグです";
 
   const vscode = useVSCodeApi();
@@ -46,6 +46,9 @@ export const BookPreview = ({ content }: BookPreviewProps) => {
 
     vscode.postMessage(event);
   };
+
+  const includeChapters = chapters.filter((v) => !v.isExcluded);
+  const excludeChapters = chapters.filter((v) => v.isExcluded);
 
   return (
     <div>
@@ -109,7 +112,7 @@ export const BookPreview = ({ content }: BookPreviewProps) => {
         <h2 className={styles.sectionTitle}>Chapters</h2>
 
         <ol className={styles.chapterList}>
-          {chapters.map((chapter) => (
+          {includeChapters.map((chapter) => (
             <li key={chapter.slug}>
               <div
                 className={styles.chapterLink}
@@ -123,6 +126,26 @@ export const BookPreview = ({ content }: BookPreviewProps) => {
             </li>
           ))}
         </ol>
+
+        <div className={styles.excludeSection}>
+          <h3 className={styles.sectionLabel}>除外</h3>
+
+          <ol className={styles.chapterList}>
+            {excludeChapters.map((chapter) => (
+              <li key={chapter.slug}>
+                <div
+                  className={styles.chapterLink}
+                  onClick={() => previewChapterPage(chapter.path)}
+                >
+                  {chapter.title || "タイトルが設定されていません"}
+                  <span className={styles.chapterFilename}>
+                    （{chapter.slug}）
+                  </span>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
       </section>
     </div>
   );

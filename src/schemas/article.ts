@@ -84,8 +84,8 @@ export const createArticleContent = (
     filename,
     type: "article",
     value: {
-      slug: filename.replace(".md", ""),
       ...parseFrontMatter(text),
+      slug: filename.replace(".md", ""),
     },
     markdown: text.replace(FRONT_MATTER_PATTERN, ""),
   };

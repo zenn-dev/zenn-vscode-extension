@@ -132,8 +132,8 @@ const loadBook = async (uri: vscode.Uri): Promise<BookContent> => {
     configUri: isConfigError ? config : config.uri,
     coverImageUri: getBookCoverImageUri(uri, files),
     value: {
-      slug: filename.replace(".md", ""),
       ...(!isConfigError ? config.value : {}),
+      slug: filename.replace(".md", ""),
     },
     chapters: getBookChapterUris(uri, files)
       .map((uri) => createBookChapterMeta(uri, chapters))

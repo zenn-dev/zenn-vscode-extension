@@ -24,9 +24,7 @@
     "markdown"
   ],
   "activationEvents": [
-    "workspaceContains:/articles/",
-    "workspaceContains:/books/",
-    "onWebviewPanel:zenn-preview"
+    "*"
   ],
   "browser": "./dist/web/extension.js",
   "contributes": {

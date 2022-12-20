@@ -75,7 +75,9 @@ export const createBookChapterContent = (
     markdown: text.replace(FRONT_MATTER_PATTERN, ""),
     value: {
       ...parseFrontMatter(text),
-      slug: filename.replace(".md", ""),
+      slug:
+        filename.match(/(?:\d+\.)?([^\.]+)\.md$/)?.[1] ||
+        filename.replace(".md", ""),
     },
   };
 };

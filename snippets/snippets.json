@@ -1,0 +1,55 @@
+{
+  "Markdown Zenn Message": {
+    "prefix": "message",
+    "body": [":::message", "$1", ":::"],
+    "description": "Zenn Original : Messge Block"
+  },
+
+  "Markdown Zenn Message Alert": {
+    "prefix": "alert",
+    "body": [":::message alert", "$1", ":::"],
+    "description": "Zenn Original : Messge Alert Block"
+  },
+
+  "Markdown Zenn Toggle": {
+    "prefix": "toggle",
+    "body": [":::details $1", "$2", ":::"],
+    "description": "Zenn Original : Toggle"
+  },
+
+  "Markdown Zenn Table": {
+    "prefix": "table",
+    "body": ["|$1|$4|", "|----|----|", "|$2|$5|", "|$3|$6|"],
+    "description": "table"
+  },
+
+  "Markdown Code Block": {
+    "prefix": "code",
+    "body": ["```:$2", "$1", "```"],
+    "description": "code block"
+  },
+
+  "Markdown footnote": {
+    "prefix": "footnote",
+    "body": ["[^$1]", "", "[^$1]:$2"],
+    "description": "footnote"
+  },
+
+  "Markdown Zenn Math": {
+    "prefix": "math",
+    "body": ["$$", "$1", "$$"],
+    "description": "Zenn Original : Math"
+  },
+
+  "Markdown Image Basic": {
+    "prefix": "image",
+    "body": ["![$2]($1)"],
+    "description": "Image Basick"
+  },
+
+  "Markdown Image caption": {
+    "prefix": "image",
+    "body": ["![$2]($1)", "*$3*"],
+    "description": "Image with caption"
+  }
+}

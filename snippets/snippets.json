@@ -4,52 +4,89 @@
     "body": [":::message", "$1", ":::"],
     "description": "Zenn Original : Messge Block"
   },
-
   "Markdown Zenn Message Alert": {
     "prefix": "alert",
     "body": [":::message alert", "$1", ":::"],
     "description": "Zenn Original : Messge Alert Block"
   },
-
   "Markdown Zenn Toggle": {
     "prefix": "toggle",
     "body": [":::details $1", "$2", ":::"],
     "description": "Zenn Original : Toggle"
   },
-
   "Markdown Zenn Table": {
     "prefix": "table",
     "body": ["|$1|$4|", "|----|----|", "|$2|$5|", "|$3|$6|"],
     "description": "table"
   },
-
   "Markdown Code Block": {
     "prefix": "code",
     "body": ["```:$2", "$1", "```"],
     "description": "code block"
   },
-
   "Markdown footnote": {
     "prefix": "footnote",
     "body": ["[^$1]", "", "[^$1]:$2"],
     "description": "footnote"
   },
-
   "Markdown Zenn Math": {
     "prefix": "math",
     "body": ["$$", "$1", "$$"],
     "description": "Zenn Original : Math"
   },
-
   "Markdown Image Basic": {
     "prefix": "image",
     "body": ["![$2]($1)"],
     "description": "Image Basick"
   },
-
   "Markdown Image caption": {
     "prefix": "image",
     "body": ["![$2]($1)", "*$3*"],
     "description": "Image with caption"
+  },
+  "Tweet":{
+    "prefix": "tweet",
+    "body": "@[tweet]($1)",
+    "description": "Tweet"
+  },
+  "GitHub Gist": {
+    "prefix": "gist",
+    "body": "@[gist]($1)",
+    "description": "GitHub Gist"
+  },
+  "CodePen": {
+    "prefix": "codepen",
+    "body": "@[codepen]($1)",
+    "description": "CodePen"
+  },
+  "JSFiddle": {
+    "prefix": "jsfiddle",
+    "body": "@[jsfiddle]($1)",
+    "description": "JSFiddle"
+  },
+  "SlideShare": {
+    "prefix": "slideshare",
+    "body": "@[slideshare]($1)",
+    "description": "SlideShare"
+  },
+  "SpeakerDeck": {
+    "prefix": "speakerdeck",
+    "body": "@[speakerdeck]($1)",
+    "description": "SpeakerDeck"
+  },
+  "CodeSandbox": {
+    "prefix": "codesandbox",
+    "body": "@[codesandbox]($1)",
+    "description": "CodeSandbox"
+  },
+  "StackBlitz": {
+    "prefix": "stackblitz",
+    "body": "@[stackblitz]($1)",
+    "description": "StackBlitz"
+  },
+  "Figma":{
+    "prefix": "figma",
+    "body": "@[figma]($1)",
+    "description": "Figma"
   }
 }

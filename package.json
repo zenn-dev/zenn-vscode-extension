@@ -15,6 +15,7 @@
     "vscode": "^1.72.0"
   },
   "categories": [
+    "Snippets",
     "Other"
   ],
   "keywords": [
@@ -122,7 +123,13 @@
           "group": "inline"
         }
       ]
-    }
+    },
+    "snippets": [
+      {
+        "language": "markdown",
+        "path": "./snippets/snippets.json"
+      }
+    ]
   },
   "scripts": {
     "publish:vsce": "yes | vsce publish",

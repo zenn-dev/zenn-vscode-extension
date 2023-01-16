@@ -10,33 +10,16 @@ on:
       - unlabeled
 
 jobs:
-  delete-comment:
-    runs-on: ubuntu-latest
-    steps:
-      - name: 古いコメントを削除
-        uses: kamatama41/hide-pr-comments-action@v0
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          message_regex: "ラベルをどれか一つ付けてください"
-
   validate-pr:
     runs-on: ubuntu-latest
-    if: |
-      !contains(github.event.pull_request.labels.*.name, 'fix') && 
-      !contains(github.event.pull_request.labels.*.name, 'bugfix') && 
-      !contains(github.event.pull_request.labels.*.name, 'enhancement') && 
-      !contains(github.event.pull_request.labels.*.name, 'chore') && 
-      !contains(github.event.pull_request.labels.*.name, 'feature')
     steps:
-      - name: ラベルを付けるように警告コメントをする
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          URL: ${{ github.event.pull_request.comments_url }}
+      - name: ラベルを付けるように警告する
+        if: |
+          !contains(github.event.pull_request.labels.*.name, 'fix') &&
+          !contains(github.event.pull_request.labels.*.name, 'bugfix') &&
+          !contains(github.event.pull_request.labels.*.name, 'enhancement') &&
+          !contains(github.event.pull_request.labels.*.name, 'chore') &&
+          !contains(github.event.pull_request.labels.*.name, 'feature')
         run: |
-          echo "ラベルをどれか一つ付けてください labels: fix, bugfix, enhancement, feature, chore" >> comments
-          sed -i -z 's/\n/\\n/g' comments
-          curl -X POST \
-              -H "Authorization: token ${GITHUB_TOKEN}" \
-              -d "{\"body\": \"$(cat comments)\"}" \
-              ${URL}
+          echo "::error::次のラベルを付けてください。 labels: fix, bugfix, enhancement, feature, chore"
           exit 1

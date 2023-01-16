@@ -10,6 +10,7 @@
 - Zenn のコンテンツをサイドバーに一覧表示します
 - [Zenn のフォーマット](https://zenn.dev/zenn/articles/markdown-guide)で書かれたコンテンツをプレビューします
 - 記事や本のテンプレートを VSCode 上で新規作成できます
+- Zenn 独自の記法のスニペットを追加します
 
 ## 使い方
 
@@ -38,6 +39,17 @@ Zenn のコンテンツ(`articles/**.md`, `books/**`)があるワークスペー
 #### 本の場合
 
 ![本のサイドパネルヘッダー部分にボタンがあります](https://user-images.githubusercontent.com/97154037/200182143-0d1469f0-b5f8-425f-aeb3-120a5b9c7b7e.png)
+
+## スニペットを有効にする方法
+
+デフォルトでは Markdown のスニペットは無効化されているため、有効にするには設定を変更する必要があります。  
+settings.json に以下の設定を追加してください。
+
+```json
+    "[markdown]":  {
+        "editor.quickSuggestions": true
+    }
+```
 
 ## Zenn との連携について
 

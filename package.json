@@ -9,12 +9,13 @@
     "url": "https://github.com/zenn-dev/zenn-vscode-extension.git"
   },
   "license": "MIT",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "pricing": "Free",
   "engines": {
     "vscode": "^1.72.0"
   },
   "categories": [
+    "Snippets",
     "Other"
   ],
   "keywords": [
@@ -24,9 +25,7 @@
     "markdown"
   ],
   "activationEvents": [
-    "workspaceContains:/articles/",
-    "workspaceContains:/books/",
-    "onWebviewPanel:zenn-preview"
+    "*"
   ],
   "browser": "./dist/web/extension.js",
   "contributes": {
@@ -124,7 +123,13 @@
           "group": "inline"
         }
       ]
-    }
+    },
+    "snippets": [
+      {
+        "language": "markdown",
+        "path": "./snippets/snippets.json"
+      }
+    ]
   },
   "scripts": {
     "publish:vsce": "yes | vsce publish",

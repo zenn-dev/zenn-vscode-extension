@@ -10,6 +10,14 @@ import { load as parseYaml } from "js-yaml";
 
 import { FRONT_MATTER_PATTERN, PUBLISHED_AT_PATTERN } from "./patterns";
 
+declare module "js-yaml" {
+  /**
+   * デフォルトの返り値の型が unknown なので Lint エラーが出る。
+   * それを回避するために any 型に上書きする
+   */
+  function load(str: string, opts?: LoadOptions): any;
+}
+
 export { parseYaml };
 
 /**
@@ -44,7 +52,7 @@ export const parseFrontMatter = (
   text: string
 ): { [key: string]: string | undefined } => {
   const meta = FRONT_MATTER_PATTERN.exec(text)?.[2];
-  const result = meta ? (parseYaml(meta) as any) : {};
+  const result = meta ? parseYaml(meta) : {};
 
   if (typeof result !== "object") return {};
   if (Array.isArray(result)) return {};

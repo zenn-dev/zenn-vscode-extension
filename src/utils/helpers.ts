@@ -6,7 +6,7 @@
  * ===================================================================
  */
 
-import { parse as parseYaml } from "yaml";
+import { load as parseYaml } from "js-yaml";
 
 import { FRONT_MATTER_PATTERN, PUBLISHED_AT_PATTERN } from "./patterns";
 
@@ -44,7 +44,7 @@ export const parseFrontMatter = (
   text: string
 ): { [key: string]: string | undefined } => {
   const meta = FRONT_MATTER_PATTERN.exec(text)?.[2];
-  const result = meta ? parseYaml(meta) : {};
+  const result = meta ? (parseYaml(meta) as any) : {};
 
   if (typeof result !== "object") return {};
   if (Array.isArray(result)) return {};

@@ -4,6 +4,7 @@ import { AppContext } from "./app";
 
 import { newArticleCommand } from "../commands/newArticle";
 import { newBookCommand } from "../commands/newBook";
+import { newChapterCommand } from "../commands/newChapter";
 import { previewCommand } from "../commands/preview";
 import { refreshArticlesCommand } from "../commands/refreshArticles";
 import { refreshBooksCommand } from "../commands/refreshBooks";
@@ -44,6 +45,12 @@ export const initializeCommands = (
     vscode.commands.registerCommand(
       APP_COMMAND.REFRESH_BOOKS,
       refreshBooksCommand(context)
+    ),
+
+    // チャプターファイルの作成コマンド
+    vscode.commands.registerCommand(
+      APP_COMMAND.NEW_CHAPTER,
+      newChapterCommand(context)
     ),
   ];
 };

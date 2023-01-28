@@ -91,6 +91,11 @@
         "command": "zenn-preview.refresh-books",
         "title": "本一覧を更新",
         "icon": "$(refresh)"
+      },
+      {
+        "command": "zenn-preview.new-chapter",
+        "title": "チャプターを新規作成",
+        "icon": "$(new-file)"
       }
     ],
     "menus": {

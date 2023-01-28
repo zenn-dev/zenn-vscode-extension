@@ -1,9 +1,10 @@
 import * as vscode from "vscode";
 
 import { AppContext } from "../context/app";
+import { BookTreeItem } from "../treeview/book/bookTreeItem";
 import { generateSlug } from "../utils/helpers";
 import { BOOK_CHAPTER_SLUG_PATTERN } from "../utils/patterns";
-import { isExistsUri } from "../utils/vscodeHelpers";
+import { isExistsUri, getFilenameFromUrl } from "../utils/vscodeHelpers";
 
 /**
  * 本のチャプターのテンプレート文字列を生成する
@@ -29,25 +30,24 @@ export const createBookChapterFile = async (
  * チャプターの新規作成コマンドの実装
  */
 export const newChapterCommand = (context?: AppContext) => {
-  const generator = async (): Promise<boolean> => {
+  const generator = async (treeItem?: BookTreeItem): Promise<boolean> => {
     if (!context) throw new Error("コマンドを実行できません");
 
-    // 本のフォルダ名を取得
-    const bookList = await vscode.workspace.fs
-      .readDirectory(context.booksFolderUri)
-      .then((result) =>
-        result
-          .filter((file) => {
-            return file[1] === vscode.FileType.Directory;
-          })
-          .map(([file]) => file)
-      );
-
-    // チャプターを作成する本を選択
-    const selectedBookFolder = await vscode.window.showQuickPick(bookList, {
-      placeHolder: "チャプターを作成する本を選択",
-      canPickMany: false,
-    });
+    const selectedBookFolder = treeItem?.contentUri
+      ? getFilenameFromUrl(treeItem.contentUri)
+      : await vscode.workspace.fs
+          .readDirectory(context.booksFolderUri)
+          .then((result) => {
+            const bookList = result
+              .filter((file) => {
+                return file[1] === vscode.FileType.Directory;
+              })
+              .map(([file]) => file);
+            return vscode.window.showQuickPick(bookList, {
+              placeHolder: "チャプターを作成する本を選択",
+              canPickMany: false,
+            });
+          });
 
     if (!selectedBookFolder) return false;
 
@@ -59,7 +59,6 @@ export const newChapterCommand = (context?: AppContext) => {
       valueSelection: [0, 14],
       validateInput: async (slug) => {
         if (!BOOK_CHAPTER_SLUG_PATTERN.test(slug)) return "不正なslugです";
-
         const uri = vscode.Uri.joinPath(
           context.booksFolderUri,
           selectedBookFolder,
@@ -87,8 +86,8 @@ export const newChapterCommand = (context?: AppContext) => {
     return true;
   };
 
-  return () => {
-    generator()
+  return (treeItem?: BookTreeItem) => {
+    generator(treeItem)
       .then((isCreated) => {
         if (isCreated) {
           vscode.window.showInformationMessage("チャプターを作成しました");

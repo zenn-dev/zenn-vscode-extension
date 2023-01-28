@@ -123,9 +123,14 @@
       ],
       "view/item/context": [
         {
+          "command": "zenn-preview.new-chapter",
+          "when": "viewItem == book",
+          "group": "inline@1"
+        },
+        {
           "command": "zenn-preview.preview-zenn",
           "when": "view == zenn-articles-tree-view && viewItem == article || view == zenn-books-tree-view && viewItem == book || viewItem == bookChapter",
-          "group": "inline"
+          "group": "inline@2"
         }
       ]
     },

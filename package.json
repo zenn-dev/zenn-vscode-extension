@@ -63,7 +63,7 @@
     "commands": [
       {
         "command": "zenn-preview.preview-zenn",
-        "title": "コンテンツをプレビュー",
+        "title": "Zenn: Preview Contents",
         "icon": {
           "dark": "./public/assets/svg/dark/preview.svg",
           "light": "./public/assets/svg/light/preview.svg"
@@ -71,12 +71,12 @@
       },
       {
         "command": "zenn-preview.new-article",
-        "title": "記事を新規作成",
+        "title": "Zenn: New Article",
         "icon": "$(new-file)"
       },
       {
         "command": "zenn-preview.new-book",
-        "title": "本を新規作成",
+        "title": "Zenn: New Book",
         "icon": {
           "dark": "./public/assets/svg/dark/new-book.svg",
           "light": "./public/assets/svg/light/new-book.svg"
@@ -84,17 +84,17 @@
       },
       {
         "command": "zenn-preview.refresh-articles",
-        "title": "記事一覧を更新",
+        "title": "Zenn: Refresh Articles",
         "icon": "$(refresh)"
       },
       {
         "command": "zenn-preview.refresh-books",
-        "title": "本一覧を更新",
+        "title": "Zenn: Refresh Books",
         "icon": "$(refresh)"
       },
       {
         "command": "zenn-preview.new-chapter",
-        "title": "チャプターを新規作成",
+        "title": "Zenn: New Book Chapter",
         "icon": "$(new-file)"
       }
     ],

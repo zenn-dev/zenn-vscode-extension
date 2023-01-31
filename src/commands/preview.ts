@@ -1,3 +1,5 @@
+import * as vscode from "vscode";
+
 import { AppContext } from "../context/app";
 import { PreviewTreeItem } from "../treeview/previewTreeItem";
 
@@ -6,9 +8,11 @@ import { PreviewTreeItem } from "../treeview/previewTreeItem";
  */
 export const previewCommand = (context?: AppContext) => {
   return (treeItem?: PreviewTreeItem) => {
-    if (!context) return;
-    if (!treeItem?.canPreview) return;
-    if (!treeItem.contentUri) return;
+    if (!context || !treeItem?.canPreview || !treeItem.contentUri) {
+      return vscode.window.showErrorMessage(
+        "プレビューできるコンテンツがありませんでした。TreeViewからプレビューするコンテンツを選択して下さい。"
+      );
+    }
 
     context.dispatchContentsEvent({
       type: "open-preview-panel",

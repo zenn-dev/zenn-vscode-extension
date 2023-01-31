@@ -1,5 +1,7 @@
 import * as vscode from "vscode";
 
+import { createBookChapterFile } from "./newChapter";
+
 import { AppContext } from "../context/app";
 import { generateSlug } from "../utils/helpers";
 import { BOOK_SLUG_PATTERN } from "../utils/patterns";
@@ -36,23 +38,13 @@ const createBookConfigFile = async (bookUri: vscode.Uri) => {
 };
 
 /**
- * 本のチャプターのテンプレート文字列を生成する
- */
-const generateBookChapterTemplate = () =>
-  ["---", 'title: ""', "---"].join("\n") + "\n";
-
-/**
- * 本のチャプターファイルを作成する
+ * 本の作成に基づいてチャプターファイルを作成する
  */
 const createBookChapterFiles = async (bookUri: vscode.Uri) => {
   await Promise.all(
-    TEMPLATE_CHAPTERS.map(async (filename) => {
-      const templateText = generateBookChapterTemplate();
-      const chapterText = new TextEncoder().encode(templateText);
-      const chapterUri = vscode.Uri.joinPath(bookUri, `${filename}.md`);
-
-      await vscode.workspace.fs.writeFile(chapterUri, chapterText);
-    })
+    TEMPLATE_CHAPTERS.map((fileName) =>
+      createBookChapterFile(fileName, bookUri)
+    )
   );
 };
 

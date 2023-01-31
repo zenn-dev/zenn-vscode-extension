@@ -6,9 +6,17 @@
  * ===================================================================
  */
 
-import { parse as parseYaml } from "yaml";
+import { load as parseYaml } from "js-yaml";
 
 import { FRONT_MATTER_PATTERN, PUBLISHED_AT_PATTERN } from "./patterns";
+
+declare module "js-yaml" {
+  /**
+   * デフォルトの返り値の型が unknown なので Lint エラーが出る。
+   * それを回避するために any 型に上書きする
+   */
+  function load(str: string, opts?: LoadOptions): any;
+}
 
 export { parseYaml };
 

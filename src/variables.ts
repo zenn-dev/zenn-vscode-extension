@@ -19,6 +19,9 @@ export const APP_COMMAND = {
 
   /** 本一覧の再取得 */
   REFRESH_BOOKS: pkg.contributes.commands[4].command,
+
+  /** チャプターの新規作成 */
+  NEW_CHAPTER: pkg.contributes.commands[5].command,
 } as const;
 
 /**

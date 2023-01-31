@@ -9,7 +9,7 @@
     "url": "https://github.com/zenn-dev/zenn-vscode-extension.git"
   },
   "license": "MIT",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "pricing": "Free",
   "engines": {
     "vscode": "^1.72.0"
@@ -63,7 +63,7 @@
     "commands": [
       {
         "command": "zenn-preview.preview-zenn",
-        "title": "コンテンツをプレビュー",
+        "title": "Zenn: Preview Contents",
         "icon": {
           "dark": "./public/assets/svg/dark/preview.svg",
           "light": "./public/assets/svg/light/preview.svg"
@@ -71,12 +71,12 @@
       },
       {
         "command": "zenn-preview.new-article",
-        "title": "記事を新規作成",
+        "title": "Zenn: New Article",
         "icon": "$(new-file)"
       },
       {
         "command": "zenn-preview.new-book",
-        "title": "本を新規作成",
+        "title": "Zenn: New Book",
         "icon": {
           "dark": "./public/assets/svg/dark/new-book.svg",
           "light": "./public/assets/svg/light/new-book.svg"
@@ -84,13 +84,18 @@
       },
       {
         "command": "zenn-preview.refresh-articles",
-        "title": "記事一覧を更新",
+        "title": "Zenn: Refresh Articles",
         "icon": "$(refresh)"
       },
       {
         "command": "zenn-preview.refresh-books",
-        "title": "本一覧を更新",
+        "title": "Zenn: Refresh Books",
         "icon": "$(refresh)"
+      },
+      {
+        "command": "zenn-preview.new-chapter",
+        "title": "Zenn: New Book Chapter",
+        "icon": "$(new-file)"
       }
     ],
     "menus": {
@@ -118,9 +123,14 @@
       ],
       "view/item/context": [
         {
+          "command": "zenn-preview.new-chapter",
+          "when": "viewItem == book",
+          "group": "inline@1"
+        },
+        {
           "command": "zenn-preview.preview-zenn",
           "when": "view == zenn-articles-tree-view && viewItem == article || view == zenn-books-tree-view && viewItem == book || viewItem == bookChapter",
-          "group": "inline"
+          "group": "inline@2"
         }
       ]
     },
@@ -151,6 +161,7 @@
   },
   "devDependencies": {
     "@svgr/webpack": "^6.3.1",
+    "@types/js-yaml": "^4.0.5",
     "@types/mocha": "^9.1.1",
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
@@ -183,9 +194,9 @@
   },
   "dependencies": {
     "emoji-regex": "^10.2.1",
+    "js-yaml": "^4.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "yaml": "^2.1.1",
     "zenn-content-css": "^0.1.134",
     "zenn-embed-elements": "^0.1.134",
     "zenn-markdown-html": "^0.1.134",

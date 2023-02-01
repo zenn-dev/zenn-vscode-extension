@@ -38,6 +38,9 @@ export const TREE_VIEW_ID = {
   GUIDES: pkg.contributes.views["zenn-preview"][2].id,
 } as const;
 
+/**
+ * ガイド記事用のベースURL
+ */
 export const GUIDE_DOCS_BASE_URL = {
   docsUrl: "https://zenn.dev/zenn/articles/",
   apiRoot: "https://zenn.dev/api/articles/",

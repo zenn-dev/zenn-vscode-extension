@@ -16,6 +16,7 @@ export class GuideTreeItem extends PreviewTreeItem {
     super(context, content, vscode.TreeItemCollapsibleState.None);
 
     const isBeta = content.value.isBeta;
+
     this.content = content;
 
     this.description = isBeta ? "Beta" : "";

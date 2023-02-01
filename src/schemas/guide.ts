@@ -36,13 +36,7 @@ export const createGuideContent = (
 ): GuideContent => {
   return {
     type: "guide",
-    value: {
-      title: guideDocsMeta.title,
-      slug: guideDocsMeta.slug,
-      hash: guideDocsMeta.hash,
-      emoji: guideDocsMeta.emoji,
-      isBeta: guideDocsMeta.isBeta,
-    },
+    value: guideDocsMeta,
     filename: guideDocsMeta.slug,
     uri: vscode.Uri.parse(
       `${GUIDE_DOCS_BASE_URL.docsUrl}${guideDocsMeta.slug}`

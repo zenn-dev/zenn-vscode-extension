@@ -47,7 +47,7 @@ Zenn のガイド記事の一覧を表示できます。
 
 GUIDES セクションのガイド記事一覧からボタンをクリックするか、コマンドパレットから `Zenn: Open Guide` のコマンドを実行することでガイド記事にアクセスできます。
 
-![ガイドのサイドパネルの子要素部分にボタンがあります](https://user-images.githubusercontent.com/50942816/216012827-6c04d733-fff7-4935-8744-89a16c509834.jpg)
+![ガイドのサイドパネルの子要素部分にボタンがあります](https://user-images.githubusercontent.com/50942816/216094321-ef951df3-5dea-4a3d-82c6-f3b4c8a387d1.jpg)
 
 ## スニペットを有効にする方法
 

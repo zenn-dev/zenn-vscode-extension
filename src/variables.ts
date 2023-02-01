@@ -69,14 +69,14 @@ export const GUIDE_DOCS_META_DATA: GuideDocsMeta[] = [
     isBeta: true,
   },
   {
-    title: "マークダウン記法",
-    slug: "markdown-guide",
-    emoji: "🖋️",
-  },
-  {
-    title: "github.devでの編集方法",
+    title: "github.devでの編集ガイド",
     slug: "usage-github-dev",
     emoji: "🚀",
     isBeta: true,
+  },
+  {
+    title: "マークダウン記法",
+    slug: "markdown-guide",
+    emoji: "🖋️",
   },
 ];

@@ -53,13 +53,13 @@ export const GUIDE_DOCS_META_DATA: GuideDocsMeta[] = [
   {
     title: "記事の作成ガイド",
     slug: "zenn-cli-guide",
-    hash: "cli-%E3%81%A7%E8%A8%98%E4%BA%8B%EF%BC%88article%EF%BC%89%E3%82%92%E7%AE%A1%E7%90%86%E3%81%99%E3%82%8B",
+    hash: "cli-で記事（article）を管理する",
     emoji: "📝",
   },
   {
     title: "本の作成ガイド",
     slug: "zenn-cli-guide",
-    hash: "cli-%E3%81%A7%E6%9C%AC%EF%BC%88book%EF%BC%89%E3%82%92%E7%AE%A1%E7%90%86%E3%81%99%E3%82%8B",
+    hash: "cli-で本（book）を管理する",
     emoji: "📚",
   },
   {

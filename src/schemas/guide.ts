@@ -19,7 +19,6 @@ export interface Guide {
  */
 export interface GuideContent extends ContentBase {
   type: "guide";
-  html?: string;
   value: Guide;
 }
 

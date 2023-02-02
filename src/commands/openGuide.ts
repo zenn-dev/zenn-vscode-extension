@@ -9,7 +9,10 @@ import { GUIDE_DOCS_META_DATA, GUIDE_DOCS_BASE_URL } from "../variables";
  */
 export const openGuideCommand = (context?: AppContext) => {
   return async (treeItem?: GuideTreeItem): Promise<boolean> => {
-    if (!context) throw new Error("コマンドを実行できません");
+    if (!context) {
+      vscode.window.showErrorMessage("コマンドに失敗しました");
+      return false;
+    }
 
     const guideList = GUIDE_DOCS_META_DATA.map(
       ({ emoji, title }) => `${emoji} ${title}`

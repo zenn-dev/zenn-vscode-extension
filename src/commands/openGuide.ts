@@ -35,12 +35,11 @@ export const openGuideCommand = (context?: AppContext) => {
     if (!selectedGuideDocsMeta) return false;
 
     const { slug, hash } = selectedGuideDocsMeta;
-    const docsUrl = GUIDE_DOCS_BASE_URL.docsUrl;
     const url = (() => {
       if (!hash) {
-        return `${docsUrl}${slug}`;
+        return `${GUIDE_DOCS_BASE_URL}${slug}`;
       } else {
-        return `${docsUrl}${slug}#${hash}`;
+        return `${GUIDE_DOCS_BASE_URL}${slug}#${hash}`;
       }
     })();
 

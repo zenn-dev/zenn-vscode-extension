@@ -41,10 +41,7 @@ export const TREE_VIEW_ID = {
 /**
  * ガイド記事用のベースURL
  */
-export const GUIDE_DOCS_BASE_URL = {
-  docsUrl: "https://zenn.dev/zenn/articles/",
-  apiRoot: "https://zenn.dev/api/articles/",
-};
+export const GUIDE_DOCS_BASE_URL = "https://zenn.dev/zenn/articles/";
 
 /**
  * ガイドのメタデータ

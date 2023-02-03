@@ -47,6 +47,10 @@
         {
           "id": "zenn-books-tree-view",
           "name": "Books"
+        },
+        {
+          "id": "zenn-guides-tree-view",
+          "name": "Guides"
         }
       ]
     },
@@ -96,6 +100,11 @@
         "command": "zenn-preview.new-chapter",
         "title": "Zenn: New Book Chapter",
         "icon": "$(new-file)"
+      },
+      {
+        "command": "zenn-preview.open-guide",
+        "title": "Zenn: Open Guide",
+        "icon": "$(link-external)"
       }
     ],
     "menus": {
@@ -131,6 +140,11 @@
           "command": "zenn-preview.preview-zenn",
           "when": "view == zenn-articles-tree-view && viewItem == article || view == zenn-books-tree-view && viewItem == book || viewItem == bookChapter",
           "group": "inline@2"
+        },
+        {
+          "command": "zenn-preview.open-guide",
+          "when": "view == zenn-guides-tree-view",
+          "group": "inline"
         }
       ]
     },

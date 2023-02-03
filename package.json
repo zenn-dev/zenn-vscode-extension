@@ -132,6 +132,13 @@
           "when": "view == zenn-articles-tree-view && viewItem == article || view == zenn-books-tree-view && viewItem == book || viewItem == bookChapter",
           "group": "inline@2"
         }
+      ],
+      "editor/title": [
+        {
+          "command": "zenn-preview.preview-zenn",
+          "when": "resourceLangId == markdown",
+          "group": "navigation"
+        }
       ]
     },
     "snippets": [

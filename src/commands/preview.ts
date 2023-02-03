@@ -4,7 +4,7 @@ import { AppContext } from "../context/app";
 import { PreviewTreeItem } from "../treeview/previewTreeItem";
 
 /**
- * レビューコマンドの実装
+ * プレビューコマンドの実装
  */
 export const previewCommand = (context?: AppContext) => {
   return (treeItem?: PreviewTreeItem) => {

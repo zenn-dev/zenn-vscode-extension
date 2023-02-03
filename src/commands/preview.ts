@@ -44,14 +44,14 @@ export const previewCommand = (context?: AppContext) => {
         });
       } else {
         return vscode.window.showErrorMessage(
-          "このファイルはZennのリポジトリにありません。"
+          "このファイルはZennリポジトリ内のarticlesフォルダまたはbooksフォルダにありません。"
         );
       }
     }
 
     if (!treeItem?.contentUri) {
       return vscode.window.showErrorMessage(
-        "プレビューできるコンテンツがありませんでした。TreeViewからプレビューするコンテンツを選択するか、Zennリポジトリ内のマークダウンファイルを開いた状態でコマンドを実行してください。"
+        "プレビューできるコンテンツがありませんでした。TreeViewからプレビューするコンテンツを選択するか、Zennリポジトリ内のarticlesフォルダまたはbooksフォルダにあるマークダウンファイルを開いた状態でコマンドを実行してください。"
       );
     }
 

@@ -109,7 +109,8 @@
       },
       {
         "command": "zenn-preview.open-guide",
-        "title": "Zenn: Open Guide",
+        "category": "Zenn",
+        "title": "%open-guide%",
         "icon": "$(link-external)"
       }
     ],

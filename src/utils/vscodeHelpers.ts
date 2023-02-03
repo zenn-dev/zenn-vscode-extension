@@ -28,6 +28,17 @@ export const getFilenameFromUrl = (
 };
 
 /**
+ * Uriから親のディレクトリ名を取得する
+ */
+export const getParentDirectoryNameFromUrl = (
+  uri: string | vscode.Uri
+): string | undefined => {
+  const dirname = toPath(uri).split("/").slice(-2)[0];
+  // toPath()でエンコードされるので、デコードしてから返すようにする
+  return dirname ? decodeURI(dirname) : void 0;
+};
+
+/**
  * 渡された Uri のファイルが存在しているか判定する
  */
 export const isExistsUri = async (uri: vscode.Uri): Promise<boolean> => {

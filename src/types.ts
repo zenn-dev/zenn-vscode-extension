@@ -5,6 +5,7 @@ import {
   BookChapterPreviewContent,
 } from "./schemas/bookChapter";
 import { ContentError } from "./schemas/error";
+import { GuideContent } from "./schemas/guide";
 
 import type * as vscode from "vscode";
 
@@ -21,7 +22,8 @@ export type ContentsType =
   | "book"
   | "bookConfig"
   | "bookCoverImage"
-  | "bookChapter";
+  | "bookChapter"
+  | "guide";
 
 /**
  * コンテンツの基底型
@@ -35,7 +37,11 @@ export interface ContentBase {
 /**
  * コンテンツをまとめたUnion型
  */
-export type Contents = ArticleContent | BookContent | BookChapterContent;
+export type Contents =
+  | ArticleContent
+  | BookContent
+  | BookChapterContent
+  | GuideContent;
 
 /**
  * 取得結果の共通型

@@ -81,26 +81,32 @@ const checkUriCanPreview = (context: AppContext, uri: vscode.Uri): boolean => {
 export const openPreviewPanel = async (context: AppContext, path: string) => {
   const uri = toVSCodeUri(path);
 
-  if (!checkUriCanPreview(context, uri)) {
-    throw new ContentError("プレビューできないコンテンツです");
+  try {
+    if (!checkUriCanPreview(context, uri)) {
+      throw new ContentError("プレビューできないコンテンツです");
+    }
+
+    const cacheKey = context.cache.createKey("previewPanel", uri);
+    const cache = context.cache.getCache(cacheKey);
+    if (cache) return cache.panel.reveal();
+
+    const panel = createWebViewPanel();
+    const content = await loadPreviewContents(context, uri, panel).catch(
+      (err) => console.error(err)
+    );
+
+    if (!content) {
+      panel.dispose();
+      throw new ContentError("コンテンツをプレビューできませんでした");
+    }
+
+    const previewPanel = createPreviewPanel(uri, panel, content);
+    registerPreviewPanel(context, previewPanel);
+  } catch (error: unknown) {
+    if (error instanceof ContentError) {
+      vscode.window.showErrorMessage(error.message);
+    }
   }
-
-  const cacheKey = context.cache.createKey("previewPanel", uri);
-  const cache = context.cache.getCache(cacheKey);
-  if (cache) return cache.panel.reveal();
-
-  const panel = createWebViewPanel();
-  const content = await loadPreviewContents(context, uri, panel).catch((err) =>
-    console.error(err)
-  );
-
-  if (!content) {
-    panel.dispose();
-    throw new ContentError("コンテンツをプレビューできませんでした");
-  }
-
-  const previewPanel = createPreviewPanel(uri, panel, content);
-  registerPreviewPanel(context, previewPanel);
 };
 
 /**

@@ -2,10 +2,6 @@ import * as vscode from "vscode";
 
 import { AppContext } from "../context/app";
 import { PreviewTreeItem } from "../treeview/previewTreeItem";
-import {
-  getFilenameFromUrl,
-  getParentDirectoryNameFromUrl,
-} from "../utils/vscodeHelpers";
 
 /**
  * プレビューコマンドの実装
@@ -14,42 +10,21 @@ export const previewCommand = (context?: AppContext) => {
   return (treeItem?: PreviewTreeItem) => {
     if (!context) {
       return vscode.window.showErrorMessage("コマンドの実行に失敗しました");
+    } else if (treeItem?.canPreview === false) {
+      return vscode.window.showErrorMessage("プレビューできないコンテンツです");
     }
-
-    const activeDocument = vscode.window.activeTextEditor?.document;
 
     // コマンドパレットから実行する場合はアクティブなファイルをプレビューする
-    if (!treeItem?.canPreview && activeDocument?.languageId === "markdown") {
-      const activeFileUri = activeDocument.uri.toString();
-      const activeFileName = getFilenameFromUrl(activeFileUri) || "";
-      const parentDirName = getParentDirectoryNameFromUrl(activeFileUri) || "";
+    const activeDocumentUri =
+      vscode.window.activeTextEditor?.document.uri.toString();
 
-      const uriAsArticle = vscode.Uri.joinPath(
-        context.articlesFolderUri,
-        activeFileName
-      ).toString();
-      const uriAsBookChapter = vscode.Uri.joinPath(
-        context.booksFolderUri,
-        parentDirName,
-        activeFileName
-      ).toString();
+    // TreeView から実行する場合は選択された TreeItem が対応するファイルをプレビューする
+    const treeItemContentUri = treeItem?.contentUri?.toString();
 
-      if (
-        activeFileUri === uriAsArticle ||
-        activeFileUri === uriAsBookChapter
-      ) {
-        return context.dispatchContentsEvent({
-          type: "open-preview-panel",
-          payload: { path: activeFileUri },
-        });
-      } else {
-        return vscode.window.showErrorMessage(
-          "このファイルはZennリポジトリ内のarticlesフォルダまたはbooksフォルダにありません。"
-        );
-      }
-    }
+    // プレビューするコンテンツの Uri 文字列
+    const previewContentUri = treeItemContentUri || activeDocumentUri;
 
-    if (!treeItem?.contentUri) {
+    if (!previewContentUri) {
       return vscode.window.showErrorMessage(
         "プレビューできるコンテンツがありませんでした。TreeViewからプレビューするコンテンツを選択するか、Zennリポジトリ内のarticlesフォルダまたはbooksフォルダにあるマークダウンファイルを開いた状態でコマンドを実行してください。"
       );
@@ -58,7 +33,7 @@ export const previewCommand = (context?: AppContext) => {
     // TreeView からのボタンクリック
     return context.dispatchContentsEvent({
       type: "open-preview-panel",
-      payload: { path: treeItem.contentUri.toString() },
+      payload: { path: previewContentUri },
     });
   };
 };

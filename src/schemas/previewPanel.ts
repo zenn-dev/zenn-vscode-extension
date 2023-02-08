@@ -7,7 +7,7 @@ import { ContentError } from "./error";
 
 import { PreviewPanelCacheKey } from "../contentsCache";
 import { AppContext } from "../context/app";
-import { PreviewContents, PreviewEvent } from "../types";
+import { ContentsType, PreviewContents, PreviewEvent } from "../types";
 import { createWebviewHtml, getWebviewSrc } from "../utils/panel";
 import {
   toPath,
@@ -59,10 +59,31 @@ export const createPreviewPanel = (
 };
 
 /**
+ * プレビュー可能な Uri か判別する
+ */
+const checkUriCanPreview = (context: AppContext, uri: vscode.Uri): boolean => {
+  const type = context.getContentsType(uri);
+  const canPreviewContentsType: ContentsType[] = [
+    "article",
+    "book",
+    "bookChapter",
+  ];
+
+  if (!type || !canPreviewContentsType.includes(type)) {
+    return false;
+  }
+  return true;
+};
+
+/**
  * プレビューパネルを表示する
  */
 export const openPreviewPanel = async (context: AppContext, path: string) => {
   const uri = toVSCodeUri(path);
+
+  if (!checkUriCanPreview(context, uri)) {
+    throw new ContentError("プレビューできないコンテンツです");
+  }
 
   const cacheKey = context.cache.createKey("previewPanel", uri);
   const cache = context.cache.getCache(cacheKey);

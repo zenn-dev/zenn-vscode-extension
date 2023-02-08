@@ -18,7 +18,20 @@ export class BookChapterTreeItem extends PreviewTreeItem {
 
     this.canPreview = true;
     this.contextValue = "bookChapter";
-    this.label = content.value.title || void 0; // undefined の場合はファイル名が表示される
+
+    // 設定からチャプタータイトルにチャプター番号をプリフィクスするかどうかを決定
+    const isShownChapterNumber = vscode.workspace
+      .getConfiguration("zenn-preview")
+      .get<boolean>("showChapterNumber");
+    const chapterNumberLabel = (() => {
+      if (typeof meta.position === "number" && isShownChapterNumber) {
+        return `${meta.position + 1}. `;
+      } else {
+        return "";
+      }
+    })();
+
+    this.label = chapterNumberLabel + (content.value.title || content.filename);
     this.iconPath = new vscode.ThemeIcon("file");
     this.command = {
       command: "vscode.open",

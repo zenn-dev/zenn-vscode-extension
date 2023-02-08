@@ -29,6 +29,14 @@ Zenn のコンテンツ(`articles/**.md`, `books/**`)があるワークスペー
 
 ![](https://user-images.githubusercontent.com/97154037/200181486-d18012e8-a86b-4a11-a2ba-2c3272fe9dc0.gif)
 
+### チャプター番号による並べ替え
+
+BOOKS セクションのチャプターファイルは `config.yaml` や `n.slug.md` のフォーマットで設定したチャプターの順番で並べ替えることができます。並べ替えの設定を有効化するには「設定 → Zenn Preview → Sort By Chapter Number」から設定項目をチェックして下さい。
+
+![並び替えの設定項目](https://user-images.githubusercontent.com/50942816/217654314-34a98eb4-ab8d-4d12-9a76-02be50cbd379.jpg)
+
+更に「Show Chapter Number」 の設定を有効化することでチャプターファイルの表示にチャプター番号をプレフィックスすることが可能です。
+
 ### コンテンツの新規作成
 
 新規作成ボタンからコンテンツのテンプレートを作成できます。

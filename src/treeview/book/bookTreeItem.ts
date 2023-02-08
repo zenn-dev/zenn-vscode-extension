@@ -56,6 +56,14 @@ export class BookTreeItem extends PreviewTreeItem {
       })
     );
 
+    // 設定によりチャプター番号でソートするかファイル名でソートするかを決定
+    const isSortedByChapterNumber = vscode.workspace
+      .getConfiguration("zenn-preview")
+      .get<boolean>("sortByChapterNumber");
+    const sortedItems = isSortedByChapterNumber
+      ? chapterTreeItems
+      : PreviewTreeItem.sortTreeItems(chapterTreeItems);
+
     return [
       // 設定ファイルのTreeItem
       !ContentError.isError(configUri)
@@ -68,7 +76,7 @@ export class BookTreeItem extends PreviewTreeItem {
         : this.createErrorTreeItem("カバー画像がありません"),
 
       // チャプターのTreeItem一覧
-      ...PreviewTreeItem.sortTreeItems(chapterTreeItems),
+      ...sortedItems,
     ].filter((v): v is ChildTreeItem => !!v);
   }
 }

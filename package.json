@@ -153,7 +153,17 @@
         "language": "markdown",
         "path": "./snippets/snippets.json"
       }
-    ]
+    ],
+    "configuration": {
+      "title": "Zenn Preview",
+      "properties": {
+        "zenn-preview.sortByChapterNumber": {
+          "type": "boolean",
+          "default": false,
+          "markdownDescription": "ツリービューに表示されるチャプターファイルをチャプター番号で並び替えるかどうかを制御します。"
+        }
+      }
+    }
   },
   "scripts": {
     "publish:vsce": "yes | vsce publish",

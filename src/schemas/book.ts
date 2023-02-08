@@ -92,6 +92,7 @@ const getBookChapterUris = (
  */
 export const createBookChapterMeta = (
   uri: vscode.Uri,
+  chapterFilenames: string[],
   slugList?: string[] | null
 ): BookChapterMeta | null => {
   const slug = getFilenameFromUrl(uri)?.replace(/\.md$/, "");
@@ -110,7 +111,23 @@ export const createBookChapterMeta = (
 
   //`n.slug.md`のファイル名から`slug`と`position`を取得する
   const split = slug.split(".");
-  const position = Number(split[0]);
+  const positionFromFileName = Number(split[0]);
+
+  // チャプターファイル全体から相対的な位置を決定する
+  const numberDotFileIndexes = chapterFilenames
+    .filter((chapterFilename) => {
+      const splitedName = chapterFilename.split(".");
+      // ["example", "md"] や ["9", ""md"] のようなファイルは除去
+      if (!Number.isNaN(splitedName[0]) && splitedName.length >= 3) {
+        return true;
+      }
+    })
+    .map((numberDotFileName) => {
+      return Number(numberDotFileName.split(".")[0]);
+    });
+  const position = numberDotFileIndexes.findIndex((index) => {
+    return positionFromFileName === index;
+  });
 
   return split.length === 2 && Number.isInteger(position)
     ? { uri, position, slug: split[1], isExcluded: false }
@@ -125,6 +142,7 @@ const loadBook = async (uri: vscode.Uri): Promise<BookContent> => {
   const filename = getFilenameFromUrl(uri) || "";
   const isConfigError = ContentError.isError(config);
   const chapters = !isConfigError ? config.value.chapters : [];
+  const chapterFilenames = files.map(([chapterFilename]) => chapterFilename);
 
   return {
     uri,
@@ -137,7 +155,7 @@ const loadBook = async (uri: vscode.Uri): Promise<BookContent> => {
       slug: filename.replace(".md", ""),
     },
     chapters: getBookChapterUris(uri, files)
-      .map((uri) => createBookChapterMeta(uri, chapters))
+      .map((uri) => createBookChapterMeta(uri, chapterFilenames, chapters))
       .filter((v): v is BookChapterMeta => !!v)
       .sort((a, b) => {
         return (

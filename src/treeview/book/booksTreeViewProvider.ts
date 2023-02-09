@@ -33,17 +33,22 @@ export class BooksTreeViewProvider implements TreeDataProvider {
   async getChildren(element?: PreviewTreeItem): Promise<ChildTreeItem[]> {
     if (element) return element.getChildren();
 
-    const bookContents = await loadBookContents(
-      this.context,
-      this.forceRefresh
-    );
+    try {
+      const bookContents = await loadBookContents(
+        this.context,
+        this.forceRefresh
+      );
 
-    const treeItems = bookContents.map((result) =>
-      ContentError.isError(result)
-        ? new PreviewTreeErrorItem(this.context, result)
-        : new BookTreeItem(this.context, result)
-    );
+      const treeItems = bookContents.map((result) =>
+        ContentError.isError(result)
+          ? new PreviewTreeErrorItem(this.context, result)
+          : new BookTreeItem(this.context, result)
+      );
 
-    return PreviewTreeItem.sortTreeItems(treeItems);
+      return PreviewTreeItem.sortTreeItems(treeItems);
+    } catch {
+      console.error("booksフォルダ内にコンテンツが見つかりませんでした");
+      return [];
+    }
   }
 }

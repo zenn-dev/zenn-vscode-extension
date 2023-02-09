@@ -18,19 +18,23 @@ export const generateBookChapterTemplate = () =>
 export const createBookChapterFile = async (
   filename: string,
   bookUri: vscode.Uri
-): Promise<void> => {
+): Promise<vscode.Uri> => {
   const templateText = generateBookChapterTemplate();
   const chapterText = new TextEncoder().encode(templateText);
   const chapterUri = vscode.Uri.joinPath(bookUri, `${filename}.md`);
 
   await vscode.workspace.fs.writeFile(chapterUri, chapterText);
+
+  return chapterUri;
 };
 
 /**
  * チャプターの新規作成コマンドの実装
  */
 export const newChapterCommand = (context?: AppContext) => {
-  const generator = async (treeItem?: BookTreeItem): Promise<boolean> => {
+  const generator = async (
+    treeItem?: BookTreeItem
+  ): Promise<vscode.Uri | null> => {
     if (!context) throw new Error("コマンドを実行できません");
 
     const selectedBookFolder = treeItem?.contentUri
@@ -49,7 +53,7 @@ export const newChapterCommand = (context?: AppContext) => {
             });
           });
 
-    if (!selectedBookFolder) return false;
+    if (!selectedBookFolder) return null;
 
     // チャプタースラグの作成
     const chapterSlug = await vscode.window.showInputBox({
@@ -73,7 +77,7 @@ export const newChapterCommand = (context?: AppContext) => {
     });
 
     // チャプタースラグが不正やすでに存在している場合は失敗
-    if (!chapterSlug) return false;
+    if (!chapterSlug) return null;
 
     const bookUri = vscode.Uri.joinPath(
       context.booksFolderUri,
@@ -81,20 +85,26 @@ export const newChapterCommand = (context?: AppContext) => {
     );
 
     // ファイルを作成する
-    await createBookChapterFile(chapterSlug, bookUri);
+    const fileUri = await createBookChapterFile(chapterSlug, bookUri);
 
-    return true;
+    return fileUri;
   };
 
   return (treeItem?: BookTreeItem) => {
     generator(treeItem)
-      .then((isCreated) => {
-        if (isCreated) {
+      .then((fileUri) => {
+        if (fileUri) {
           vscode.window.showInformationMessage("チャプターを作成しました");
+          return fileUri;
         }
       })
       .catch(() => {
         vscode.window.showErrorMessage("チャプターの作成に失敗しました");
+      })
+      .then((fileUri) => {
+        if (fileUri) {
+          vscode.window.showTextDocument(fileUri);
+        }
       });
   };
 };

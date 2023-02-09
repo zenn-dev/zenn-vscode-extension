@@ -23,7 +23,7 @@ const generateArticleTemplate = () =>
  * 記事の新規作成コマンドの実装
  */
 export const newArticleCommand = (context?: AppContext) => {
-  const generator = async (): Promise<boolean> => {
+  const generator = async (): Promise<vscode.Uri | null> => {
     if (!context) throw new Error("コマンドを実行できません");
 
     const aritcleSlug = await vscode.window.showInputBox({
@@ -46,7 +46,7 @@ export const newArticleCommand = (context?: AppContext) => {
       },
     });
 
-    if (!aritcleSlug) return false;
+    if (!aritcleSlug) return null;
 
     const { articlesFolderUri } = context;
     const text = new TextEncoder().encode(generateArticleTemplate());
@@ -57,18 +57,24 @@ export const newArticleCommand = (context?: AppContext) => {
 
     await vscode.workspace.fs.writeFile(fileUri, text);
 
-    return true;
+    return fileUri;
   };
 
   return () => {
     generator()
-      .then((isCreated) => {
-        if (isCreated) {
+      .then((fileUri) => {
+        if (fileUri) {
           vscode.window.showInformationMessage("記事を作成しました");
+          return fileUri;
         }
       })
       .catch(() => {
         vscode.window.showErrorMessage("記事の作成に失敗しました");
+      })
+      .then((fileUri) => {
+        if (fileUri) {
+          vscode.window.showTextDocument(fileUri);
+        }
       });
   };
 };

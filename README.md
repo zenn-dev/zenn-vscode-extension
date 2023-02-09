@@ -29,6 +29,10 @@ Zenn のコンテンツ(`articles/**.md`, `books/**`)があるワークスペー
 
 ![](https://user-images.githubusercontent.com/97154037/200181486-d18012e8-a86b-4a11-a2ba-2c3272fe9dc0.gif)
 
+現在開いているマークダウンファイルが Zenn のリポジトリ内の `articles` フォルダまたは `books` フォルダに存在している場合には、コマンドパレットから `Zenn: Preview Contents` を実行するか、エディタタイトル上のプレビューボタンをクリックすることでもプレビューができます。
+
+![](https://user-images.githubusercontent.com/50942816/216569874-fadeeadb-a965-47ac-a7ac-1e605fcacd84.png)
+
 ### チャプター番号による並べ替え
 
 BOOKS セクションのチャプターファイルは `config.yaml` や `n.slug.md` のフォーマットで設定したチャプターの順番で並べ替えることができます。並べ替えの設定を有効化するには「設定 → Zenn Preview → Sort By Chapter Number」から設定項目をチェックして下さい。

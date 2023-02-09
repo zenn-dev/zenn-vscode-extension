@@ -29,6 +29,10 @@ Zenn のコンテンツ(`articles/**.md`, `books/**`)があるワークスペー
 
 ![](https://user-images.githubusercontent.com/97154037/200181486-d18012e8-a86b-4a11-a2ba-2c3272fe9dc0.gif)
 
+現在開いているマークダウンファイルが Zenn のリポジトリ内の `articles` フォルダまたは `books` フォルダに存在している場合には、コマンドパレットから `Zenn: Preview Contents` を実行するか、エディタタイトル上のプレビューボタンをクリックすることでもプレビューができます。
+
+![](https://user-images.githubusercontent.com/50942816/216569874-fadeeadb-a965-47ac-a7ac-1e605fcacd84.png)
+
 ### コンテンツの新規作成
 
 新規作成ボタンからコンテンツのテンプレートを作成できます。

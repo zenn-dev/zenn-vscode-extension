@@ -16,6 +16,8 @@ export class ArticleTreeItem extends PreviewTreeItem {
 
     const published = content.value.published;
 
+    this.contentUri = content.uri;
+
     this.label = getArticleTitle({
       emoji: content.value.emoji,
       title: content.value.title,

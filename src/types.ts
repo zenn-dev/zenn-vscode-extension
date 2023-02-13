@@ -83,7 +83,7 @@ export type ContentsEvent =
  * プレビューするための基本データ型
  */
 export interface PreviewContentBase {
-  path: string;
+  fullPath: string;
   filename: string;
   panelTitle: string;
   type: ContentsType;

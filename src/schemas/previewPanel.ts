@@ -9,11 +9,7 @@ import { PreviewPanelCacheKey } from "../contentsCache";
 import { AppContext } from "../context/app";
 import { ContentsType, PreviewContents, PreviewEvent } from "../types";
 import { createWebviewHtml, getWebviewSrc } from "../utils/panel";
-import {
-  toPath,
-  toVSCodeUri,
-  createWebViewPanel,
-} from "../utils/vscodeHelpers";
+import { toVSCodeUri, createWebViewPanel } from "../utils/vscodeHelpers";
 
 export interface PreviewPanel {
   uri: vscode.Uri;
@@ -54,7 +50,7 @@ export const createPreviewPanel = (
     uri,
     panel,
     defaultContent,
-    cacheKey: `previewPanel:${toPath(uri)}`,
+    cacheKey: `previewPanel:${uri.path}`,
   };
 };
 

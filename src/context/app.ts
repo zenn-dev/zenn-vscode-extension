@@ -7,6 +7,7 @@ import {
   BOOK_CONFIG_FILE_PATTERN,
   BOOK_COVER_IMAGE_FILE_PATTERN,
 } from "../utils/patterns";
+import { toFullPath } from "../utils/vscodeHelpers";
 
 type EventCallback = (event: ContentsEvent) => void;
 
@@ -58,7 +59,7 @@ export const createAppContext = (
      * @note slug が不正でも ContentsType を取得したい場合があるため、slug は考慮されていません
      */
     getContentsType: (uri: vscode.Uri): ContentsType | undefined => {
-      const path = uri.toString();
+      const path = toFullPath(uri); // schemeを含む完全なパス文字列を使用する
 
       if (uriPatterns.article.test(path)) return "article";
       if (uriPatterns.book.test(path)) return "book";

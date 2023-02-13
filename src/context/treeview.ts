@@ -27,8 +27,63 @@ export const initializeTreeView = (
     treeDataProvider: guideTreeViewProvider,
   });
 
+  const revealTreeItem = async (uri: vscode.Uri, force?: boolean) => {
+    const type = context.getContentsType(uri);
+
+    if (!type) return;
+
+    if (type === "article") {
+      const articleTreeItem = articlesTreeViewProvider.getTreeItemFromUri(uri);
+
+      if (!articleTreeItem) {
+        vscode.window.showErrorMessage(
+          "ツリービューアイテムの初期化が完了していないため、ファイルをツリービュー上で表示できませんでした"
+        );
+        return;
+      }
+
+      // ビューセクションが開いている場合か、強制する場合に reveal する
+      if (articleTreeView.visible || force) {
+        await articleTreeView.reveal(articleTreeItem);
+      }
+      return;
+    }
+
+    const bookTreeItem = booksTreeViewProvider.getTreeItemFromChildFileUri(uri);
+    if (!bookTreeItem) {
+      return vscode.window.showErrorMessage(
+        "ツリービューアイテムの初期化が完了していないため、ファイルをツリービュー上で表示できませんでした"
+      );
+    }
+
+    // ビューセクションが開いている場合か、強制する場合に BookTreeItem の展開を行う
+    if (bookTreeView.visible || force) {
+      await bookTreeView.reveal(bookTreeItem, {
+        select: false,
+        expand: true,
+      });
+    }
+
+    // NOTE: 画像ファイルを開くのは custom editor であり、アクティブかどうかをグローバルで監視する API が公開されていないため bookCoverImage については TreeItem を reveal できない
+    switch (type) {
+      case "bookConfig":
+        const bookConfigTreeItem =
+          booksTreeViewProvider.getChildTreeItemFromChildFileUri(uri);
+        if (!bookConfigTreeItem) break;
+        await bookTreeView.reveal(bookConfigTreeItem);
+        break;
+
+      case "bookChapter":
+        const chapterTreeItem =
+          booksTreeViewProvider.getChildTreeItemFromChildFileUri(uri);
+        if (!chapterTreeItem) break;
+        await bookTreeView.reveal(chapterTreeItem);
+        break;
+    }
+  };
+
   return [
-    listenContentsEvent((event) => {
+    listenContentsEvent(async (event) => {
       switch (event.type) {
         case "refresh":
           articlesTreeViewProvider.reload();
@@ -53,6 +108,12 @@ export const initializeTreeView = (
           else if (type === "bookChapter") booksTreeViewProvider.reload();
           break;
         }
+
+        case "reveal": {
+          const { uri, force } = event.payload;
+          await revealTreeItem(uri, force);
+          break;
+        }
       }
     }),
 
@@ -69,49 +130,7 @@ export const initializeTreeView = (
       if (!event || !event.document) return;
 
       const documentUri = event.document.uri;
-      const type = context.getContentsType(documentUri);
-
-      if (!type) return;
-
-      if (type === "article") {
-        const articleTreeItem =
-          articlesTreeViewProvider.getTreeItemFromUri(documentUri);
-
-        // ビューのセクションが開いていない時は reveal しない
-        if (!articleTreeItem || !articleTreeView.visible) return;
-
-        await articleTreeView.reveal(articleTreeItem);
-        return;
-      }
-
-      const bookTreeItem =
-        booksTreeViewProvider.getTreeItemFromChildFileUri(documentUri);
-
-      // ビューのセクションが開いていない時は reveal しない
-      if (!bookTreeItem || !bookTreeView.visible) return;
-
-      // BookTreeItem を展開だけする
-      await bookTreeView.reveal(bookTreeItem, {
-        select: false,
-        expand: true,
-      });
-
-      // NOTE: 画像ファイルを開くのは custom editor であり、アクティブかどうかをグローバルで監視する API が公開されていないため bookCoverImage については TreeItem を reveal できない
-      switch (type) {
-        case "bookConfig":
-          const bookConfigTreeItem =
-            booksTreeViewProvider.getChildTreeItemFromChildFileUri(documentUri);
-          if (!bookConfigTreeItem) break;
-          await bookTreeView.reveal(bookConfigTreeItem);
-          break;
-
-        case "bookChapter":
-          const chapterTreeItem =
-            booksTreeViewProvider.getChildTreeItemFromChildFileUri(documentUri);
-          if (!chapterTreeItem) break;
-          await bookTreeView.reveal(chapterTreeItem);
-          break;
-      }
+      await revealTreeItem(documentUri);
     }),
   ];
 };

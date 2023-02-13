@@ -27,6 +27,9 @@ export const APP_COMMAND = {
 
   /* ガイドを開く */
   OPEN_GUIDE: pkg.contributes.commands[6].command,
+
+  /* ガイドを開く */
+  REVEAL_FILE: pkg.contributes.commands[7].command,
 } as const;
 
 /**

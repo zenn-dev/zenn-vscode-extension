@@ -112,6 +112,11 @@
         "category": "Zenn",
         "title": "%open-guide%",
         "icon": "$(link-external)"
+      },
+      {
+        "command": "zenn-preview.reveal-file",
+        "category": "Zenn",
+        "title": "%reveal-file%"
       }
     ],
     "menus": {

@@ -11,7 +11,7 @@ import { EMOJI_REGEX, FRONT_MATTER_PATTERN } from "../utils/patterns";
 import {
   getFilenameFromUrl,
   openTextDocument,
-  toPath,
+  toFullPath,
 } from "../utils/vscodeHelpers";
 
 /**
@@ -143,7 +143,7 @@ export const loadArticlePreviewContent = async (
   return {
     type: "article",
     article: article.value,
-    path: toPath(uri),
+    fullPath: toFullPath(uri),
     filename: article.filename,
     html: markdownToHtml(article.markdown, panel),
     panelTitle: `${

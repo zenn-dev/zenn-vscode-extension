@@ -6,7 +6,7 @@
  * ===================================================================
  */
 
-import { load as parseYaml } from "js-yaml";
+import { JSON_SCHEMA, load as parseYaml } from "js-yaml";
 
 import { FRONT_MATTER_PATTERN, PUBLISHED_AT_PATTERN } from "./patterns";
 
@@ -52,7 +52,9 @@ export const parseFrontMatter = (
   text: string
 ): { [key: string]: string | undefined } => {
   const meta = FRONT_MATTER_PATTERN.exec(text)?.[2];
-  const result = meta ? parseYaml(meta) : {};
+
+  // NOTE: yamlのtimestampフィールドを自動的にDateに変換されないように(published_at などの値を文字列として扱えるように)オプションを指定する
+  const result = meta ? parseYaml(meta, { schema: JSON_SCHEMA }) : {};
 
   if (typeof result !== "object") return {};
   if (Array.isArray(result)) return {};

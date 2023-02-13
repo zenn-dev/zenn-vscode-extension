@@ -11,6 +11,7 @@
 - [Zenn のフォーマット](https://zenn.dev/zenn/articles/markdown-guide)で書かれたコンテンツをプレビューします
 - 記事や本のテンプレートを VSCode 上で新規作成できます
 - Zenn 独自の記法のスニペットを追加します
+- Zenn のガイド記事の一覧を表示します
 
 ## 使い方
 
@@ -28,6 +29,10 @@ Zenn のコンテンツ(`articles/**.md`, `books/**`)があるワークスペー
 
 ![](https://user-images.githubusercontent.com/97154037/200181486-d18012e8-a86b-4a11-a2ba-2c3272fe9dc0.gif)
 
+現在開いているマークダウンファイルが Zenn のリポジトリ内の `articles` フォルダまたは `books` フォルダに存在している場合には、コマンドパレットから `Zenn: Preview Contents` を実行するか、エディタタイトル上のプレビューボタンをクリックすることでもプレビューができます。
+
+![](https://user-images.githubusercontent.com/50942816/216569874-fadeeadb-a965-47ac-a7ac-1e605fcacd84.png)
+
 ### コンテンツの新規作成
 
 新規作成ボタンからコンテンツのテンプレートを作成できます。
@@ -39,6 +44,14 @@ Zenn のコンテンツ(`articles/**.md`, `books/**`)があるワークスペー
 #### 本の場合
 
 ![本のサイドパネルヘッダー部分にボタンがあります](https://user-images.githubusercontent.com/97154037/200182143-0d1469f0-b5f8-425f-aeb3-120a5b9c7b7e.png)
+
+### ガイド記事の一覧表示
+
+Zenn のガイド記事の一覧を表示できます。
+
+GUIDES セクションのガイド記事一覧からボタンをクリックするか、コマンドパレットから `Zenn: Open Guide` のコマンドを実行することでガイド記事にアクセスできます。
+
+![ガイドのサイドパネルの子要素部分にボタンがあります](https://user-images.githubusercontent.com/50942816/216094321-ef951df3-5dea-4a3d-82c6-f3b4c8a387d1.jpg)
 
 ## スニペットを有効にする方法
 

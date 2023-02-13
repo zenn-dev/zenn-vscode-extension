@@ -1,3 +1,5 @@
+import { GuideDocsMeta } from "./schemas/guide";
+
 import * as pkg from "../package.json";
 
 /** この拡張機能のID */
@@ -22,6 +24,9 @@ export const APP_COMMAND = {
 
   /** チャプターの新規作成 */
   NEW_CHAPTER: pkg.contributes.commands[5].command,
+
+  /* ガイドを開く */
+  OPEN_GUIDE: pkg.contributes.commands[6].command,
 } as const;
 
 /**
@@ -30,4 +35,45 @@ export const APP_COMMAND = {
 export const TREE_VIEW_ID = {
   ARTICLES: pkg.contributes.views["zenn-preview"][0].id,
   BOOKS: pkg.contributes.views["zenn-preview"][1].id,
+  GUIDES: pkg.contributes.views["zenn-preview"][2].id,
 } as const;
+
+/**
+ * ガイド記事用のベースURL
+ */
+export const GUIDE_DOCS_BASE_URL = "https://zenn.dev/zenn/articles/";
+
+/**
+ * ガイドのメタデータ
+ */
+export const GUIDE_DOCS_META_DATA: GuideDocsMeta[] = [
+  {
+    title: "記事の作成ガイド",
+    slug: "zenn-cli-guide",
+    hash: "cli-で記事（article）を管理する",
+    emoji: "📝",
+  },
+  {
+    title: "本の作成ガイド",
+    slug: "zenn-cli-guide",
+    hash: "cli-で本（book）を管理する",
+    emoji: "📚",
+  },
+  {
+    title: "画像管理ガイド",
+    slug: "deploy-github-images",
+    emoji: "🏞",
+    isBeta: true,
+  },
+  {
+    title: "github.devでの編集ガイド",
+    slug: "usage-github-dev",
+    emoji: "🚀",
+    isBeta: true,
+  },
+  {
+    title: "マークダウン記法",
+    slug: "markdown-guide",
+    emoji: "🖋️",
+  },
+];

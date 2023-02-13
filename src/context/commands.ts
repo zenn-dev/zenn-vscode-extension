@@ -5,6 +5,7 @@ import { AppContext } from "./app";
 import { newArticleCommand } from "../commands/newArticle";
 import { newBookCommand } from "../commands/newBook";
 import { newChapterCommand } from "../commands/newChapter";
+import { openGuideCommand } from "../commands/openGuide";
 import { previewCommand } from "../commands/preview";
 import { refreshArticlesCommand } from "../commands/refreshArticles";
 import { refreshBooksCommand } from "../commands/refreshBooks";
@@ -51,6 +52,12 @@ export const initializeCommands = (
     vscode.commands.registerCommand(
       APP_COMMAND.NEW_CHAPTER,
       newChapterCommand(context)
+    ),
+
+    // ガイドを開く
+    vscode.commands.registerCommand(
+      APP_COMMAND.OPEN_GUIDE,
+      openGuideCommand(context)
     ),
   ];
 };

@@ -7,13 +7,9 @@ import { ContentError } from "./error";
 
 import { PreviewPanelCacheKey } from "../contentsCache";
 import { AppContext } from "../context/app";
-import { PreviewContents, PreviewEvent } from "../types";
+import { ContentsType, PreviewContents, PreviewEvent } from "../types";
 import { createWebviewHtml, getWebviewSrc } from "../utils/panel";
-import {
-  toPath,
-  toVSCodeUri,
-  createWebViewPanel,
-} from "../utils/vscodeHelpers";
+import { toVSCodeUri, createWebViewPanel } from "../utils/vscodeHelpers";
 
 export interface PreviewPanel {
   uri: vscode.Uri;
@@ -54,8 +50,25 @@ export const createPreviewPanel = (
     uri,
     panel,
     defaultContent,
-    cacheKey: `previewPanel:${toPath(uri)}`,
+    cacheKey: `previewPanel:${uri.path}`,
   };
+};
+
+/**
+ * プレビュー可能な Uri か判別する
+ */
+const checkUriCanPreview = (context: AppContext, uri: vscode.Uri): boolean => {
+  const type = context.getContentsType(uri);
+  const canPreviewContentsType: ContentsType[] = [
+    "article",
+    "book",
+    "bookChapter",
+  ];
+
+  if (!type || !canPreviewContentsType.includes(type)) {
+    return false;
+  }
+  return true;
 };
 
 /**
@@ -64,22 +77,32 @@ export const createPreviewPanel = (
 export const openPreviewPanel = async (context: AppContext, path: string) => {
   const uri = toVSCodeUri(path);
 
-  const cacheKey = context.cache.createKey("previewPanel", uri);
-  const cache = context.cache.getCache(cacheKey);
-  if (cache) return cache.panel.reveal();
+  try {
+    if (!checkUriCanPreview(context, uri)) {
+      throw new ContentError("プレビューできないコンテンツです");
+    }
 
-  const panel = createWebViewPanel();
-  const content = await loadPreviewContents(context, uri, panel).catch((err) =>
-    console.error(err)
-  );
+    const cacheKey = context.cache.createKey("previewPanel", uri);
+    const cache = context.cache.getCache(cacheKey);
+    if (cache) return cache.panel.reveal();
 
-  if (!content) {
-    panel.dispose();
-    throw new ContentError("コンテンツをプレビューできませんでした");
+    const panel = createWebViewPanel();
+    const content = await loadPreviewContents(context, uri, panel).catch(
+      (err) => console.error(err)
+    );
+
+    if (!content) {
+      panel.dispose();
+      throw new ContentError("コンテンツをプレビューできませんでした");
+    }
+
+    const previewPanel = createPreviewPanel(uri, panel, content);
+    registerPreviewPanel(context, previewPanel);
+  } catch (error: unknown) {
+    if (error instanceof ContentError) {
+      vscode.window.showErrorMessage(error.message);
+    }
   }
-
-  const previewPanel = createPreviewPanel(uri, panel, content);
-  registerPreviewPanel(context, previewPanel);
 };
 
 /**

@@ -12,7 +12,7 @@ import { FRONT_MATTER_PATTERN } from "../utils/patterns";
 import {
   openTextDocument,
   getFilenameFromUrl,
-  toPath,
+  toFullPath,
 } from "../utils/vscodeHelpers";
 
 /**
@@ -46,7 +46,7 @@ export interface BookChapterPreviewContent extends PreviewContentBase {
   type: "bookChapter";
   html: string;
   book: Book;
-  bookPath: string;
+  bookFullPath: string;
   bookFilename: string;
   chapter: BookChapter;
 }
@@ -113,9 +113,9 @@ export const loadBookChapterPreviewContent = async (
     type: "bookChapter",
     book: book.value,
     chapter: chapter.value,
-    path: toPath(chapter.uri),
+    fullPath: toFullPath(chapter.uri),
     filename: chapter.filename,
-    bookPath: toPath(book.uri),
+    bookFullPath: toFullPath(book.uri),
     bookFilename: book.filename,
     html: markdownToHtml(chapter.markdown, panel),
     panelTitle: `${

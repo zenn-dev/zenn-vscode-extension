@@ -3,6 +3,7 @@ import * as vscode from "vscode";
 import { AppContext } from "../context/app";
 import { ArticlesTreeViewProvider } from "../treeview/article/articlesTreeViewProvider";
 import { BooksTreeViewProvider } from "../treeview/book/booksTreeViewProvider";
+import { GuideTreeViewProvider } from "../treeview/guide/guideTreeViewProvider";
 import { TREE_VIEW_ID } from "../variables";
 
 /**
@@ -14,6 +15,7 @@ export const initializeTreeView = (
   const { listenContentsEvent } = context;
   const booksTreeViewProvider = new BooksTreeViewProvider(context);
   const articlesTreeViewProvider = new ArticlesTreeViewProvider(context);
+  const guideTreeViewProvider = new GuideTreeViewProvider(context);
 
   return [
     listenContentsEvent((event) => {
@@ -52,6 +54,11 @@ export const initializeTreeView = (
     // 本のTreeView
     vscode.window.createTreeView(TREE_VIEW_ID.BOOKS, {
       treeDataProvider: booksTreeViewProvider,
+    }),
+
+    // ガイドのTreeView
+    vscode.window.createTreeView(TREE_VIEW_ID.GUIDES, {
+      treeDataProvider: guideTreeViewProvider,
     }),
   ];
 };

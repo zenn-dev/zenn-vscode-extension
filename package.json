@@ -165,7 +165,7 @@
         "zenn-preview.showChapterNumber": {
           "type": "boolean",
           "default": false,
-          "markdownDescription": "ツリービューに表示されるチャプターファイルの表示にチャプター番号をプリフィクスするかどうかを制御します。"
+          "markdownDescription": "ツリービューに表示されるチャプターファイルの表示にチャプター番号をプリフィクスするかどうかを制御します。除外されているチャプターの表示には `(除外)` がプリフィクスされます。"
         }
       }
     }

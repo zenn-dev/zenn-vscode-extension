@@ -141,8 +141,8 @@ const loadBook = async (uri: vscode.Uri): Promise<BookContent> => {
       .filter((v): v is BookChapterMeta => !!v)
       .sort((a, b) => {
         return (
-          Number(a.position === null ? 999 : a.position) -
-          Number(b.position === null ? 999 : b.position)
+          Number(a.position === null ? Infinity : a.position) -
+          Number(b.position === null ? Infinity : b.position)
         );
       }),
   };

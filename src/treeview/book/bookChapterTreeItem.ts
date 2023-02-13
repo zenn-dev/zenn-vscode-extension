@@ -12,7 +12,8 @@ export class BookChapterTreeItem extends PreviewTreeItem {
   constructor(
     context: AppContext,
     meta: BookChapterMeta,
-    content: BookChapterContent
+    content: BookChapterContent,
+    prefixNumber: number
   ) {
     super(context, content, vscode.TreeItemCollapsibleState.None);
 
@@ -27,7 +28,7 @@ export class BookChapterTreeItem extends PreviewTreeItem {
       if (!isShownChapterPrefix) {
         return "";
       } else if (typeof meta.position === "number") {
-        return `${meta.position + 1}. `;
+        return `${prefixNumber}. `;
       } else {
         return "(除外) ";
       }

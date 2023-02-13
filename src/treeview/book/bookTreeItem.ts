@@ -47,12 +47,12 @@ export class BookTreeItem extends PreviewTreeItem {
 
     // チャプターのTreeItemを作成
     const chapterTreeItems = await Promise.all(
-      this.bookContent.chapters.map(async (meta) => {
+      this.bookContent.chapters.map(async (meta, index) => {
         const content = await loadBookChapterContent(ctx, meta.uri);
 
         return ContentError.isError(content)
           ? new PreviewTreeErrorItem(ctx, content)
-          : new BookChapterTreeItem(ctx, meta, content);
+          : new BookChapterTreeItem(ctx, meta, content, index + 1);
       })
     );
 

@@ -160,7 +160,7 @@
         "zenn-preview.sortByChapterNumber": {
           "type": "boolean",
           "default": false,
-          "markdownDescription": "ツリービューに表示されるチャプターファイルをチャプター番号で並び替えるかどうかを制御します。"
+          "markdownDescription": "ツリービューに表示されるチャプターファイルをチャプター番号で並び替えるかどうかを制御します。この設定を無効化するとファイル名の順番で表示されます。"
         },
         "zenn-preview.showChapterNumber": {
           "type": "boolean",

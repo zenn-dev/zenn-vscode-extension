@@ -1,8 +1,6 @@
 import * as vscode from "vscode";
 import ZennMarkdownToHtml from "zenn-markdown-html";
 
-import { createWebViewPanel } from "./vscodeHelpers";
-
 type Transformer = (markdown: string) => string;
 
 /**

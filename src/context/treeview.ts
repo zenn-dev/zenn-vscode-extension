@@ -52,9 +52,10 @@ export const initializeTreeView = (
     const bookTreeItem = booksTreeViewProvider.getTreeItemFromChildFileUri(uri);
 
     if (!bookTreeItem && force) {
-      return vscode.window.showErrorMessage(
+      vscode.window.showErrorMessage(
         "ツリービューアイテムの初期化が完了していないため、ファイルをツリービュー上で表示できませんでした"
       );
+      return;
     }
 
     // ビューセクションが開いている場合か、強制する場合に BookTreeItem の展開を行う

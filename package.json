@@ -9,7 +9,7 @@
     "url": "https://github.com/zenn-dev/zenn-vscode-extension.git"
   },
   "license": "MIT",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "pricing": "Free",
   "engines": {
     "vscode": "^1.72.0"
@@ -67,7 +67,8 @@
     "commands": [
       {
         "command": "zenn-preview.preview-zenn",
-        "title": "Zenn: Preview Contents",
+        "category": "Zenn",
+        "title": "%preview-zenn%",
         "icon": {
           "dark": "./public/assets/svg/dark/preview.svg",
           "light": "./public/assets/svg/light/preview.svg"
@@ -75,12 +76,14 @@
       },
       {
         "command": "zenn-preview.new-article",
-        "title": "Zenn: New Article",
+        "category": "Zenn",
+        "title": "%new-article%",
         "icon": "$(new-file)"
       },
       {
         "command": "zenn-preview.new-book",
-        "title": "Zenn: New Book",
+        "category": "Zenn",
+        "title": "%new-book%",
         "icon": {
           "dark": "./public/assets/svg/dark/new-book.svg",
           "light": "./public/assets/svg/light/new-book.svg"
@@ -88,22 +91,26 @@
       },
       {
         "command": "zenn-preview.refresh-articles",
-        "title": "Zenn: Refresh Articles",
+        "category": "Zenn",
+        "title": "%refresh-articles%",
         "icon": "$(refresh)"
       },
       {
         "command": "zenn-preview.refresh-books",
-        "title": "Zenn: Refresh Books",
+        "category": "Zenn",
+        "title": "%refresh-books%",
         "icon": "$(refresh)"
       },
       {
         "command": "zenn-preview.new-chapter",
-        "title": "Zenn: New Book Chapter",
+        "category": "Zenn",
+        "title": "%new-chapter%",
         "icon": "$(new-file)"
       },
       {
         "command": "zenn-preview.open-guide",
-        "title": "Zenn: Open Guide",
+        "category": "Zenn",
+        "title": "%open-guide%",
         "icon": "$(link-external)"
       }
     ],
@@ -145,6 +152,13 @@
           "command": "zenn-preview.open-guide",
           "when": "view == zenn-guides-tree-view",
           "group": "inline"
+        }
+      ],
+      "editor/title": [
+        {
+          "command": "zenn-preview.preview-zenn",
+          "when": "resourceLangId == markdown",
+          "group": "navigation"
         }
       ]
     },

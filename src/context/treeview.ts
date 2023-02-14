@@ -35,7 +35,7 @@ export const initializeTreeView = (
     if (type === "article") {
       const articleTreeItem = articlesTreeViewProvider.getTreeItemFromUri(uri);
 
-      if (!articleTreeItem) {
+      if (!articleTreeItem && force) {
         vscode.window.showErrorMessage(
           "ツリービューアイテムの初期化が完了していないため、ファイルをツリービュー上で表示できませんでした"
         );
@@ -43,14 +43,15 @@ export const initializeTreeView = (
       }
 
       // ビューセクションが開いている場合か、強制する場合に reveal する
-      if (articleTreeView.visible || force) {
+      if (articleTreeItem && (articleTreeView.visible || force)) {
         await articleTreeView.reveal(articleTreeItem);
       }
       return;
     }
 
     const bookTreeItem = booksTreeViewProvider.getTreeItemFromChildFileUri(uri);
-    if (!bookTreeItem) {
+
+    if (!bookTreeItem && force) {
       return vscode.window.showErrorMessage(
         "ツリービューアイテムの初期化が完了していないため、ファイルをツリービュー上で表示できませんでした"
       );

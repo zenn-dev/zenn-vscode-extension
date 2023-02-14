@@ -58,13 +58,13 @@ export const initializeTreeView = (
       return;
     }
 
+    if (!bookTreeView.visible && !force) return;
+
     // ビューセクションが開いている場合か、強制する場合に BookTreeItem の展開を行う
-    if (bookTreeView.visible || force) {
-      await bookTreeView.reveal(bookTreeItem, {
-        select: false,
-        expand: true,
-      });
-    }
+    await bookTreeView.reveal(bookTreeItem, {
+      select: false,
+      expand: true,
+    });
 
     // NOTE: 画像ファイルを開くのは custom editor であり、アクティブかどうかをグローバルで監視する API が公開されていないため bookCoverImage については TreeItem を reveal できない
     switch (type) {

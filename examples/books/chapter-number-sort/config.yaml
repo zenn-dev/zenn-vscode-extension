@@ -1,0 +1,9 @@
+title: "チャプターの順番が設定されている本"
+summary: "チャプター順番がconfig.yamlで設定されている本です。"
+topics: [test]
+published: true
+price: 0
+chapters:
+  - example2
+  - example3
+  - 1-example

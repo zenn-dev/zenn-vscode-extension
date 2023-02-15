@@ -43,7 +43,7 @@ export const initializeWebview = (context: AppContext): vscode.Disposable[] => {
 
         if (!content) return;
 
-        const uri = toVSCodeUri(content.path);
+        const uri = toVSCodeUri(content.fullPath);
         const previewPanel = createPreviewPanel(uri, panel, content);
 
         registerPreviewPanel(context, previewPanel);

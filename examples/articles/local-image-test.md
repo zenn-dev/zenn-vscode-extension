@@ -39,3 +39,14 @@ published: true
 `![](http://placehold.jp/54/e3f2ff/000000/720x480.png?text=zenn-editor.png)`
 
 ![](http://placehold.jp/54/e3f2ff/000000/720x480.png?text=zenn-editor.png)
+
+## 同一画像の連続表示
+
+```md
+![1st](/images/example-images/zenn-editor.png)
+![2nd](/images/example-images/zenn-editor.png)
+```
+
+![1st](/images/example-images/zenn-editor.png)
+
+![2nd](/images/example-images/zenn-editor.png)

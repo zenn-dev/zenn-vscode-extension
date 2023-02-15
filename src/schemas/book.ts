@@ -9,7 +9,7 @@ import { withCache } from "./utils";
 import { AppContext } from "../context/app";
 import { ContentBase, ContentsLoadResult, PreviewContentBase } from "../types";
 import { FileResult } from "../types";
-import { toPath, getFilenameFromUrl } from "../utils/vscodeHelpers";
+import { getFilenameFromUrl, toFullPath } from "../utils/vscodeHelpers";
 
 /**
  * 本の基本情報
@@ -57,10 +57,10 @@ export type BookLoadResult = ContentsLoadResult<BookContent>;
  * プレビューで使う本のチャプターのメタデータ
  */
 export interface PreviewChapterMeta {
-  path: string;
   slug: string;
-  title: string | undefined | null;
+  fullPath: string;
   isExcluded: boolean;
+  title: string | undefined | null; // 省略できないようにオプショナルにはしない
 }
 
 /**
@@ -141,8 +141,8 @@ const loadBook = async (uri: vscode.Uri): Promise<BookContent> => {
       .filter((v): v is BookChapterMeta => !!v)
       .sort((a, b) => {
         return (
-          Number(a.position === null ? 999 : a.position) -
-          Number(b.position === null ? 999 : b.position)
+          Number(a.position === null ? Infinity : a.position) -
+          Number(b.position === null ? Infinity : b.position)
         );
       }),
   };
@@ -201,8 +201,8 @@ export const loadBookPreviewContent = async (
   return {
     type: "book",
     book: book.value,
-    path: toPath(book.uri),
     filename: book.filename,
+    fullPath: toFullPath(book.uri),
     panelTitle: `${book.value.title || book.filename || "本"} のプレビュー`,
 
     // カバー画像のURLをWebView内で表示できる形に変更する
@@ -215,7 +215,7 @@ export const loadBookPreviewContent = async (
       book.chapters.map((meta) =>
         loadBookChapterContent(context, meta.uri).then((chapter) => ({
           slug: meta.slug,
-          path: toPath(meta.uri),
+          fullPath: toFullPath(meta.uri),
           title: !ContentError.isError(chapter) ? chapter.value.title : null,
           isExcluded: meta.isExcluded,
         }))

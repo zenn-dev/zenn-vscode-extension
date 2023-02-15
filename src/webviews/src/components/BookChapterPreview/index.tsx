@@ -1,6 +1,6 @@
 import { ReactNode, useMemo } from "react";
 
-import { validateBookChapter } from "zenn-validator";
+import { validateBookChapter } from "zenn-model";
 
 import styles from "./BookChapterPreview.module.scss";
 
@@ -32,7 +32,7 @@ interface BookChapterPreviewProps {
 }
 
 export const BookChapterPreview = ({ content }: BookChapterPreviewProps) => {
-  const { html, filename, book, chapter, bookPath, bookFilename } = content;
+  const { html, filename, book, chapter, bookFullPath, bookFilename } = content;
 
   const vscode = useVSCodeApi();
   const validationErrors = useMemo(
@@ -43,7 +43,7 @@ export const BookChapterPreview = ({ content }: BookChapterPreviewProps) => {
   const goToBookPreviewPage = () => {
     const event: PreviewEvent = {
       type: "open-preview-panel",
-      payload: { path: bookPath },
+      payload: { path: bookFullPath },
     };
 
     vscode.postMessage(event);

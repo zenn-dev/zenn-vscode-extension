@@ -48,14 +48,22 @@ export class BookTreeItem extends PreviewTreeItem {
 
     // チャプターのTreeItemを作成
     const chapterTreeItems = await Promise.all(
-      this.bookContent.chapters.map(async (meta) => {
+      this.bookContent.chapters.map(async (meta, index) => {
         const content = await loadBookChapterContent(ctx, meta.uri);
 
         return ContentError.isError(content)
           ? new PreviewTreeErrorItem(ctx, content)
-          : new BookChapterTreeItem(ctx, meta, content);
+          : new BookChapterTreeItem(ctx, meta, content, index + 1);
       })
     );
+
+    // 設定によりチャプター番号でソートするかファイル名でソートするかを決定
+    const isSortedByChapterNumber = vscode.workspace
+      .getConfiguration("zenn-preview")
+      .get<boolean>("sortByChapterNumber");
+    const sortedItems = isSortedByChapterNumber
+      ? chapterTreeItems
+      : PreviewTreeItem.sortTreeItems(chapterTreeItems);
 
     const treeItems = [
       // 設定ファイルのTreeItem
@@ -69,7 +77,7 @@ export class BookTreeItem extends PreviewTreeItem {
         : this.createErrorTreeItem("カバー画像がありません"),
 
       // チャプターのTreeItem一覧
-      ...PreviewTreeItem.sortTreeItems(chapterTreeItems),
+      ...sortedItems,
     ].filter((v): v is ChildTreeItem => !!v);
 
     this.treeItems = treeItems;

@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 
-import { ValidationError } from "zenn-validator";
+import { ValidationError } from "zenn-model";
 
 import styles from "./ValidationErrors.module.scss";
 

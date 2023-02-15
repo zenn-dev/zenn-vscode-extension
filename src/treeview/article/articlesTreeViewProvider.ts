@@ -34,20 +34,25 @@ export class ArticlesTreeViewProvider implements TreeDataProvider {
   async getChildren(element?: PreviewTreeItem): Promise<ChildTreeItem[]> {
     if (element) return element.getChildren();
 
-    const articleContents = await loadArticleContents(
-      this.context,
-      this.forceRefresh
-    );
+    try {
+      const articleContents = await loadArticleContents(
+        this.context,
+        this.forceRefresh
+      );
 
-    const treeItems = articleContents.map((result) =>
-      ContentError.isError(result)
-        ? new PreviewTreeErrorItem(this.context, result)
-        : new ArticleTreeItem(this.context, result)
-    );
+      const treeItems = articleContents.map((result) =>
+        ContentError.isError(result)
+          ? new PreviewTreeErrorItem(this.context, result)
+          : new ArticleTreeItem(this.context, result)
+      );
 
-    this.treeItems = treeItems;
+      this.treeItems = treeItems;
 
-    return PreviewTreeItem.sortTreeItems(treeItems);
+      return PreviewTreeItem.sortTreeItems(treeItems);
+    } catch {
+      console.error("articlesフォルダ内にコンテンツが見つかりませんでした");
+      return [];
+    }
   }
 
   /**

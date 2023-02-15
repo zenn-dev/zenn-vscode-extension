@@ -9,7 +9,7 @@
     "url": "https://github.com/zenn-dev/zenn-vscode-extension.git"
   },
   "license": "MIT",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "pricing": "Free",
   "engines": {
     "vscode": "^1.72.0"
@@ -172,7 +172,22 @@
         "language": "markdown",
         "path": "./snippets/snippets.json"
       }
-    ]
+    ],
+    "configuration": {
+      "title": "Zenn Preview",
+      "properties": {
+        "zenn-preview.sortByChapterNumber": {
+          "type": "boolean",
+          "default": false,
+          "markdownDescription": "ツリービューに表示されるチャプターファイルをチャプター番号で並び替えるかどうかを制御します。この設定を無効化するとファイル名の順番で表示されます。"
+        },
+        "zenn-preview.showChapterNumber": {
+          "type": "boolean",
+          "default": false,
+          "markdownDescription": "ツリービューに表示されるチャプターファイルの表示にチャプター番号をプリフィクスするかどうかを制御します。除外されているチャプターの表示には `(除外)` がプリフィクスされます。"
+        }
+      }
+    }
   },
   "scripts": {
     "publish:vsce": "yes | vsce publish",
@@ -230,9 +245,9 @@
     "js-yaml": "^4.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "zenn-content-css": "^0.1.134",
-    "zenn-embed-elements": "^0.1.134",
-    "zenn-markdown-html": "^0.1.134",
-    "zenn-validator": "^0.1.134"
+    "zenn-content-css": "^0.1.139",
+    "zenn-embed-elements": "^0.1.139",
+    "zenn-markdown-html": "^0.1.139",
+    "zenn-model": "^0.1.139"
   }
 }

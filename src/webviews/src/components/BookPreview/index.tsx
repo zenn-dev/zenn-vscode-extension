@@ -1,6 +1,6 @@
 import { ReactNode, useMemo } from "react";
 
-import { validateBook } from "zenn-validator";
+import { validateBook } from "zenn-model";
 
 import styles from "./BookPreview.module.scss";
 
@@ -116,7 +116,7 @@ export const BookPreview = ({ content }: BookPreviewProps) => {
             <li key={chapter.slug}>
               <div
                 className={styles.chapterLink}
-                onClick={() => previewChapterPage(chapter.path)}
+                onClick={() => previewChapterPage(chapter.fullPath)}
               >
                 {chapter.title || "タイトルが設定されていません"}
                 <span className={styles.chapterFilename}>
@@ -135,7 +135,7 @@ export const BookPreview = ({ content }: BookPreviewProps) => {
               <li key={chapter.slug}>
                 <div
                   className={styles.chapterLink}
-                  onClick={() => previewChapterPage(chapter.path)}
+                  onClick={() => previewChapterPage(chapter.fullPath)}
                 >
                   {chapter.title || "タイトルが設定されていません"}
                   <span className={styles.chapterFilename}>

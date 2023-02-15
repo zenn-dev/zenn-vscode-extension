@@ -4,9 +4,32 @@ import { APP_ID } from "../variables";
 
 /**
  * Uri を文字列に変換する
+ * @note
+ * scheme(`file`,`http`)を含まないことに注意！
+ * この関数の返り値は WebView 内のリンクとして使用できません ( ブラウザ上でのみエラーが発生します　)
+ *
+ * @example
+ * const fullPath = toPath(articlePath); // /user/articles/any-article.md
  */
 export const toPath = (uri: string | vscode.Uri): string => {
   return typeof uri === "string" ? vscode.Uri.parse(uri).path : uri.path;
+};
+
+/**
+ * Uri 全体を文字列に変換する
+ * @note
+ * scheme(`file`,`http`)を含みますので、ブラウザとローカルで出力結果が変わることに注意！
+ * この関数の返り値は WebView 内のリンクとして使用できます。
+ *
+ * @example
+ * // ローカルで実行した場合
+ * const fullPath = toFullPath(articlePath); // file:///user/articles/any-article.md
+ *
+ * // ブラウザ(github.devなど)で実行した場合
+ * const fullPath = toFullPath(articlePath); // https:///user/articles/any-article.md
+ */
+export const toFullPath = (uri: vscode.Uri): string => {
+  return uri.toString();
 };
 
 /**

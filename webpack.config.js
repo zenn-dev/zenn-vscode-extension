@@ -66,23 +66,9 @@ const webExtensionConfig = {
           },
         ],
       },
-
-      // `Can't resolve 'process/browser'`などのエラーが発生しないようにする
-      {
-        test: /\.m?js$/,
-        include: /node_modules/,
-        type: "javascript/auto",
-        resolve: {
-          fullySpecified: false,
-        },
-      },
     ],
   },
-  plugins: [
-    new webpack.ProvidePlugin({
-      process: "process/browser", // provide a shim for the global `process` variable
-    }),
-  ],
+  plugins: [new webpack.ProvidePlugin({ process: "process/browser.js" })],
   externals: {
     vscode: "commonjs vscode", // ignored because it doesn't exist
   },

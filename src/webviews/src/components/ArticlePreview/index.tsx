@@ -1,6 +1,6 @@
 import { ReactNode, useMemo } from "react";
 
-import { validateArticle } from "zenn-validator";
+import { validateArticle } from "zenn-model";
 
 import styles from "./ArticlePreview.module.scss";
 

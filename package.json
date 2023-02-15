@@ -197,9 +197,9 @@
     "js-yaml": "^4.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "zenn-content-css": "^0.1.134",
-    "zenn-embed-elements": "^0.1.134",
-    "zenn-markdown-html": "^0.1.134",
-    "zenn-validator": "^0.1.134"
+    "zenn-content-css": "^0.1.139",
+    "zenn-embed-elements": "^0.1.139",
+    "zenn-markdown-html": "^0.1.139",
+    "zenn-model": "^0.1.139"
   }
 }

@@ -9,7 +9,7 @@ import { openGuideCommand } from "../commands/openGuide";
 import { previewCommand } from "../commands/preview";
 import { refreshArticlesCommand } from "../commands/refreshArticles";
 import { refreshBooksCommand } from "../commands/refreshBooks";
-import { revealFile } from "../commands/revealFile";
+import { revealActiveFileCommand } from "../commands/revealActiveFile";
 import { APP_COMMAND } from "../variables";
 
 /**
@@ -61,10 +61,10 @@ export const initializeCommands = (
       openGuideCommand(context)
     ),
 
-    // ツリービューでアクティブなファイルを表示する
+    // ツリービューでアクティブなファイルを表示するコマンド
     vscode.commands.registerCommand(
-      APP_COMMAND.REVEAL_FILE,
-      revealFile(context)
+      APP_COMMAND.REVEAL_ACTIVE_FILE,
+      revealActiveFileCommand(context)
     ),
   ];
 };

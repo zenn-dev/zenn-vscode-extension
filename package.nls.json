@@ -6,5 +6,5 @@
   "refresh-books": "Refresh Books",
   "new-chapter": "New Book Chapter",
   "open-guide": "Open Guide",
-  "reveal-file": "Reveal File In TreeView"
+  "reveal-active-file": "Reveal Active File In TreeView"
 }

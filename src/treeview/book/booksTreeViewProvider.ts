@@ -5,7 +5,7 @@ import { BookTreeItem } from "./bookTreeItem";
 import { AppContext } from "../../context/app";
 import { loadBookContents } from "../../schemas/book";
 import { ContentError } from "../../schemas/error";
-import { getParentUri } from "../../utils/vscodeHelpers";
+import { getParentFolderUri } from "../../utils/vscodeHelpers";
 import { PreviewTreeErrorItem } from "../previewTreeErrorItem";
 import { ChildTreeItem, PreviewTreeItem } from "../previewTreeItem";
 
@@ -76,7 +76,7 @@ export class BooksTreeViewProvider implements TreeDataProvider {
    * チャプターファイルなどの子要素の Uri から本自体の TreeItem を取得する
    */
   getTreeItemFromChildFileUri(uri: vscode.Uri) {
-    const bookUri = getParentUri(uri);
+    const bookUri = getParentFolderUri(uri);
     const bookTreeItem = this.treeItems.find(
       (item) => item.contentUri?.toString() === bookUri.toString()
     ) as BookTreeItem;

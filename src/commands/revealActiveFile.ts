@@ -2,7 +2,10 @@ import * as vscode from "vscode";
 
 import { AppContext } from "../context/app";
 
-export const revealFile = (context?: AppContext) => {
+/**
+ * ツリービューでアクティブなファイルを表示するコマンドの実装
+ */
+export const revealActiveFileCommand = (context?: AppContext) => {
   return async () => {
     if (!context) return;
 
@@ -10,7 +13,7 @@ export const revealFile = (context?: AppContext) => {
     if (!activeDocumentUri) return;
 
     return context.dispatchContentsEvent({
-      type: "reveal",
+      type: "reveal-active-file",
       payload: {
         uri: activeDocumentUri,
         force: true,

@@ -78,7 +78,7 @@ export type ContentsEvent =
       payload: { uri: vscode.Uri };
     }
   | {
-      type: "reveal";
+      type: "reveal-active-file";
       payload: { uri: vscode.Uri; force?: boolean };
     }
   | PreviewEvent;

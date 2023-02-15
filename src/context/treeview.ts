@@ -111,7 +111,7 @@ export const initializeTreeView = (
           break;
         }
 
-        case "reveal": {
+        case "reveal-active-file": {
           const { uri, force } = event.payload;
           await revealTreeItem(uri, force);
           break;

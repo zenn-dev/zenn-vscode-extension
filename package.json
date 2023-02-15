@@ -114,9 +114,9 @@
         "icon": "$(link-external)"
       },
       {
-        "command": "zenn-preview.reveal-file",
+        "command": "zenn-preview.reveal-active-file",
         "category": "Zenn",
-        "title": "%reveal-file%"
+        "title": "%reveal-active-file%"
       }
     ],
     "menus": {

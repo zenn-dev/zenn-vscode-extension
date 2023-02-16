@@ -7,10 +7,17 @@ import { AppContext } from "../context/app";
  */
 export const revealActiveFileCommand = (context?: AppContext) => {
   return async () => {
-    if (!context) return;
+    if (!context) {
+      return vscode.window.showErrorMessage("コマンドの実行に失敗しました");
+    }
 
     const activeDocumentUri = vscode.window.activeTextEditor?.document.uri;
-    if (!activeDocumentUri) return;
+
+    if (!activeDocumentUri) {
+      return vscode.window.showErrorMessage(
+        "ツリービューで表示できるコンテンツがありませんでした"
+      );
+    }
 
     return context.dispatchContentsEvent({
       type: "reveal-active-file",

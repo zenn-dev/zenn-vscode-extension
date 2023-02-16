@@ -2018,7 +2018,7 @@ cheerio-select@^2.1.0:
     domhandler "^5.0.3"
     domutils "^3.0.1"
 
-cheerio@^1.0.0-rc.12, cheerio@^1.0.0-rc.9:
+cheerio@1.0.0-rc.12, cheerio@^1.0.0-rc.9:
   version "1.0.0-rc.12"
   resolved "https://registry.yarnpkg.com/cheerio/-/cheerio-1.0.0-rc.12.tgz#788bf7466506b1c6bf5fae51d24a2c4d62e47683"
   integrity sha512-VqR8m68vM46BNnuZ5NtnGBKIE/DfN0cRIzg9n40EIq9NOv90ayxLBXA8fXC5gquFRGJSTRqBq25Jt2ECLR431Q==
@@ -3993,10 +3993,10 @@ make-dir@^1.0.0:
   dependencies:
     pify "^3.0.0"
 
-markdown-it-anchor@^8.4.1:
-  version "8.6.4"
-  resolved "https://registry.yarnpkg.com/markdown-it-anchor/-/markdown-it-anchor-8.6.4.tgz#affb8aa0910a504c114e9fcad53ac3a5b907b0e6"
-  integrity sha512-Ul4YVYZNxMJYALpKtu+ZRdrryYt/GlQ5CK+4l1bp/gWXOG2QWElt6AqF3Mih/wfUKdZbNAZVXGR73/n6U/8img==
+markdown-it-anchor@^8.6.6:
+  version "8.6.6"
+  resolved "https://registry.yarnpkg.com/markdown-it-anchor/-/markdown-it-anchor-8.6.6.tgz#4a12e358c9c2167ee28cb7a5f10e29d6f1ffd7ca"
+  integrity sha512-jRW30YGywD2ESXDc+l17AiritL0uVaSnWsb26f+68qaW9zgbIIr1f4v2Nsvc0+s0Z2N3uX6t/yAw7BwCQ1wMsA==
 
 markdown-it-container@^2.0.0:
   version "2.0.0"
@@ -4700,10 +4700,10 @@ prettier@^2.7.1:
   resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.7.1.tgz#e235806850d057f97bb08368a4f7d899f7760c64"
   integrity sha512-ujppO+MkdPqoVINuDFDRLClm7D78qbDt0/NR+wp5FqEZOoTNAjPHWj17QRhu7geIHJfcNhRk1XVQmF8Bp3ye+g==
 
-prismjs@^1.27.0:
-  version "1.28.0"
-  resolved "https://registry.yarnpkg.com/prismjs/-/prismjs-1.28.0.tgz#0d8f561fa0f7cf6ebca901747828b149147044b6"
-  integrity sha512-8aaXdYvl1F7iC7Xm1spqSaY/OJBpYW3v+KJ+F17iYxvdc8sfjW194COK5wVhMZX45tGteiBQgdvD/nhxcRwylw==
+prismjs@^1.29.0:
+  version "1.29.0"
+  resolved "https://registry.yarnpkg.com/prismjs/-/prismjs-1.29.0.tgz#f113555a8fa9b57c35e637bba27509dcf802dd12"
+  integrity sha512-Kx/1w86q/epKcmte75LNrEoT+lX8pBpavuAbvJWRXar7Hz8jrtF+e3vY751p0R8H9HdArwaCTNDDzHg/ScJK1Q==
 
 process-nextick-args@~2.0.0:
   version "2.0.1"
@@ -4987,10 +4987,10 @@ safer-buffer@^2.1.0:
   resolved "https://registry.yarnpkg.com/safer-buffer/-/safer-buffer-2.1.2.tgz#44fa161b0187b9549dd84bb91802f9bd8385cd6a"
   integrity sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==
 
-sanitize-html@^2.7.2:
-  version "2.8.0"
-  resolved "https://registry.yarnpkg.com/sanitize-html/-/sanitize-html-2.8.0.tgz#651d1d0e5b2d61b4ec6147cc46f6d6680eef98ce"
-  integrity sha512-ZsGyc6avnqgvEm3eMKrcy8xa7WM1MrGrfkGsUgQee2CU+vg3PCfNCexXwBDF/6dEPvaQ4k/QqRjnYKHL8xgNjg==
+sanitize-html@^2.9.0:
+  version "2.9.0"
+  resolved "https://registry.yarnpkg.com/sanitize-html/-/sanitize-html-2.9.0.tgz#f4829557b0175df9059d90fe972d5e6facb8565c"
+  integrity sha512-KY1hpSbqFNcpoLf+nP7iStbP5JfQZ2Nd19ZEE7qFsQqRdp+sO5yX/e5+HoG9puFAcSTEpzQuihfKUltDcLlQjg==
   dependencies:
     deepmerge "^4.2.2"
     escape-string-regexp "^4.0.0"
@@ -5911,36 +5911,36 @@ yocto-queue@^0.1.0:
   resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
 
-zenn-content-css@^0.1.134:
-  version "0.1.134"
-  resolved "https://registry.yarnpkg.com/zenn-content-css/-/zenn-content-css-0.1.134.tgz#68b5ea6dd67661ad740458ac5bc302d94770d665"
-  integrity sha512-jjBAsiDBPNRZaAOVT6wRwa2YJ0RRwRxUqGTchAlLejQ9fkrgzS4Q0MohxF6axsEaI5BIQQi3p1aCjzqNKSMKwg==
+zenn-content-css@^0.1.139:
+  version "0.1.139"
+  resolved "https://registry.yarnpkg.com/zenn-content-css/-/zenn-content-css-0.1.139.tgz#4cf0fc1f1e22758a2f2adfe01fed60eb11119730"
+  integrity sha512-WcccCs1fLHYjg54/3pfuyuHZlX0kvfEGk6wpmPBRWnGchR1nClXA4uUDWVAi2rUxVlschd/NAwKGqQW6M3aq5A==
 
-zenn-embed-elements@^0.1.134:
-  version "0.1.134"
-  resolved "https://registry.yarnpkg.com/zenn-embed-elements/-/zenn-embed-elements-0.1.134.tgz#59fd14d660eebb9e72fb99cd42963944af2d863c"
-  integrity sha512-PRovQ7gWSZueUlrpK+3Ftw6Jxu3ujYilS8bYIwy7Lfl7okfU9LvHQfgQ7e2ay3A2+fgs+XcOcf1xNp2yBwgIfw==
+zenn-embed-elements@^0.1.139:
+  version "0.1.139"
+  resolved "https://registry.yarnpkg.com/zenn-embed-elements/-/zenn-embed-elements-0.1.139.tgz#79dd2235c8d6f68d3920f43394edaa150c209ac8"
+  integrity sha512-ziJr9y6bv7L1V8idVV714/j0ZRjWK+1x0LCdnmn6yXlsf0pBa3fVf08w9clGvIfgc2NWpr6BRSaiZh71GonuGg==
 
-zenn-markdown-html@^0.1.134:
-  version "0.1.134"
-  resolved "https://registry.yarnpkg.com/zenn-markdown-html/-/zenn-markdown-html-0.1.134.tgz#e0193a45e519015febb0b2eba006f9c651f31174"
-  integrity sha512-j79pNLBxmCaEnRgmx9zgCP5RvZyr3jgQYhlWZbLxeJ9SP3sfXw7u6GLN7fs3THYG1zr7+YJUt9jJl1exVWkm2Q==
+zenn-markdown-html@^0.1.139:
+  version "0.1.139"
+  resolved "https://registry.yarnpkg.com/zenn-markdown-html/-/zenn-markdown-html-0.1.139.tgz#0871959883cc8edc11eaeef75a10e133861f497a"
+  integrity sha512-s8wcVAfLIlRO8GlbuDWMSlXWreN3v2z5QqDaWBGzMdzZkODUdg/Lyl3mDEPxRtyHa4Ago4pFz/XvH2aN1E8PnQ==
   dependencies:
     "@steelydylan/markdown-it-imsize" "^1.0.2"
-    cheerio "^1.0.0-rc.12"
+    cheerio "1.0.0-rc.12"
     markdown-it "^12.3.2"
-    markdown-it-anchor "^8.4.1"
+    markdown-it-anchor "^8.6.6"
     markdown-it-container "^2.0.0"
     markdown-it-footnote "^3.0.3"
     markdown-it-inline-comments "^1.0.1"
     markdown-it-link-attributes "^4.0.1"
     markdown-it-task-lists "^2.1.1"
-    prismjs "^1.27.0"
-    sanitize-html "^2.7.2"
+    prismjs "^1.29.0"
+    sanitize-html "^2.9.0"
 
-zenn-validator@^0.1.134:
-  version "0.1.134"
-  resolved "https://registry.yarnpkg.com/zenn-validator/-/zenn-validator-0.1.134.tgz#ee3c9e997f171ea4f857f8dfb80810f6822c5df1"
-  integrity sha512-L/r8tBXOdcyaPlUHdQU9cN7OXO928DjDT6QKQUOv21qplPfpsFJGmTw0uplZt1mExB0+3zAomJrk0BBVYWTuKw==
+zenn-model@^0.1.139:
+  version "0.1.139"
+  resolved "https://registry.yarnpkg.com/zenn-model/-/zenn-model-0.1.139.tgz#790834c5a59ed3195d85db9153e2150017c4f39f"
+  integrity sha512-MtKpixOPW9g1ijWjL9I50KIMTcRdOCAVETW4HhpIuNEnjzgWayk+BlqeCZ9bfrH4a/wU/uYkQUHuVZMbTvN38w==
   dependencies:
     emoji-regex "^10.2.1"

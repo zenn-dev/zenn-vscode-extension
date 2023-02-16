@@ -1,8 +1,6 @@
 import * as vscode from "vscode";
 import ZennMarkdownToHtml from "zenn-markdown-html";
 
-import { createWebViewPanel } from "./vscodeHelpers";
-
 type Transformer = (markdown: string) => string;
 
 /**
@@ -24,7 +22,7 @@ export const transformLocalImage =
       const url = panel.webview.asWebviewUri(imageUri);
 
       return htmlText.replace(
-        new RegExp(`(<img\\s[^>]*src=")/images/[^"]+("[^>]*>)`),
+        new RegExp(`(<img\\s[^>]*src=")/images/[^"]+("[^>]*>)`, "g"),
         `$1${url}$2`
       );
     }, html);

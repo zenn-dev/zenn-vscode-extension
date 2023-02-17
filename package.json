@@ -4,6 +4,7 @@
   "displayName": "Zenn Preview for github.dev",
   "description": "Zenn のコンテンツを github.dev でプレビューできるようにする VSCode 拡張",
   "icon": "public/assets/zenn-icon.png",
+  "homepage": "https://marketplace.visualstudio.com/items?itemName=zenn.zenn-preview",
   "repository": {
     "type": "git",
     "url": "https://github.com/zenn-dev/zenn-vscode-extension.git"

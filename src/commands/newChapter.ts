@@ -95,16 +95,11 @@ export const newChapterCommand = (context?: AppContext) => {
       .then((fileUri) => {
         if (fileUri) {
           vscode.window.showInformationMessage("チャプターを作成しました");
-          return fileUri;
+          vscode.window.showTextDocument(fileUri);
         }
       })
       .catch(() => {
         vscode.window.showErrorMessage("チャプターの作成に失敗しました");
-      })
-      .then((fileUri) => {
-        if (fileUri) {
-          vscode.window.showTextDocument(fileUri);
-        }
       });
   };
 };

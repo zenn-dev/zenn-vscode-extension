@@ -65,16 +65,11 @@ export const newArticleCommand = (context?: AppContext) => {
       .then((fileUri) => {
         if (fileUri) {
           vscode.window.showInformationMessage("記事を作成しました");
-          return fileUri;
+          vscode.window.showTextDocument(fileUri);
         }
       })
       .catch(() => {
         vscode.window.showErrorMessage("記事の作成に失敗しました");
-      })
-      .then((fileUri) => {
-        if (fileUri) {
-          vscode.window.showTextDocument(fileUri);
-        }
       });
   };
 };

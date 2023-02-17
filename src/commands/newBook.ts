@@ -97,16 +97,11 @@ export const newBookCommand = (context?: AppContext) => {
       .then((configFileUri) => {
         if (configFileUri) {
           vscode.window.showInformationMessage("本を作成しました");
-          return configFileUri;
+          vscode.window.showTextDocument(configFileUri);
         }
       })
       .catch(() => {
         vscode.window.showErrorMessage("本の作成に失敗しました");
-      })
-      .then((configFileUri) => {
-        if (configFileUri) {
-          vscode.window.showTextDocument(configFileUri);
-        }
       });
   };
 };

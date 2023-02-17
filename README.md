@@ -11,7 +11,7 @@
 - [Zenn のフォーマット](https://zenn.dev/zenn/articles/markdown-guide)で書かれたコンテンツをプレビューします
 - 記事や本のテンプレートを VSCode 上で新規作成できます
 - Zenn 独自の記法のスニペットを追加します
-- Zenn のガイド記事の一覧を表示します
+- Zenn のガイド記事一覧を表示します
 
 ## 使い方
 
@@ -63,9 +63,9 @@ BOOKS セクションのチャプターファイルは `config.yaml` や `n.slug
 
 ### ガイド記事の一覧表示
 
-Zenn のガイド記事の一覧を表示できます。
+Zenn のガイド記事一覧を表示できます。
 
-GUIDES セクションのガイド記事一覧からボタンをクリックするか、コマンドパレットから `Zenn: Open Guide` のコマンドを実行することでガイド記事にアクセスできます。
+ツリービュー GUIDES セクションに表示されたガイド記事の一覧からボタンをクリックするか、コマンドパレットから `Zenn: Open Guide` コマンドを実行することで [Zenn.dev](https://zenn.dev/zenn) 上のガイド記事にアクセスできます。
 
 ![ガイドのサイドパネルの子要素部分にボタンがあります](https://user-images.githubusercontent.com/50942816/216094321-ef951df3-5dea-4a3d-82c6-f3b4c8a387d1.jpg)
 

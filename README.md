@@ -70,7 +70,11 @@ settings.json に以下の設定を追加してください。
 
 ```json
     "[markdown]":  {
-        "editor.quickSuggestions": true
+        "editor.quickSuggestions": {
+            "comments": true,
+            "strings": true,
+            "other": true
+        }
     }
 ```
 

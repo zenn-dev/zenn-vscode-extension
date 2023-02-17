@@ -157,7 +157,7 @@
       "editor/title": [
         {
           "command": "zenn-preview.preview-zenn",
-          "when": "resourceLangId == markdown",
+          "when": "resourceLangId == markdown && zenn-preview.active-document-can-preview",
           "group": "navigation"
         }
       ]

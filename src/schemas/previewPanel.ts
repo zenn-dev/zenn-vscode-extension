@@ -57,7 +57,10 @@ export const createPreviewPanel = (
 /**
  * プレビュー可能な Uri か判別する
  */
-const checkUriCanPreview = (context: AppContext, uri: vscode.Uri): boolean => {
+export const checkUriCanPreview = (
+  context: AppContext,
+  uri: vscode.Uri
+): boolean => {
   const type = context.getContentsType(uri);
   const canPreviewContentsType: ContentsType[] = [
     "article",

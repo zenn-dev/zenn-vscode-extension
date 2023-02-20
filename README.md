@@ -69,7 +69,7 @@ BOOKS セクションのチャプターファイルは `config.yaml` や `n.slug
 
 Zenn のガイド記事一覧を表示できます。
 
-ツリービュー GUIDES セクションに表示されたガイド記事の一覧からボタンをクリックするか、コマンドパレットから `Zenn: Open Guide` コマンドを実行することで [Zenn.dev](https://zenn.dev/zenn) 上のガイド記事にアクセスできます。
+ツリービュー GUIDES セクションに表示されたガイド記事の一覧からボタンをクリックするか、コマンドパレットから `Zenn: Open Guide` コマンドを実行することで [zenn.dev](https://zenn.dev/zenn) 上のガイド記事にアクセスできます。
 
 ![ガイドのサイドパネルの子要素部分にボタンがあります](https://user-images.githubusercontent.com/50942816/216094321-ef951df3-5dea-4a3d-82c6-f3b4c8a387d1.jpg)
 

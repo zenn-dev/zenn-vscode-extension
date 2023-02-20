@@ -30,29 +30,36 @@ const generateBookConfigTemplate = () =>
 /**
  * 本の設定ファイルを生成する
  */
-const createBookConfigFile = async (bookUri: vscode.Uri) => {
+const createBookConfigFile = async (
+  bookUri: vscode.Uri
+): Promise<vscode.Uri> => {
   const configText = new TextEncoder().encode(generateBookConfigTemplate());
   const configUri = vscode.Uri.joinPath(bookUri, "config.yaml");
 
   await vscode.workspace.fs.writeFile(configUri, configText);
+
+  return configUri;
 };
 
 /**
  * 本の作成に基づいてチャプターファイルを作成する
  */
-const createBookChapterFiles = async (bookUri: vscode.Uri) => {
-  await Promise.all(
+const createBookChapterFiles = async (
+  bookUri: vscode.Uri
+): Promise<vscode.Uri[]> => {
+  const bookChapterFileUris = await Promise.all(
     TEMPLATE_CHAPTERS.map((fileName) =>
       createBookChapterFile(fileName, bookUri)
     )
   );
+  return bookChapterFileUris;
 };
 
 /**
  * 本の新規作成コマンドの実装
  */
 export const newBookCommand = (context?: AppContext) => {
-  const generator = async (): Promise<boolean> => {
+  const generator = async (): Promise<vscode.Uri | null> => {
     if (!context) throw new Error("コマンドを実行できません");
 
     const bookSlug = await vscode.window.showInputBox({
@@ -72,24 +79,25 @@ export const newBookCommand = (context?: AppContext) => {
       },
     });
 
-    if (!bookSlug) return false;
+    if (!bookSlug) return null;
 
     const bookUri = vscode.Uri.joinPath(context.booksFolderUri, bookSlug);
 
     await vscode.workspace.fs.createDirectory(bookUri);
-    await Promise.all([
+    const [configFileUri] = await Promise.all([
       createBookConfigFile(bookUri),
       createBookChapterFiles(bookUri),
     ]);
 
-    return true;
+    return configFileUri;
   };
 
   return () => {
     generator()
-      .then((isCreated) => {
-        if (isCreated) {
+      .then((configFileUri) => {
+        if (configFileUri) {
           vscode.window.showInformationMessage("本を作成しました");
+          vscode.window.showTextDocument(configFileUri);
         }
       })
       .catch(() => {

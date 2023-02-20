@@ -20,9 +20,10 @@ export const transformLocalImage =
     const newHtml = srcList.reduce((htmlText, src) => {
       const imageUri = vscode.Uri.joinPath(root, src);
       const url = panel.webview.asWebviewUri(imageUri);
+      const escapedSrc = escapeRegExp(src);
 
       return htmlText.replace(
-        new RegExp(`(<img\\s[^>]*src=")/images/[^"]+("[^>]*>)`, "g"),
+        new RegExp(`(<img\\s[^>]*src=")${escapedSrc}("[^>]*>)`, "g"),
         `$1${url}$2`
       );
     }, html);
@@ -42,3 +43,12 @@ export const markdownToHtml = (
     ZennMarkdownToHtml(markdown)
   );
 };
+
+/**
+ * 正規表現の特殊文字をエスケープする
+ * Copied from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#escaping
+ * Any copyright is dedicated to the Public Domain. http://creativecommons.org/publicdomain/zero/1.0/
+ */
+function escapeRegExp(string: string) {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}

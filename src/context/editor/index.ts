@@ -6,6 +6,7 @@ import { initializeBookChapterEditor } from "./bookChapter";
 import { initializeBookConfigEditor } from "./bookConfig";
 import { initializeBookCoverImageEditor } from "./bookCoverImage";
 
+import { checkUriCanPreview } from "../../schemas/previewPanel";
 import { AppContext } from "../app";
 
 /**
@@ -44,7 +45,17 @@ export const initializeEditor = (context: AppContext): vscode.Disposable[] => {
     vscode.window.onDidChangeActiveTextEditor((event) => {
       if (!event || !event.viewColumn) return;
 
-      const key = cache.createKey("previewPanel", event.document.uri);
+      const activeDocumentUri = event.document.uri;
+
+      // 現在のドキュメントのUriがプレビュー可能なものならエディタタイトル上にプレビューボタンを表示
+      const canPreview = checkUriCanPreview(context, activeDocumentUri);
+      vscode.commands.executeCommand(
+        "setContext",
+        "zenn-preview.active-document-can-preview",
+        canPreview
+      );
+
+      const key = cache.createKey("previewPanel", activeDocumentUri);
       const panel = cache.getCache(key)?.panel;
 
       if (!panel) return;

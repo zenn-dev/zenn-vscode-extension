@@ -4,12 +4,13 @@
   "displayName": "Zenn Preview for github.dev",
   "description": "Zenn のコンテンツを github.dev でプレビューできるようにする VSCode 拡張",
   "icon": "public/assets/zenn-icon.png",
+  "homepage": "https://marketplace.visualstudio.com/items?itemName=zenn.zenn-preview",
   "repository": {
     "type": "git",
     "url": "https://github.com/zenn-dev/zenn-vscode-extension.git"
   },
   "license": "MIT",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "pricing": "Free",
   "engines": {
     "vscode": "^1.72.0"
@@ -157,7 +158,7 @@
       "editor/title": [
         {
           "command": "zenn-preview.preview-zenn",
-          "when": "resourceLangId == markdown",
+          "when": "resourceLangId == markdown && zenn-preview.active-document-can-preview",
           "group": "navigation"
         }
       ]

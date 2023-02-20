@@ -50,3 +50,14 @@ published: true
 ![1st](/images/example-images/zenn-editor.png)
 
 ![2nd](/images/example-images/zenn-editor.png)
+
+## 不同画像の連続表示
+
+```md
+![1st](/images/example-images/zenn-editor.png)
+![2nd](/images/example-images/zenn-icon.png)
+```
+
+![1st](/images/example-images/zenn-editor.png)
+
+![2nd](/images/example-images/zenn-icon.png)

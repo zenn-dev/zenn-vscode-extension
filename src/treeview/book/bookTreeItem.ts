@@ -16,6 +16,7 @@ import { ChildTreeItem, PreviewTreeItem } from "../previewTreeItem";
  */
 export class BookTreeItem extends PreviewTreeItem {
   private bookContent?: BookContent;
+  private treeItems: ChildTreeItem[] = [];
 
   readonly contextValue = "book";
 
@@ -64,7 +65,7 @@ export class BookTreeItem extends PreviewTreeItem {
       ? chapterTreeItems
       : PreviewTreeItem.sortTreeItems(chapterTreeItems);
 
-    return [
+    const treeItems = [
       // 設定ファイルのTreeItem
       !ContentError.isError(configUri)
         ? new BookConfigTreeItem(configUri)
@@ -78,5 +79,20 @@ export class BookTreeItem extends PreviewTreeItem {
       // チャプターのTreeItem一覧
       ...sortedItems,
     ].filter((v): v is ChildTreeItem => !!v);
+
+    this.treeItems = treeItems;
+
+    return treeItems;
+  }
+
+  /**
+   * Uri からチャプターなどの TreeItem を取得する
+   */
+  getTreeItemFromUri(uri: vscode.Uri) {
+    return this.treeItems.find((item) => {
+      if ("contentUri" in item) {
+        return item.contentUri?.toString() === uri.toString();
+      }
+    });
   }
 }

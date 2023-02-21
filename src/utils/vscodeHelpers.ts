@@ -51,6 +51,14 @@ export const getFilenameFromUrl = (
 };
 
 /**
+ * Uri から親フォルダの Uri を取得する
+ */
+export const getParentFolderUri = (uri: vscode.Uri): vscode.Uri => {
+  const parentUriString = uri.toString().split("/").slice(0, -1).join("/");
+  return vscode.Uri.parse(parentUriString);
+};
+
+/**
  * 渡された Uri のファイルが存在しているか判定する
  */
 export const isExistsUri = async (uri: vscode.Uri): Promise<boolean> => {

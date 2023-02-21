@@ -77,6 +77,10 @@ export type ContentsEvent =
       type: "dispose-preview-panel";
       payload: { uri: vscode.Uri };
     }
+  | {
+      type: "reveal-active-file";
+      payload: { uri: vscode.Uri; force?: boolean };
+    }
   | PreviewEvent;
 
 /**

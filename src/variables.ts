@@ -27,6 +27,9 @@ export const APP_COMMAND = {
 
   /* ガイドを開く */
   OPEN_GUIDE: pkg.contributes.commands[6].command,
+
+  /* ツリービューでアクティブなファイルを表示 */
+  REVEAL_ACTIVE_FILE: pkg.contributes.commands[7].command,
 } as const;
 
 /**

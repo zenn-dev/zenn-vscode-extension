@@ -5,5 +5,6 @@
   "refresh-articles": "記事一覧を更新",
   "refresh-books": "本一覧を更新",
   "new-chapter": "チャプターを新規作成",
-  "open-guide": "ガイドを開く"
+  "open-guide": "ガイドを開く",
+  "reveal-active-file": "ツリービューでアクティブなファイルを表示する"
 }

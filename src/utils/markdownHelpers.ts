@@ -40,7 +40,9 @@ export const markdownToHtml = (
 ): string => {
   return [transformLocalImage(panel)].reduce(
     (text, transformer) => transformer(text),
-    ZennMarkdownToHtml(markdown)
+    ZennMarkdownToHtml(markdown, {
+      embedOrigin: "https://embed.zenn.studio",
+    })
   );
 };
 

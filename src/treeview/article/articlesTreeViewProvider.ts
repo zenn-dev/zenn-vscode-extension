@@ -13,6 +13,7 @@ type TreeDataProvider = vscode.TreeDataProvider<ChildTreeItem>;
 export class ArticlesTreeViewProvider implements TreeDataProvider {
   private readonly context: AppContext;
   private forceRefresh: boolean = false;
+  private treeItems: PreviewTreeItem[] = [];
 
   _onDidChangeTreeData = new vscode.EventEmitter<PreviewTreeItem | void>();
   onDidChangeTreeData = this._onDidChangeTreeData.event;
@@ -45,10 +46,28 @@ export class ArticlesTreeViewProvider implements TreeDataProvider {
           : new ArticleTreeItem(this.context, result)
       );
 
+      this.treeItems = treeItems;
+
       return PreviewTreeItem.sortTreeItems(treeItems);
     } catch {
       console.error("articlesフォルダ内にコンテンツが見つかりませんでした");
       return [];
     }
+  }
+
+  /**
+   * TreeView.reveal API の利用のために実装が必要なメソッド
+   */
+  getParent() {
+    return null;
+  }
+
+  /**
+   * Uri から記事の TreeItem を取得する
+   */
+  getTreeItemFromUri(uri: vscode.Uri) {
+    return this.treeItems.find(
+      (item) => item.contentUri?.toString() === uri.toString()
+    );
   }
 }

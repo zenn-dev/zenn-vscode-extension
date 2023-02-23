@@ -17,8 +17,75 @@ export const initializeTreeView = (
   const articlesTreeViewProvider = new ArticlesTreeViewProvider(context);
   const guideTreeViewProvider = new GuideTreeViewProvider(context);
 
+  const articleTreeView = vscode.window.createTreeView(TREE_VIEW_ID.ARTICLES, {
+    treeDataProvider: articlesTreeViewProvider,
+  });
+  const bookTreeView = vscode.window.createTreeView(TREE_VIEW_ID.BOOKS, {
+    treeDataProvider: booksTreeViewProvider,
+  });
+  const guideTreeview = vscode.window.createTreeView(TREE_VIEW_ID.GUIDES, {
+    treeDataProvider: guideTreeViewProvider,
+  });
+
+  const revealTreeItem = async (uri: vscode.Uri, force?: boolean) => {
+    const type = context.getContentsType(uri);
+
+    if (!type) return;
+
+    if (type === "article") {
+      const articleTreeItem = articlesTreeViewProvider.getTreeItemFromUri(uri);
+
+      if (!articleTreeItem && force) {
+        vscode.window.showErrorMessage(
+          "ツリービューアイテムの初期化が完了していないため、ファイルをツリービュー上で表示できませんでした"
+        );
+        return;
+      }
+
+      // ビューセクションが開いている場合か、強制する場合に reveal する
+      if (articleTreeItem && (articleTreeView.visible || force)) {
+        await articleTreeView.reveal(articleTreeItem);
+      }
+      return;
+    }
+
+    const bookTreeItem = booksTreeViewProvider.getTreeItemFromChildFileUri(uri);
+
+    if (!bookTreeItem && force) {
+      vscode.window.showErrorMessage(
+        "ツリービューアイテムの初期化が完了していないため、ファイルをツリービュー上で表示できませんでした"
+      );
+      return;
+    }
+
+    if (!bookTreeView.visible && !force) return;
+
+    // ビューセクションが開いている場合か、強制する場合に BookTreeItem の展開を行う
+    await bookTreeView.reveal(bookTreeItem, {
+      select: false,
+      expand: true,
+    });
+
+    // NOTE: 画像ファイルを開くのは custom editor であり、アクティブかどうかをグローバルで監視する API が公開されていないため bookCoverImage については TreeItem を reveal できない
+    switch (type) {
+      case "bookConfig":
+        const bookConfigTreeItem =
+          booksTreeViewProvider.getChildTreeItemFromChildFileUri(uri);
+        if (!bookConfigTreeItem) break;
+        await bookTreeView.reveal(bookConfigTreeItem);
+        break;
+
+      case "bookChapter":
+        const chapterTreeItem =
+          booksTreeViewProvider.getChildTreeItemFromChildFileUri(uri);
+        if (!chapterTreeItem) break;
+        await bookTreeView.reveal(chapterTreeItem);
+        break;
+    }
+  };
+
   return [
-    listenContentsEvent((event) => {
+    listenContentsEvent(async (event) => {
       switch (event.type) {
         case "refresh":
           articlesTreeViewProvider.reload();
@@ -43,22 +110,29 @@ export const initializeTreeView = (
           else if (type === "bookChapter") booksTreeViewProvider.reload();
           break;
         }
+
+        case "reveal-active-file": {
+          const { uri, force } = event.payload;
+          await revealTreeItem(uri, force);
+          break;
+        }
       }
     }),
 
     // 記事のTreeView
-    vscode.window.createTreeView(TREE_VIEW_ID.ARTICLES, {
-      treeDataProvider: articlesTreeViewProvider,
-    }),
+    articleTreeView,
 
     // 本のTreeView
-    vscode.window.createTreeView(TREE_VIEW_ID.BOOKS, {
-      treeDataProvider: booksTreeViewProvider,
-    }),
+    bookTreeView,
 
     // ガイドのTreeView
-    vscode.window.createTreeView(TREE_VIEW_ID.GUIDES, {
-      treeDataProvider: guideTreeViewProvider,
+    guideTreeview,
+
+    vscode.window.onDidChangeActiveTextEditor(async (event) => {
+      if (!event || !event.document) return;
+
+      const documentUri = event.document.uri;
+      await revealTreeItem(documentUri);
     }),
   ];
 };

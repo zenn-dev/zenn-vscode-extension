@@ -193,8 +193,7 @@
   "scripts": {
     "publish:vsce": "yes | vsce publish",
     "dev": "run-p watch-web run-in-browser",
-    "pretest": "yarn run compile-web",
-    "vscode:prepublish": "yarn run package-web",
+    "vscode:prepublish": "pnpm run package-web",
     "compile-web": "webpack",
     "watch-web": "webpack --watch",
     "package-web": "webpack --mode production --devtool hidden-source-map",
@@ -210,6 +209,7 @@
   },
   "devDependencies": {
     "@svgr/webpack": "^6.3.1",
+    "@types/assert": "^1.5.6",
     "@types/js-yaml": "^4.0.5",
     "@types/mocha": "^9.1.1",
     "@types/react": "^18.0.15",

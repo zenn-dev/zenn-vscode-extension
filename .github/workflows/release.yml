@@ -15,11 +15,15 @@ jobs:
         with:
           node-version: 16
 
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 7
+
       - name: node_modules をインストール
-        run: yarn install --frozen-lockfile
+        run: pnpm install
 
       - name: VSCode拡張をリリース
-        run: yarn publish:vsce
+        run: pnpm publish:vsce
         env:
           VSCE_PAT: ${{ secrets.VSCE_PAT }}
 

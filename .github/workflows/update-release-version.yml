@@ -93,15 +93,15 @@ jobs:
 
       - name: バージョンの更新(patch)
         if: contains(github.event.pull_request.labels.*.name, 'release:patch')
-        run: pnpm version --patch --no-git-tag-version
+        run: pnpm version patch --no-git-tag-version
 
       - name: バージョンの更新(minor)
         if: contains(github.event.pull_request.labels.*.name, 'release:minor')
-        run: pnpm version --minor --no-git-tag-version
+        run: pnpm version minor --no-git-tag-version
 
       - name: バージョンの更新(major)
         if: contains(github.event.pull_request.labels.*.name, 'release:major')
-        run: pnpm version --major --no-git-tag-version
+        run: pnpm version major --no-git-tag-version
 
       - name: 変更を PR にプッシュする
         run: |

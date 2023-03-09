@@ -109,6 +109,24 @@ export const openPreviewPanel = async (context: AppContext, path: string) => {
 };
 
 /**
+ * プレビュータイトルの文字数を設定文字数で切り詰めて制限する
+ */
+const truncatePreviewTitle = (str: string) => {
+  const truncateLength = vscode.workspace
+    .getConfiguration("zenn-preview")
+    .get<number>("truncatePreivewTitle");
+
+  if (!truncateLength) {
+    return str;
+  } else {
+    console.error("タイトル文字列", str);
+    return str.length <= truncateLength
+      ? str
+      : str.substring(0, truncateLength + 3) + "...";
+  }
+};
+
+/**
  * 渡されたプレビューパネルに初期化処理をしてキャッシュに保存する
  */
 export const registerPreviewPanel = (
@@ -118,7 +136,7 @@ export const registerPreviewPanel = (
   const { uri, panel, cacheKey, defaultContent } = previewPanel;
   const webviewSrc = getWebviewSrc(panel, context.extension.extensionUri);
 
-  panel.title = defaultContent.panelTitle;
+  panel.title = truncatePreviewTitle(defaultContent.panelTitle);
   panel.webview.html = createWebviewHtml(webviewSrc);
 
   panel.webview.onDidReceiveMessage((event?: PreviewEvent) => {
@@ -162,7 +180,7 @@ export const updatePreviewPanel = async (
 
   const panel = previewPanel.panel;
 
-  panel.title = content.panelTitle;
+  panel.title = truncatePreviewTitle(content.panelTitle);
   panel.webview.postMessage({ type: "update-preview-panel", result: content });
   panel.reveal(void 0, true);
 

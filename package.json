@@ -118,6 +118,11 @@
         "command": "zenn-preview.reveal-active-file",
         "category": "Zenn",
         "title": "%reveal-active-file%"
+      },
+      {
+        "command": "zenn-preview.open-zenn-dev",
+        "category": "Zenn",
+        "title": "%open-zenn-dev%"
       }
     ],
     "menus": {

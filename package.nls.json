@@ -6,5 +6,6 @@
   "refresh-books": "Refresh Books",
   "new-chapter": "New Book Chapter",
   "open-guide": "Open Guide",
-  "reveal-active-file": "Reveal Active File In TreeView"
+  "reveal-active-file": "Reveal Active File In TreeView",
+  "open-zenn-dev": "Open Content In zenn.dev"
 }

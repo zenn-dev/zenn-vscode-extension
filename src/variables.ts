@@ -30,6 +30,9 @@ export const APP_COMMAND = {
 
   /* ツリービューでアクティブなファイルを表示 */
   REVEAL_ACTIVE_FILE: pkg.contributes.commands[7].command,
+
+  /* Zenn.dev上でコンテンツを開く */
+  OPEN_ZENN_DEV: pkg.contributes.commands[8].command,
 } as const;
 
 /**
@@ -40,6 +43,11 @@ export const TREE_VIEW_ID = {
   BOOKS: pkg.contributes.views["zenn-preview"][1].id,
   GUIDES: pkg.contributes.views["zenn-preview"][2].id,
 } as const;
+
+/**
+ * Zenn.dev上のコンテンツアクセスに使用するURL
+ */
+export const ZENN_LINK_BASE_URL = "https://zenn.dev/link";
 
 /**
  * ガイド記事用のベースURL

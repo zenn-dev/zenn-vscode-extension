@@ -10,6 +10,9 @@ import { JSON_SCHEMA, load as parseYaml } from "js-yaml";
 
 import { FRONT_MATTER_PATTERN, PUBLISHED_AT_PATTERN } from "./patterns";
 
+import { ContentsType } from "../types";
+import { ZENN_LINK_BASE_URL } from "../variables";
+
 declare module "js-yaml" {
   /**
    * デフォルトの返り値の型が unknown なので Lint エラーが出る。
@@ -86,4 +89,33 @@ export const pickRandomEmoji = (): string => {
   // prettier-ignore
   const emojiList =["😺","📘","📚","📑","😊","😎","👻","🤖","😸","😽","💨","💬","💭","👋", "👌","👏","🙌","🙆","🐕","🐈","🦁","🐷","🦔","🐥","🐡","🐙","🍣","🕌","🌟","🔥","🌊","🎃","✨","🎉","⛳","🔖","📝","🗂","📌"];
   return emojiList[Math.floor(Math.random() * emojiList.length)];
+};
+
+export interface SlugsForLinkUri {
+  articleSlug?: string;
+  bookSlug?: string;
+  chapter?: {
+    bookSlug?: string;
+    chapterSlug?: string;
+  };
+}
+
+/**
+ * zenn.dev上のコンテンツへのUriを作成する
+ */
+export const createZennLinkUri = (
+  type: ContentsType,
+  slugs: SlugsForLinkUri
+) => {
+  const { articleSlug, bookSlug, chapter } = slugs;
+  switch (type) {
+    case "article":
+      return `${ZENN_LINK_BASE_URL}/articles/${articleSlug}`;
+    case "book":
+      return `${ZENN_LINK_BASE_URL}/books/${bookSlug}`;
+    case "bookConfig":
+      return `${ZENN_LINK_BASE_URL}/books/${bookSlug}`;
+    case "bookChapter":
+      return `${ZENN_LINK_BASE_URL}/books/${chapter?.bookSlug}?chapter_slug=${chapter?.chapterSlug}`;
+  }
 };

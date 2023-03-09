@@ -1,32 +1,33 @@
 import * as vscode from "vscode";
 
 import { AppContext } from "../context/app";
+import { createZennLinkUri, SlugsForLinkUri } from "../utils/helpers";
 import { getFilenameFromUrl, getParentFolderUri } from "../utils/vscodeHelpers";
-import { ZENN_LINK_BASE_URL } from "../variables";
 
 /**
  * ファイルUriからZenn.dev上のUriを作成する
  */
 const createLinkUriString = (context: AppContext, uri: vscode.Uri) => {
   const type = context.getContentsType(uri);
+  if (!type) return;
+
   const filename = getFilenameFromUrl(uri);
   const slug = filename?.split(".md").slice(0, -1)[0];
-  const parent = getParentFolderUri(uri).toString().split("/").slice(-1);
+  const parentFolder = getParentFolderUri(uri)
+    .toString()
+    .split("/")
+    .slice(-1)[0];
 
-  const linkUriString = (() => {
-    switch (type) {
-      case "article":
-        return `${ZENN_LINK_BASE_URL}/articles/${slug}`;
-      case "book":
-        return `${ZENN_LINK_BASE_URL}/books/${filename}`;
-      case "bookConfig":
-        return `${ZENN_LINK_BASE_URL}/books/${parent}`;
-      case "bookChapter":
-        return `${ZENN_LINK_BASE_URL}/books/${parent}?chapter_slug=${slug}`;
-    }
-  })();
+  const slugs: SlugsForLinkUri = {
+    articleSlug: slug,
+    bookSlug: filename,
+    chapter: {
+      bookSlug: parentFolder,
+      chapterSlug: slug,
+    },
+  };
 
-  return linkUriString;
+  return createZennLinkUri(type, slugs);
 };
 
 /**

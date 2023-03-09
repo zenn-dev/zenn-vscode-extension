@@ -10,6 +10,7 @@ import { BOOK_SLUG_PATTERN } from "../../../../utils/patterns";
 import defaultCoverImage from "../../assets/images/book-cover.png";
 import { useVSCodeApi } from "../../hooks/useVSCodeApi";
 import { ValidationErrors } from "../ValidationErrors";
+import { ZennLink } from "../ZennLink";
 
 interface BookPreviewProperty {
   title: string;
@@ -63,9 +64,12 @@ export const BookPreview = ({ content }: BookPreviewProps) => {
               />
             </div>
 
-            <h1 className={styles.title}>
-              {book.title || "titleを指定してください"}
-            </h1>
+            <div className={styles.titleHolder}>
+              <h1 className={styles.title}>
+                {book.title || "titleを指定してください"}
+              </h1>
+              <ZennLink type="book" slugs={{ bookSlug: book.slug }} />
+            </div>
           </div>
 
           <div className={styles.headerPropertyContainer}>

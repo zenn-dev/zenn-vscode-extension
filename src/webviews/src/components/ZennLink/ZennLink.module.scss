@@ -1,0 +1,23 @@
+.zennLink {
+  margin-top: 0.2rem;
+  display: inline;
+}
+
+.zennLinkAnker {
+  font-size: 0.85rem;
+  color: var(--c-gray-darker);
+  display: inline-block;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  text-decoration-color: var(--c-gray-border);
+
+  &:hover {
+    color: var(--c-body);
+  }
+}
+
+.callMadeIcon {
+  width: 1.1em;
+  height: 1.1em;
+  vertical-align: -0.2em;
+}

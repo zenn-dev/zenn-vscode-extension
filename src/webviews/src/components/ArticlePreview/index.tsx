@@ -7,6 +7,7 @@ import styles from "./ArticlePreview.module.scss";
 import { ArticlePreviewContent } from "../../../../schemas/article";
 import { formatPublishedAt } from "../../../../utils/helpers";
 import { ValidationErrors } from "../ValidationErrors";
+import { ZennLink } from "../ZennLink";
 
 interface ArticlePropertyProps {
   title: string;
@@ -45,6 +46,13 @@ export const ArticlePreview = ({ content }: ArticlePreviewProps) => {
           <h1 className={styles.title}>
             {article.title || "titleを指定してください"}
           </h1>
+
+          <ZennLink
+            type="article"
+            slugs={{
+              articleSlug: article.slug,
+            }}
+          />
 
           <div className={styles.headerPropertyContainer}>
             <ArticleProperty title="slug">

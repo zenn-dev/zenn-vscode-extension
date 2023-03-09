@@ -9,6 +9,7 @@ import { PreviewEvent } from "../../../../types";
 import LeftArrowSVG from "../../assets/svg/left-arrow.svg";
 import { useVSCodeApi } from "../../hooks/useVSCodeApi";
 import { ValidationErrors } from "../ValidationErrors";
+import { ZennLink } from "../ZennLink";
 
 interface BookChapterPropertyProps {
   title: string;
@@ -63,6 +64,16 @@ export const BookChapterPreview = ({ content }: BookChapterPreviewProps) => {
       <div className={styles.headerContainer}>
         <header className={styles.header}>
           <h1 className={styles.title}>{chapter.title}</h1>
+
+          <ZennLink
+            type="bookChapter"
+            slugs={{
+              chapter: {
+                bookSlug: book.slug,
+                chapterSlug: chapter.slug,
+              },
+            }}
+          />
 
           <div className={styles.headerPropertyContainer}>
             <BookChapterProperty title="slug">

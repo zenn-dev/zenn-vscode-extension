@@ -24,10 +24,13 @@
   aspect-ratio: auto 160 / 224;
 }
 
-.title {
+.titleHolder {
   flex: 1;
   margin-top: -1em;
   margin-left: 1.2em;
+}
+
+.title {
   font-size: 1.8rem;
 }
 

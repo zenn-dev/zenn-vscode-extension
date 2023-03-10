@@ -119,10 +119,11 @@ const truncatePreviewTitle = (str: string) => {
   if (!truncateLength) {
     return str;
   } else {
-    console.error("タイトル文字列", str);
-    return str.length <= truncateLength
+    // 絵文字と空白分を考慮して3文字追加する
+    const previewTitleLength = 3 + truncateLength;
+    return str.length <= previewTitleLength
       ? str
-      : str.substring(0, truncateLength + 3) + "...";
+      : str.substring(0, previewTitleLength) + "...";
   }
 };
 

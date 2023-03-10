@@ -186,6 +186,12 @@
           "type": "boolean",
           "default": false,
           "markdownDescription": "ツリービューに表示されるチャプターファイルの表示にチャプター番号をプリフィクスするかどうかを制御します。除外されているチャプターの表示には `(除外)` がプリフィクスされます。"
+        },
+        "zenn-preview.truncatePreivewTitle": {
+          "type": "number",
+          "default": 50,
+          "minimum": 5,
+          "markdownDescription": "プレビューパネルに表示されるタブタイトルを指定した文字数で切り詰めます。"
         }
       }
     }

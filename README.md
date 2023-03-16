@@ -49,7 +49,7 @@ BOOKS セクションのチャプターファイルは `config.yaml` や `n.slug
 
 切り詰め用の文字数は「設定 → Zenn Preview → Truncate Preview Title」から変更することができ、この設定で指定した文字数によって以下のように各プレビューパネルのタイトルを一律に切り詰めて表示できます。
 
-![タブグループ内のタイトルを省スペース化](https://user-images.githubusercontent.com/50942816/225562251-d61e05d5-ce2f-42cf-97e9-76b9106392fa.jpg)
+![タブグループ内のタイトルを省スペース化](https://user-images.githubusercontent.com/50942816/225584556-3a055722-6d2d-4a0a-a8c1-b39b44dc65e2.jpg)
 
 設定可能な切り詰め用の文字数は最小で 5 文字です。切り詰め表示を行いたくない場合には 999 などの大きな数値を指定してください。
 

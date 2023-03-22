@@ -8,7 +8,6 @@ examples/**
 node_modules/**
 .editorconfig
 .gitignore
-.yarnrc
 CONTRIBUTING.md
 webpack.config.js
 **/tsconfig.json

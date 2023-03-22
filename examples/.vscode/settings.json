@@ -1,4 +1,5 @@
 {
   "zenn-preview.showChapterNumber": false,
-  "zenn-preview.sortByChapterNumber": false
+  "zenn-preview.sortByChapterNumber": false,
+  "zenn-preview.truncatePreivewTitle": 50
 }

@@ -6,7 +6,7 @@ import { AppContext } from "../context/app";
  * ツリービューでアクティブなファイルを表示するコマンドの実装
  */
 export const revealActiveFileCommand = (context?: AppContext) => {
-  return async () => {
+  return () => {
     if (!context) {
       return vscode.window.showErrorMessage("コマンドの実行に失敗しました");
     }

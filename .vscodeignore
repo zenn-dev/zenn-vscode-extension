@@ -1,6 +1,7 @@
 .github/**
 .vscode/**
 .vscode-test-web/**
+.idea/**
 docs/**
 out/**
 src/**

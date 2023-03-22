@@ -15,15 +15,15 @@ jobs:
         with:
           node-version: 16
 
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 7
-
+      # vsce が pnpm に対応してないので npm でインストールする。
+      # lock ファイルを参照せずにインストールするので不安要素はあるが、
+      # バージョンがそこまで違っていなければ問題ないと判断
       - name: node_modules をインストール
-        run: pnpm install
+        run: npm install --no-package-lock
 
+      # vsce が pnpm に対応してないので npm で実行する
       - name: VSCode拡張をリリース
-        run: pnpm publish:vsce
+        run: npm run publish:vsce
         env:
           VSCE_PAT: ${{ secrets.VSCE_PAT }}
 

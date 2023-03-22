@@ -199,7 +199,7 @@
   "scripts": {
     "publish:vsce": "yes | vsce publish",
     "dev": "run-p watch-web run-in-browser",
-    "vscode:prepublish": "pnpm run package-web",
+    "vscode:prepublish": "run-s package-web",
     "compile-web": "webpack",
     "watch-web": "webpack --watch",
     "package-web": "webpack --mode production --devtool hidden-source-map",

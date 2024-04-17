@@ -31,4 +31,28 @@ export class PreviewTreeErrorItem extends PreviewTreeItem {
       };
     }
   }
+
+  static compare(
+    a: PreviewTreeErrorItem | PreviewTreeItem,
+    b: PreviewTreeErrorItem | PreviewTreeItem
+  ): number {
+    const aIsError = PreviewTreeErrorItem.isPreviewTreeErrorItem(a);
+    const bIsError = PreviewTreeErrorItem.isPreviewTreeErrorItem(b);
+    if (aIsError && !bIsError) {
+      return -1;
+    }
+    if (!aIsError && bIsError) {
+      return 1;
+    }
+
+    const aUrl = a.contentUri?.toString() ?? "";
+    const bUrl = b.contentUri?.toString() ?? "";
+    return aUrl < bUrl ? -1 : 1;
+  }
+
+  static isPreviewTreeErrorItem(
+    target: unknown
+  ): target is PreviewTreeErrorItem {
+    return target instanceof PreviewTreeErrorItem;
+  }
 }

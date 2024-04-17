@@ -9,6 +9,7 @@ import { PreviewTreeErrorItem } from "../previewTreeErrorItem";
 import { ChildTreeItem, PreviewTreeItem } from "../previewTreeItem";
 
 type TreeDataProvider = vscode.TreeDataProvider<ChildTreeItem>;
+type Item = ArticleTreeItem | PreviewTreeErrorItem;
 
 export class ArticlesTreeViewProvider implements TreeDataProvider {
   private readonly context: AppContext;
@@ -48,7 +49,7 @@ export class ArticlesTreeViewProvider implements TreeDataProvider {
 
       this.treeItems = treeItems;
 
-      return PreviewTreeItem.sortTreeItems(treeItems);
+      return ArticlesTreeViewProvider.sortTreeItems(treeItems);
     } catch {
       console.error("articlesフォルダ内にコンテンツが見つかりませんでした");
       return [];
@@ -69,5 +70,20 @@ export class ArticlesTreeViewProvider implements TreeDataProvider {
     return this.treeItems.find(
       (item) => item.contentUri?.toString() === uri.toString()
     );
+  }
+
+  static sortTreeItems(items: Item[]): Item[] {
+    return items.sort((a, b) => {
+      const aIsError = a instanceof PreviewTreeErrorItem;
+      const bIsError = b instanceof PreviewTreeErrorItem;
+      if (
+        PreviewTreeErrorItem.isPreviewTreeErrorItem(a) ||
+        PreviewTreeErrorItem.isPreviewTreeErrorItem(b)
+      ) {
+        return PreviewTreeErrorItem.compare(a, b);
+      }
+
+      return ArticleTreeItem.compareByTitle(a, b);
+    });
   }
 }

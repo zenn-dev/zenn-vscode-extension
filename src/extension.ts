@@ -9,8 +9,8 @@ import { initializeWebview } from "./context/webview";
 export function activate(extension: vscode.ExtensionContext) {
   const context = createAppContext(extension);
 
+  // ワークスペースを開いていない場合は何もしない
   if (!context) {
-    vscode.window.showErrorMessage("表示できるワークスペースがありません");
     return;
   }
 

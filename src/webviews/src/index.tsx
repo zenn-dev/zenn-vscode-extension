@@ -7,6 +7,7 @@ import { createRoot } from "react-dom/client";
 import { ArticlePreview } from "./components/ArticlePreview";
 import { BookChapterPreview } from "./components/BookChapterPreview";
 import { BookPreview } from "./components/BookPreview";
+import { scrollToRevealSourceLine } from "./features/scrollSync";
 import { useVSCodeApi } from "./hooks/useVSCodeApi";
 
 import { PreviewContents, PreviewEvent } from "../../types";
@@ -43,6 +44,16 @@ const App = () => {
             setContent(result);
             vscode.setState({ content: msg.result });
           }
+        }
+
+        case "update-visible-ranges": {
+          const result = msg.result;
+
+          if (result && "startLine" in result) {
+            const { startLine, endLine } = result;
+            scrollToRevealSourceLine(startLine);
+          }
+          break;
         }
       }
     };

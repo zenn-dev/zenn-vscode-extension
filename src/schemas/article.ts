@@ -79,15 +79,20 @@ export const createArticleContent = (
 ): ArticleContent => {
   const filename = getFilenameFromUrl(uri) || "";
 
+  const frontMatterObj = parseFrontMatter(text);
+  const frontMatterLines = Object.entries(frontMatterObj).length + 2; // 2: --- で囲まれた行数
+
   return {
     uri,
     filename,
     type: "article",
     value: {
-      ...parseFrontMatter(text),
+      ...frontMatterObj,
       slug: filename.replace(".md", ""),
     },
-    markdown: text.replace(FRONT_MATTER_PATTERN, ""),
+    markdown: text
+      // Front Matter を削除するが、ソースマップのために行数は残す
+      .replace(FRONT_MATTER_PATTERN, "\n".repeat(frontMatterLines)),
   };
 };
 

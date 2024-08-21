@@ -21,17 +21,17 @@ importers:
         specifier: ^18.2.0
         version: 18.3.1(react@18.3.1)
       zenn-content-css:
-        specifier: ^0.1.139
-        version: 0.1.153
+        specifier: ^0.1.155
+        version: 0.1.155
       zenn-embed-elements:
-        specifier: ^0.1.139
-        version: 0.1.153
+        specifier: ^0.1.155
+        version: 0.1.155
       zenn-markdown-html:
-        specifier: ^0.1.139
-        version: 0.1.153(@types/markdown-it@14.1.1)
+        specifier: ^0.1.155
+        version: 0.1.155(@types/markdown-it@14.1.1)
       zenn-model:
-        specifier: ^0.1.139
-        version: 0.1.153
+        specifier: ^0.1.155
+        version: 0.1.155
     devDependencies:
       '@svgr/webpack':
         specifier: ^6.3.1
@@ -3655,17 +3655,17 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
 
-  zenn-content-css@0.1.153:
-    resolution: {integrity: sha512-dixZekfHXx3I6r5HhoQi1f7NqhKr5a/ubh8HochO5lkrHCXG6a446eZ1+j9zeJxROfDjCkulB+nuDJo4FoQ8Rw==}
+  zenn-content-css@0.1.155:
+    resolution: {integrity: sha512-YR22ASOK/R86zPBr7fGSmuAO4urPSaAIzo0n1ZXt9MTsv5XRQuXMKWoqgvpTxE+kTrMnAREORH6IBKoy9ZOgUQ==}
 
-  zenn-embed-elements@0.1.153:
-    resolution: {integrity: sha512-4sWhDDRjeZ444RyUmhTpcsnJKBHBb+quY7uAmUsTGRhbbYdU0hHeju0OBZeUc4wU1LLGPQK1Pbr8uiotcaCyiw==}
+  zenn-embed-elements@0.1.155:
+    resolution: {integrity: sha512-mEfgvI/6Qb0A3bAV2SrPSSd3HTdgphrrQ3U4gqTdQxeecuM5xxMIV3088KvQlpJngxPDz7Z5IheLPsN95y94Eg==}
 
-  zenn-markdown-html@0.1.153:
-    resolution: {integrity: sha512-9fzR1mrkb9Xz4FQplHucLPc3BKQriBNjXxBfODfBmO58cNRlvoNg4QvGp1nkhCLRfjiKxDXy7x09ccXSBdE+xg==}
+  zenn-markdown-html@0.1.155:
+    resolution: {integrity: sha512-VfGsyvks9fiV4SIun5bfyBtaiIC6/5wrsPMTSkVnxF6BAbcnAUF4KnwBuR+kBbYv2YXr6Q7HP4OxvWLjHmbT7g==}
 
-  zenn-model@0.1.153:
-    resolution: {integrity: sha512-JavPXxaY2mmcMc8wmCT0JuMo3PtTokd6gjGSDGDCDsQK9NycEt7WRS+Sx6zdAsD9XbWa4iZP06wWawxC3xtA3g==}
+  zenn-model@0.1.155:
+    resolution: {integrity: sha512-beYw//+64bwEJz+vydk6x0tUCf6soMaOAH5HBYs369uvJzgyIDdDbnWXrL+g5FPWsG/ArQJmTPpa8yTCWN+vQA==}
 
 snapshots:
 
@@ -7674,11 +7674,11 @@ snapshots:
 
   yocto-queue@0.1.0: {}
 
-  zenn-content-css@0.1.153: {}
+  zenn-content-css@0.1.155: {}
 
-  zenn-embed-elements@0.1.153: {}
+  zenn-embed-elements@0.1.155: {}
 
-  zenn-markdown-html@0.1.153(@types/markdown-it@14.1.1):
+  zenn-markdown-html@0.1.155(@types/markdown-it@14.1.1):
     dependencies:
       '@steelydylan/markdown-it-imsize': 1.0.2
       cheerio: 1.0.0-rc.12
@@ -7694,6 +7694,6 @@ snapshots:
     transitivePeerDependencies:
       - '@types/markdown-it'
 
-  zenn-model@0.1.153:
+  zenn-model@0.1.155:
     dependencies:
       emoji-regex: 10.3.0

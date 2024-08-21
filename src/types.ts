@@ -124,6 +124,10 @@ export type PreviewEvent =
       type: "open-preview-panel";
       payload: { path: string };
       result?: never;
+    }
+  | {
+      type: "update-visible-ranges";
+      result: { startLine: number; endLine: number };
     };
 
 /**

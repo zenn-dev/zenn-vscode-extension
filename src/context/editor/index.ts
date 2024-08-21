@@ -64,5 +64,30 @@ export const initializeEditor = (context: AppContext): vscode.Disposable[] => {
       // プレビューパネルを開く
       panel.reveal(void 0, true);
     }),
+
+    // エディターの表示範囲が変更されたとき（スクロールなど）
+    vscode.window.onDidChangeTextEditorVisibleRanges((event) => {
+      const editor = event.textEditor;
+      const visibleRanges = event.visibleRanges;
+
+      // 表示されている範囲の開始位置と終了位置を取得
+      visibleRanges.forEach((range) => {
+        const startLine = range.start.line;
+        const endLine = range.end.line;
+
+        const activeDocumentUri = editor.document.uri;
+        const key = cache.createKey("previewPanel", activeDocumentUri);
+        const panel = cache.getCache(key)?.panel;
+
+        if (!panel) return;
+        if (editor.viewColumn === panel.viewColumn) return;
+
+        // プレビューパネルの表示範囲を更新
+        panel.webview.postMessage({
+          type: "update-visible-ranges",
+          result: { startLine, endLine },
+        });
+      });
+    }),
   ];
 };

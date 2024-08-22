@@ -13,12 +13,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: "16"
+          node-version: 18
 
       - name: バージョン番号を環境変数に設定
         run: node -p -e '`RELEASED_PACKAGE_VERSION=${require("./package.json").version}`' >> $GITHUB_ENV

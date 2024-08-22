@@ -56,7 +56,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           message_regex: "リリースラベルを付与してください"
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: マージ先を取得
         run: git fetch origin ${{ github.base_ref }} --depth=1
@@ -70,17 +70,17 @@ jobs:
     needs: [version_diff]
     if: needs.version_diff.outputs.chagned == '0'
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.ref }}
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 18
 
-      - uses: pnpm/action-setup@v2
+      - uses: pnpm/action-setup@v4
         with:
-          version: 7
+          version: 9
 
       - name: Gitの設定
         if: steps.diff.outputs.changed == '0'

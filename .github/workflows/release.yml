@@ -9,11 +9,11 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 18
 
       # vsce が pnpm に対応してないので npm でインストールする。
       # lock ファイルを参照せずにインストールするので不安要素はあるが、
@@ -36,7 +36,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: canary へチェックアウト
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: canary
 

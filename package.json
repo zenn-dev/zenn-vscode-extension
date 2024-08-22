@@ -10,7 +10,7 @@
     "url": "https://github.com/zenn-dev/zenn-vscode-extension.git"
   },
   "license": "MIT",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "pricing": "Free",
   "engines": {
     "vscode": "^1.72.0"
@@ -252,9 +252,9 @@
     "js-yaml": "^4.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "zenn-content-css": "^0.1.139",
-    "zenn-embed-elements": "^0.1.139",
-    "zenn-markdown-html": "^0.1.139",
-    "zenn-model": "^0.1.139"
+    "zenn-content-css": "^0.1.155",
+    "zenn-embed-elements": "^0.1.155",
+    "zenn-markdown-html": "^0.1.155",
+    "zenn-model": "^0.1.155"
   }
 }

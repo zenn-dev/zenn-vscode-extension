@@ -40,11 +40,11 @@ export const createAppContext = (
   const articlesFolderUri = vscode.Uri.joinPath(workspaceUri, "articles");
 
   const uriPatterns = {
-    book: new RegExp(`^${booksFolderUri}/[^/]+/?$`),
-    article: new RegExp(`^${articlesFolderUri}/[^/]+\\.md$`),
-    bookChapter: new RegExp(`^${booksFolderUri}/[^/]+/[^/]+\\.md$`),
-    bookConfig: new RegExp(`^${booksFolderUri}/[^/]+/${BOOK_CONFIG_FILE_PATTERN.source}$`), // prettier-ignore
-    bookCoverImage: new RegExp(`^${booksFolderUri}/[^/]+/${BOOK_COVER_IMAGE_FILE_PATTERN.source}$`), // prettier-ignore
+    book: new RegExp(/\/books\/[^/]+\/?$/),
+    article: new RegExp(/\/articles\/(?:[^/]+\/)*[^/]+\.md$/),
+    bookChapter: new RegExp(/\/books\/[^/]+\/[^/]+\.md$/),
+    bookConfig: new RegExp(`/books/[^/]+/${BOOK_CONFIG_FILE_PATTERN.source}$`), // prettier-ignore
+    bookCoverImage: new RegExp(`/books/[^/]+/${BOOK_COVER_IMAGE_FILE_PATTERN.source}$`), // prettier-ignore
   };
 
   return {

@@ -84,7 +84,9 @@ export const ArticlePreview = ({ content }: ArticlePreviewProps) => {
             <ArticleProperty title="topics">
               {Array.isArray(article.topics) && article.topics.length
                 ? article.topics.map((topic) => (
-                    <span className={styles.topic}>{topic}</span>
+                    <span key={topic} className={styles.topic}>
+                      {topic}
+                    </span>
                   ))
                 : "配列による指定が必要です"}
             </ArticleProperty>

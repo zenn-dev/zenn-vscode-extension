@@ -2,7 +2,7 @@
 {
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
+    "source.fixAll.eslint": "explicit"
   },
   "files.exclude": {
     "out": false // set this to true to hide the "out" folder with the compiled JS files

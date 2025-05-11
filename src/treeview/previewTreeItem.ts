@@ -4,6 +4,7 @@ import * as vscode from "vscode";
 import { AppContext } from "../context/app";
 import { ContentError } from "../schemas/error";
 import { Contents, ContentsType } from "../types";
+import { EMOJI_REGEX } from "../utils/patterns";
 
 /** TreeItem の `contextValue` に設定できる値 */
 export type TreeItemType = ContentsType | "error" | "none";
@@ -64,6 +65,28 @@ export abstract class PreviewTreeItem extends vscode.TreeItem {
    * TreeItemをソートする
    */
   static sortTreeItems(items: PreviewTreeItem[]): PreviewTreeItem[] {
-    return items.sort((a, b) => naturalCompare(a.path, b.path));
+    return items.sort((a, b) => {
+      // vscode.TreeItem.label は string | TreeItemLabel | undefined
+      const getCleanLabel = (item: PreviewTreeItem): string => {
+        const labelProp = item.label;
+        let labelStr = "";
+        if (typeof labelProp === "string") {
+          labelStr = labelProp;
+        } else if (labelProp && typeof labelProp.label === "string") {
+          labelStr = labelProp.label;
+        }
+        return labelStr.replace(EMOJI_REGEX, "").trim();
+      };
+
+      const aCleanLabel = getCleanLabel(a);
+      const bCleanLabel = getCleanLabel(b);
+
+      if (aCleanLabel || bCleanLabel) { // どちらかに絵文字除去後ラベルがあれば比較
+        return naturalCompare(aCleanLabel, bCleanLabel);
+      }
+
+      // 絵文字除去後ラベルが両方空の場合はpathで比較 (元々ラベルがなかった場合など)
+      return naturalCompare(a.path, b.path);
+    });
   }
 }

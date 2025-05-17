@@ -82,11 +82,11 @@ export abstract class PreviewTreeItem extends vscode.TreeItem {
       const bCleanLabel = getCleanLabel(b);
 
       if (aCleanLabel || bCleanLabel) { // どちらかに絵文字除去後ラベルがあれば比較
-        return naturalCompare(aCleanLabel, bCleanLabel);
+        return aCleanLabel.localeCompare(bCleanLabel, 'ja', { sensitivity: 'base' });
       }
 
       // 絵文字除去後ラベルが両方空の場合はpathで比較 (元々ラベルがなかった場合など)
-      return naturalCompare(a.path, b.path);
+      return a.path.localeCompare(b.path, 'ja', { sensitivity: 'base' });
     });
   }
 }

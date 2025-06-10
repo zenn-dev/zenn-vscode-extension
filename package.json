@@ -1,260 +1,273 @@
 {
-  "name": "zenn-preview",
-  "publisher": "zenn",
-  "displayName": "Zenn Preview for github.dev",
-  "description": "Zenn のコンテンツを github.dev でプレビューできるようにする VSCode 拡張",
-  "icon": "public/assets/zenn-icon.png",
-  "homepage": "https://marketplace.visualstudio.com/items?itemName=zenn.zenn-preview",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/zenn-dev/zenn-vscode-extension.git"
-  },
-  "license": "MIT",
-  "version": "0.3.0",
-  "pricing": "Free",
-  "engines": {
-    "vscode": "^1.72.0"
-  },
-  "categories": [
-    "Snippets",
-    "Other"
-  ],
-  "keywords": [
-    "zenn",
-    "zenn.dev",
-    "github.dev",
-    "markdown"
-  ],
-  "activationEvents": [
-    "*"
-  ],
-  "browser": "./dist/web/extension.js",
-  "contributes": {
-    "viewsContainers": {
-      "activitybar": [
-        {
-          "id": "zenn-preview",
-          "title": "Zenn Preview",
-          "icon": "public/assets/svg/zenn-icon.svg"
-        }
-      ]
+    "name": "zenn-preview",
+    "publisher": "zenn",
+    "displayName": "Zenn Preview for github.dev",
+    "description": "Zenn のコンテンツを github.dev でプレビューできるようにする VSCode 拡張",
+    "icon": "public/assets/zenn-icon.png",
+    "homepage": "https://marketplace.visualstudio.com/items?itemName=zenn.zenn-preview",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/zenn-dev/zenn-vscode-extension.git"
     },
-    "views": {
-      "zenn-preview": [
-        {
-          "id": "zenn-articles-tree-view",
-          "name": "Articles"
-        },
-        {
-          "id": "zenn-books-tree-view",
-          "name": "Books"
-        },
-        {
-          "id": "zenn-guides-tree-view",
-          "name": "Guides"
-        }
-      ]
+    "license": "MIT",
+    "version": "0.3.0",
+    "pricing": "Free",
+    "engines": {
+        "vscode": "^1.72.0"
     },
-    "viewsWelcome": [
-      {
-        "view": "zenn-articles-tree-view",
-        "contents": "記事が見つかりませんでした\n[記事を作成する](command:zenn-preview.new-article)"
-      },
-      {
-        "view": "zenn-books-tree-view",
-        "contents": "本が見つかりませんでした\n[本を作成する](command:zenn-preview.new-book)"
-      }
+    "categories": [
+        "Snippets",
+        "Other"
     ],
-    "commands": [
-      {
-        "command": "zenn-preview.preview-zenn",
-        "category": "Zenn",
-        "title": "%preview-zenn%",
-        "icon": {
-          "dark": "./public/assets/svg/dark/preview.svg",
-          "light": "./public/assets/svg/light/preview.svg"
-        }
-      },
-      {
-        "command": "zenn-preview.new-article",
-        "category": "Zenn",
-        "title": "%new-article%",
-        "icon": "$(new-file)"
-      },
-      {
-        "command": "zenn-preview.new-book",
-        "category": "Zenn",
-        "title": "%new-book%",
-        "icon": {
-          "dark": "./public/assets/svg/dark/new-book.svg",
-          "light": "./public/assets/svg/light/new-book.svg"
-        }
-      },
-      {
-        "command": "zenn-preview.refresh-articles",
-        "category": "Zenn",
-        "title": "%refresh-articles%",
-        "icon": "$(refresh)"
-      },
-      {
-        "command": "zenn-preview.refresh-books",
-        "category": "Zenn",
-        "title": "%refresh-books%",
-        "icon": "$(refresh)"
-      },
-      {
-        "command": "zenn-preview.new-chapter",
-        "category": "Zenn",
-        "title": "%new-chapter%",
-        "icon": "$(new-file)"
-      },
-      {
-        "command": "zenn-preview.open-guide",
-        "category": "Zenn",
-        "title": "%open-guide%",
-        "icon": "$(link-external)"
-      },
-      {
-        "command": "zenn-preview.reveal-active-file",
-        "category": "Zenn",
-        "title": "%reveal-active-file%"
-      }
+    "keywords": [
+        "zenn",
+        "zenn.dev",
+        "github.dev",
+        "markdown"
     ],
-    "menus": {
-      "view/title": [
-        {
-          "command": "zenn-preview.new-article",
-          "when": "view == zenn-articles-tree-view",
-          "group": "navigation"
+    "activationEvents": [
+        "*"
+    ],
+    "browser": "./dist/web/extension.js",
+    "contributes": {
+        "viewsContainers": {
+            "activitybar": [
+                {
+                    "id": "zenn-preview",
+                    "title": "Zenn Preview",
+                    "icon": "public/assets/svg/zenn-icon.svg"
+                }
+            ]
         },
-        {
-          "command": "zenn-preview.refresh-articles",
-          "when": "view == zenn-articles-tree-view",
-          "group": "navigation"
+        "views": {
+            "zenn-preview": [
+                {
+                    "id": "zenn-articles-tree-view",
+                    "name": "Articles"
+                },
+                {
+                    "id": "zenn-books-tree-view",
+                    "name": "Books"
+                },
+                {
+                    "id": "zenn-guides-tree-view",
+                    "name": "Guides"
+                }
+            ]
         },
-        {
-          "command": "zenn-preview.refresh-books",
-          "when": "view == zenn-books-tree-view",
-          "group": "navigation"
+        "viewsWelcome": [
+            {
+                "view": "zenn-articles-tree-view",
+                "contents": "記事が見つかりませんでした\n[記事を作成する](command:zenn-preview.new-article)"
+            },
+            {
+                "view": "zenn-books-tree-view",
+                "contents": "本が見つかりませんでした\n[本を作成する](command:zenn-preview.new-book)"
+            }
+        ],
+        "commands": [
+            {
+                "command": "zenn-preview.preview-zenn",
+                "category": "Zenn",
+                "title": "%preview-zenn%",
+                "icon": {
+                    "dark": "./public/assets/svg/dark/preview.svg",
+                    "light": "./public/assets/svg/light/preview.svg"
+                }
+            },
+            {
+                "command": "zenn-preview.new-article",
+                "category": "Zenn",
+                "title": "%new-article%",
+                "icon": "$(new-file)"
+            },
+            {
+                "command": "zenn-preview.new-book",
+                "category": "Zenn",
+                "title": "%new-book%",
+                "icon": {
+                    "dark": "./public/assets/svg/dark/new-book.svg",
+                    "light": "./public/assets/svg/light/new-book.svg"
+                }
+            },
+            {
+                "command": "zenn-preview.refresh-articles",
+                "category": "Zenn",
+                "title": "%refresh-articles%",
+                "icon": "$(refresh)"
+            },
+            {
+                "command": "zenn-preview.refresh-books",
+                "category": "Zenn",
+                "title": "%refresh-books%",
+                "icon": "$(refresh)"
+            },
+            {
+                "command": "zenn-preview.new-chapter",
+                "category": "Zenn",
+                "title": "%new-chapter%",
+                "icon": "$(new-file)"
+            },
+            {
+                "command": "zenn-preview.open-guide",
+                "category": "Zenn",
+                "title": "%open-guide%",
+                "icon": "$(link-external)"
+            },
+            {
+                "command": "zenn-preview.reveal-active-file",
+                "category": "Zenn",
+                "title": "%reveal-active-file%"
+            }
+        ],
+        "menus": {
+            "view/title": [
+                {
+                    "command": "zenn-preview.new-article",
+                    "when": "view == zenn-articles-tree-view",
+                    "group": "navigation"
+                },
+                {
+                    "command": "zenn-preview.refresh-articles",
+                    "when": "view == zenn-articles-tree-view",
+                    "group": "navigation"
+                },
+                {
+                    "command": "zenn-preview.refresh-books",
+                    "when": "view == zenn-books-tree-view",
+                    "group": "navigation"
+                },
+                {
+                    "command": "zenn-preview.new-book",
+                    "when": "view == zenn-books-tree-view",
+                    "group": "navigation"
+                }
+            ],
+            "view/item/context": [
+                {
+                    "command": "zenn-preview.new-chapter",
+                    "when": "viewItem == book",
+                    "group": "inline@1"
+                },
+                {
+                    "command": "zenn-preview.preview-zenn",
+                    "when": "view == zenn-articles-tree-view && viewItem == article || view == zenn-books-tree-view && viewItem == book || viewItem == bookChapter",
+                    "group": "inline@2"
+                },
+                {
+                    "command": "zenn-preview.open-guide",
+                    "when": "view == zenn-guides-tree-view",
+                    "group": "inline"
+                }
+            ],
+            "editor/title": [
+                {
+                    "command": "zenn-preview.preview-zenn",
+                    "when": "resourceLangId == markdown && zenn-preview.active-document-can-preview",
+                    "group": "navigation"
+                }
+            ]
         },
-        {
-          "command": "zenn-preview.new-book",
-          "when": "view == zenn-books-tree-view",
-          "group": "navigation"
+        "snippets": [
+            {
+                "language": "markdown",
+                "path": "./snippets/snippets.json"
+            }
+        ],
+        "configuration": {
+            "title": "Zenn Preview",
+            "properties": {
+                "zenn-preview.sortByChapterNumber": {
+                    "type": "boolean",
+                    "default": false,
+                    "markdownDescription": "ツリービューに表示されるチャプターファイルをチャプター番号で並び替えるかどうかを制御します。この設定を無効化するとファイル名の順番で表示されます。"
+                },
+                "zenn-preview.showChapterNumber": {
+                    "type": "boolean",
+                    "default": false,
+                    "markdownDescription": "ツリービューに表示されるチャプターファイルの表示にチャプター番号をプリフィクスするかどうかを制御します。除外されているチャプターの表示には `(除外)` がプリフィクスされます。"
+                },
+                "zenn-preview.truncatePreivewTitle": {
+                    "type": "number",
+                    "default": 50,
+                    "minimum": 5,
+                    "markdownDescription": "プレビューパネルに表示されるタブタイトルを指定した文字数で切り詰めます。"
+                },
+                "zenn-preview.sortArticle": {
+                    "type": "string",
+                    "default": null,
+                    "enum": [
+                        null,
+                        "title"
+                    ],
+                    "enumDescriptions": [
+                        "ファイルパスの昇順で表示",
+                        "タイトルの昇順で表示"
+                    ],
+                    "markdownDescription": "記事の並び順を設定します。"
+                }
+            }
         }
-      ],
-      "view/item/context": [
-        {
-          "command": "zenn-preview.new-chapter",
-          "when": "viewItem == book",
-          "group": "inline@1"
-        },
-        {
-          "command": "zenn-preview.preview-zenn",
-          "when": "view == zenn-articles-tree-view && viewItem == article || view == zenn-books-tree-view && viewItem == book || viewItem == bookChapter",
-          "group": "inline@2"
-        },
-        {
-          "command": "zenn-preview.open-guide",
-          "when": "view == zenn-guides-tree-view",
-          "group": "inline"
-        }
-      ],
-      "editor/title": [
-        {
-          "command": "zenn-preview.preview-zenn",
-          "when": "resourceLangId == markdown && zenn-preview.active-document-can-preview",
-          "group": "navigation"
-        }
-      ]
     },
-    "snippets": [
-      {
-        "language": "markdown",
-        "path": "./snippets/snippets.json"
-      }
-    ],
-    "configuration": {
-      "title": "Zenn Preview",
-      "properties": {
-        "zenn-preview.sortByChapterNumber": {
-          "type": "boolean",
-          "default": false,
-          "markdownDescription": "ツリービューに表示されるチャプターファイルをチャプター番号で並び替えるかどうかを制御します。この設定を無効化するとファイル名の順番で表示されます。"
-        },
-        "zenn-preview.showChapterNumber": {
-          "type": "boolean",
-          "default": false,
-          "markdownDescription": "ツリービューに表示されるチャプターファイルの表示にチャプター番号をプリフィクスするかどうかを制御します。除外されているチャプターの表示には `(除外)` がプリフィクスされます。"
-        },
-        "zenn-preview.truncatePreivewTitle": {
-          "type": "number",
-          "default": 50,
-          "minimum": 5,
-          "markdownDescription": "プレビューパネルに表示されるタブタイトルを指定した文字数で切り詰めます。"
-        }
-      }
+    "scripts": {
+        "publish:vsce": "yes | vsce publish",
+        "dev": "run-p watch-web run-in-browser",
+        "vscode:prepublish": "npm run package-web",
+        "compile-web": "webpack",
+        "watch-web": "webpack --watch",
+        "package-web": "webpack --mode production --devtool hidden-source-map",
+        "run-in-browser": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=. ./examples",
+        "lint": "run-s lint:*",
+        "lint:tsc": "tsc --noEmit -p tsconfig.lint.json",
+        "lint:eslint": "eslint 'src/**/*.{ts,tsx}'",
+        "lint:prettier": "prettier ./src",
+        "fix": "run-s fix:*",
+        "fix:prettier": "prettier -w ./src",
+        "fix:eslint": "eslint --fix 'src/**/*.{ts,tsx}'",
+        "test": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=. --extensionTestsPath=dist/web/test/suite/index.js"
+    },
+    "devDependencies": {
+        "@svgr/webpack": "^6.3.1",
+        "@types/assert": "^1.5.6",
+        "@types/js-yaml": "^4.0.5",
+        "@types/mocha": "^9.1.1",
+        "@types/react": "^18.0.15",
+        "@types/react-dom": "^18.0.6",
+        "@types/vscode": "^1.72.0",
+        "@types/vscode-webview": "^1.57.0",
+        "@types/webpack-env": "^1.17.0",
+        "@typescript-eslint/eslint-plugin": "^5.30.0",
+        "@typescript-eslint/parser": "^5.30.0",
+        "@vscode/test-web": "^0.0.65",
+        "@vscode/vsce": "^3.2.2",
+        "assert": "^2.0.0",
+        "crypto-browserify": "^3.12.0",
+        "css-loader": "^6.7.1",
+        "esbuild-loader": "^2.19.0",
+        "eslint": "^8.18.0",
+        "eslint-plugin-import": "^2.26.0",
+        "mocha": "^10.0.0",
+        "natural-compare-lite": "^1.4.0",
+        "npm-run-all": "^4.1.5",
+        "prettier": "^2.7.1",
+        "process": "^0.11.10",
+        "sass": "^1.53.0",
+        "sass-loader": "^13.0.2",
+        "stream-browserify": "^3.0.0",
+        "style-loader": "^3.3.1",
+        "ts-loader": "^9.3.1",
+        "typescript": "^4.7.4",
+        "webpack": "^5.73.0",
+        "webpack-cli": "^4.10.0"
+    },
+    "dependencies": {
+        "emoji-regex": "^10.2.1",
+        "js-yaml": "^4.1.0",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "zenn-content-css": "^0.1.155",
+        "zenn-embed-elements": "^0.1.155",
+        "zenn-markdown-html": "^0.1.155",
+        "zenn-model": "^0.1.155"
     }
-  },
-  "scripts": {
-    "publish:vsce": "yes | vsce publish",
-    "dev": "run-p watch-web run-in-browser",
-    "vscode:prepublish": "npm run package-web",
-    "compile-web": "webpack",
-    "watch-web": "webpack --watch",
-    "package-web": "webpack --mode production --devtool hidden-source-map",
-    "run-in-browser": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=. ./examples",
-    "lint": "run-s lint:*",
-    "lint:tsc": "tsc --noEmit -p tsconfig.lint.json",
-    "lint:eslint": "eslint 'src/**/*.{ts,tsx}'",
-    "lint:prettier": "prettier ./src",
-    "fix": "run-s fix:*",
-    "fix:prettier": "prettier -w ./src",
-    "fix:eslint": "eslint --fix 'src/**/*.{ts,tsx}'",
-    "test": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=. --extensionTestsPath=dist/web/test/suite/index.js"
-  },
-  "devDependencies": {
-    "@svgr/webpack": "^6.3.1",
-    "@types/assert": "^1.5.6",
-    "@types/js-yaml": "^4.0.5",
-    "@types/mocha": "^9.1.1",
-    "@types/react": "^18.0.15",
-    "@types/react-dom": "^18.0.6",
-    "@types/vscode": "^1.72.0",
-    "@types/vscode-webview": "^1.57.0",
-    "@types/webpack-env": "^1.17.0",
-    "@typescript-eslint/eslint-plugin": "^5.30.0",
-    "@typescript-eslint/parser": "^5.30.0",
-    "@vscode/test-web": "^0.0.65",
-    "@vscode/vsce": "^3.2.2",
-    "assert": "^2.0.0",
-    "crypto-browserify": "^3.12.0",
-    "css-loader": "^6.7.1",
-    "esbuild-loader": "^2.19.0",
-    "eslint": "^8.18.0",
-    "eslint-plugin-import": "^2.26.0",
-    "mocha": "^10.0.0",
-    "natural-compare-lite": "^1.4.0",
-    "npm-run-all": "^4.1.5",
-    "prettier": "^2.7.1",
-    "process": "^0.11.10",
-    "sass": "^1.53.0",
-    "sass-loader": "^13.0.2",
-    "stream-browserify": "^3.0.0",
-    "style-loader": "^3.3.1",
-    "ts-loader": "^9.3.1",
-    "typescript": "^4.7.4",
-    "webpack": "^5.73.0",
-    "webpack-cli": "^4.10.0"
-  },
-  "dependencies": {
-    "emoji-regex": "^10.2.1",
-    "js-yaml": "^4.1.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "zenn-content-css": "^0.1.155",
-    "zenn-embed-elements": "^0.1.155",
-    "zenn-markdown-html": "^0.1.155",
-    "zenn-model": "^0.1.155"
-  }
 }

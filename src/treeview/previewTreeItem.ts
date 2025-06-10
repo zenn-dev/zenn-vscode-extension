@@ -1,4 +1,3 @@
-import naturalCompare from "natural-compare-lite";
 import * as vscode from "vscode";
 
 import { AppContext } from "../context/app";
@@ -65,28 +64,43 @@ export abstract class PreviewTreeItem extends vscode.TreeItem {
    * TreeItemをソートする
    */
   static sortTreeItems(items: PreviewTreeItem[]): PreviewTreeItem[] {
+    // 設定からソート順を取得
+    const sortArticle = vscode.workspace
+      .getConfiguration("zenn-preview")
+      .get<string | null>("sortArticle");
+
     return items.sort((a, b) => {
-      // vscode.TreeItem.label は string | TreeItemLabel | undefined
-      const getCleanLabel = (item: PreviewTreeItem): string => {
-        const labelProp = item.label;
-        let labelStr = "";
-        if (typeof labelProp === "string") {
-          labelStr = labelProp;
-        } else if (labelProp && typeof labelProp.label === "string") {
-          labelStr = labelProp.label;
+      // 記事タイトルでソート
+      if (sortArticle === "title") {
+        const getCleanLabel = (item: PreviewTreeItem): string => {
+          const labelProp = item.label;
+          let labelStr = "";
+          if (typeof labelProp === "string") {
+            labelStr = labelProp;
+          } else if (labelProp && typeof labelProp.label === "string") {
+            labelStr = labelProp.label;
+          }
+          return labelStr.replace(EMOJI_REGEX, "").trim();
+        };
+
+        const aCleanLabel = getCleanLabel(a);
+        const bCleanLabel = getCleanLabel(b);
+
+        if (aCleanLabel || bCleanLabel) {
+          // どちらかに絵文字除去後ラベルがあれば比較
+          return aCleanLabel.localeCompare(bCleanLabel, "ja", {
+            sensitivity: "base",
+          });
         }
-        return labelStr.replace(EMOJI_REGEX, "").trim();
-      };
 
-      const aCleanLabel = getCleanLabel(a);
-      const bCleanLabel = getCleanLabel(b);
-
-      if (aCleanLabel || bCleanLabel) { // どちらかに絵文字除去後ラベルがあれば比較
-        return aCleanLabel.localeCompare(bCleanLabel, 'ja', { sensitivity: 'base' });
+        // 絵文字除去後ラベルが両方空の場合はpathで比較 (元々ラベルがなかった場合など)
+        return a.path.localeCompare(b.path, "ja", { sensitivity: "base" });
       }
 
-      // 絵文字除去後ラベルが両方空の場合はpathで比較 (元々ラベルがなかった場合など)
-      return a.path.localeCompare(b.path, 'ja', { sensitivity: 'base' });
+      // ファイルパスでソート
+      else {
+        return a.path.localeCompare(b.path, "ja", { sensitivity: "base" });
+      }
     });
   }
 }

@@ -13,7 +13,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
 
       # vsce が pnpm に対応してないので npm でインストールする。
       # lock ファイルを参照せずにインストールするので不安要素はあるが、

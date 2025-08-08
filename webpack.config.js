@@ -45,6 +45,7 @@ const webExtensionConfig = {
       assert: require.resolve("assert"),
       crypto: require.resolve("crypto-browserify"),
       stream: require.resolve("stream-browserify"),
+      buffer: require.resolve("buffer/"),
     },
   },
   module: {
@@ -68,7 +69,12 @@ const webExtensionConfig = {
       },
     ],
   },
-  plugins: [new webpack.ProvidePlugin({ process: "process/browser.js" })],
+  plugins: [
+    new webpack.ProvidePlugin({ 
+      process: "process/browser.js",
+      Buffer: ["buffer", "Buffer"],
+    })
+  ],
   externals: {
     vscode: "commonjs vscode", // ignored because it doesn't exist
   },

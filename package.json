@@ -10,7 +10,7 @@
     "url": "https://github.com/zenn-dev/zenn-vscode-extension.git"
   },
   "license": "MIT",
-  "version": "0.3.0",
+  "version": "0.5.1",
   "pricing": "Free",
   "engines": {
     "vscode": "^1.72.0"
@@ -192,19 +192,6 @@
           "default": 50,
           "minimum": 5,
           "markdownDescription": "プレビューパネルに表示されるタブタイトルを指定した文字数で切り詰めます。"
-        },
-        "zenn-preview.sortArticle": {
-          "type": "string",
-          "default": null,
-          "enum": [
-            null,
-            "title"
-          ],
-          "enumDescriptions": [
-            "ファイルパスの昇順で表示",
-            "タイトルの昇順で表示"
-          ],
-          "markdownDescription": "記事の並び順を設定します。"
         }
       }
     }
@@ -241,6 +228,7 @@
     "@vscode/test-web": "^0.0.65",
     "@vscode/vsce": "^3.2.2",
     "assert": "^2.0.0",
+    "buffer": "^6.0.3",
     "crypto-browserify": "^3.12.0",
     "css-loader": "^6.7.1",
     "esbuild-loader": "^2.19.0",

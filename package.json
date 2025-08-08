@@ -10,7 +10,7 @@
     "url": "https://github.com/zenn-dev/zenn-vscode-extension.git"
   },
   "license": "MIT",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "pricing": "Free",
   "engines": {
     "vscode": "^1.72.0"

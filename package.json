@@ -198,11 +198,15 @@
           "default": null,
           "enum": [
             null,
-            "title"
+            "title",
+            "created",
+            "updated"
           ],
           "enumDescriptions": [
             "ファイルパスの昇順で表示",
-            "タイトルの昇順で表示"
+            "タイトルの昇順で表示",
+            "作成日時の昇順で表示",
+            "更新日時の昇順で表示"
           ],
           "markdownDescription": "記事の並び順を設定します。"
         }

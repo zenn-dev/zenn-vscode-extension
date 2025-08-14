@@ -63,11 +63,47 @@ export abstract class PreviewTreeItem extends vscode.TreeItem {
   /**
    * TreeItemをソートする
    */
-  static sortTreeItems(items: PreviewTreeItem[]): PreviewTreeItem[] {
+  static async sortTreeItems(
+    items: PreviewTreeItem[]
+  ): Promise<PreviewTreeItem[]> {
     // 設定からソート順を取得
     const sortArticle = vscode.workspace
       .getConfiguration("zenn-preview")
       .get<string | null>("sortArticle");
+
+    // 作成日時あるいは更新日時でソート
+    if (sortArticle === "created" || sortArticle === "updated") {
+      const statsPromises = items.map(async (item) => {
+        if (item.contentUri) {
+          try {
+            const stat = await vscode.workspace.fs.stat(item.contentUri);
+            return { path: item.path, stat };
+          } catch {
+            return { path: item.path, stat: null };
+          }
+        }
+        return { path: item.path, stat: null };
+      });
+      const statsArray = await Promise.all(statsPromises);
+      const statsMap = new Map(statsArray.map((s) => [s.path, s.stat]));
+
+      return items.sort((a, b) => {
+        // file stat取得
+        const aStat = statsMap.get(a.path);
+        const bStat = statsMap.get(b.path);
+
+        if (aStat && bStat) {
+          if (sortArticle === "created") {
+            return aStat.ctime - bStat.ctime;
+          } else { // updated
+            return aStat.mtime - bStat.mtime;
+          }
+        }
+
+        // ファイルの作成・更新時刻が取れなかった場合はpathで比較
+        return a.path.localeCompare(b.path, "ja", { sensitivity: "base" });
+      });
+    }
 
     return items.sort((a, b) => {
       // 記事タイトルでソート

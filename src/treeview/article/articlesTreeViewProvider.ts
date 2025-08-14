@@ -48,7 +48,7 @@ export class ArticlesTreeViewProvider implements TreeDataProvider {
 
       this.treeItems = treeItems;
 
-      return PreviewTreeItem.sortTreeItems(treeItems);
+      return await PreviewTreeItem.sortTreeItems(treeItems);
     } catch {
       console.error("articlesフォルダ内にコンテンツが見つかりませんでした");
       return [];

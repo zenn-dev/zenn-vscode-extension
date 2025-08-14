@@ -203,12 +203,25 @@
             "updated"
           ],
           "enumDescriptions": [
-            "ファイルパスの昇順で表示",
-            "タイトルの昇順で表示",
-            "作成日時の昇順で表示",
-            "更新日時の昇順で表示"
+            "ファイルパス",
+            "タイトル",
+            "作成日時",
+            "更新日時"
           ],
-          "markdownDescription": "記事の並び順を設定します。"
+          "markdownDescription": "記事をソートする基準を設定します。"
+        },
+        "zenn-preview.sortOrder": {
+          "type": "string",
+          "default": "asc",
+          "enum": [
+            "asc",
+            "desc"
+          ],
+          "enumDescriptions": [
+            "昇順",
+            "降順"
+          ],
+          "markdownDescription": "記事ソート時の `昇順/降順` を指定します。"
         }
       }
     }

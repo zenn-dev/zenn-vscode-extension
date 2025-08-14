@@ -67,9 +67,10 @@ export abstract class PreviewTreeItem extends vscode.TreeItem {
     items: PreviewTreeItem[]
   ): Promise<PreviewTreeItem[]> {
     // 設定からソート順を取得
-    const sortArticle = vscode.workspace
-      .getConfiguration("zenn-preview")
-      .get<string | null>("sortArticle");
+    const zennPreviewConfig = vscode.workspace.getConfiguration("zenn-preview");
+    const sortArticle = zennPreviewConfig.get<string | null>("sortArticle");
+    const sortOrder = zennPreviewConfig.get<string>("sortOrder");
+    const order = sortOrder === "asc" ? 1 : -1;
 
     // 作成日時あるいは更新日時でソート
     if (sortArticle === "created" || sortArticle === "updated") {
@@ -93,15 +94,18 @@ export abstract class PreviewTreeItem extends vscode.TreeItem {
         const bStat = statsMap.get(b.path);
 
         if (aStat && bStat) {
+          // created
           if (sortArticle === "created") {
-            return aStat.ctime - bStat.ctime;
-          } else { // updated
-            return aStat.mtime - bStat.mtime;
+            return (aStat.ctime - bStat.ctime) * order;
+          } 
+          // updated
+          else {
+            return (aStat.mtime - bStat.mtime) * order;
           }
         }
 
         // ファイルの作成・更新時刻が取れなかった場合はpathで比較
-        return a.path.localeCompare(b.path, "ja", { sensitivity: "base" });
+        return a.path.localeCompare(b.path, "ja", { sensitivity: "base" }) * order;
       });
     }
 
@@ -124,18 +128,20 @@ export abstract class PreviewTreeItem extends vscode.TreeItem {
 
         if (aCleanLabel || bCleanLabel) {
           // どちらかに絵文字除去後ラベルがあれば比較
-          return aCleanLabel.localeCompare(bCleanLabel, "ja", {
-            sensitivity: "base",
-          });
+          return (
+            aCleanLabel.localeCompare(bCleanLabel, "ja", {
+              sensitivity: "base",
+            }) * order
+          );
         }
 
         // 絵文字除去後ラベルが両方空の場合はpathで比較 (元々ラベルがなかった場合など)
-        return a.path.localeCompare(b.path, "ja", { sensitivity: "base" });
+        return a.path.localeCompare(b.path, "ja", { sensitivity: "base" }) * order;
       }
 
       // ファイルパスでソート
       else {
-        return a.path.localeCompare(b.path, "ja", { sensitivity: "base" });
+        return a.path.localeCompare(b.path, "ja", { sensitivity: "base" }) * order;
       }
     });
   }

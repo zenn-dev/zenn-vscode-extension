@@ -63,7 +63,7 @@ export class BookTreeItem extends PreviewTreeItem {
       .get<boolean>("sortByChapterNumber");
     const sortedItems = isSortedByChapterNumber
       ? chapterTreeItems
-      : PreviewTreeItem.sortTreeItems(chapterTreeItems);
+      : await PreviewTreeItem.sortTreeItems(chapterTreeItems);
 
     const treeItems = [
       // 設定ファイルのTreeItem

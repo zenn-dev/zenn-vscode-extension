@@ -49,7 +49,7 @@ export class BooksTreeViewProvider implements TreeDataProvider {
 
       this.treeItems = treeItems;
 
-      return PreviewTreeItem.sortTreeItems(treeItems);
+      return await PreviewTreeItem.sortTreeItems(treeItems);
     } catch {
       console.error("booksフォルダ内にコンテンツが見つかりませんでした");
       return [];

@@ -11,19 +11,23 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: "pnpm"
 
-      # vsce が pnpm に対応してないので npm でインストールする。
-      # lock ファイルを参照せずにインストールするので不安要素はあるが、
-      # バージョンがそこまで違っていなければ問題ないと判断
+      - name: Install safe-chain
+        run: curl -fsSL https://raw.githubusercontent.com/AikidoSec/safe-chain/main/install-scripts/install-safe-chain.sh | sh -s -- --ci
+
       - name: node_modules をインストール
-        run: npm install --no-package-lock
+        run: pnpm install
 
-      # vsce が pnpm に対応してないので npm で実行する
       - name: VSCode拡張をリリース
-        run: npm run publish:vsce
+        run: pnpm run publish:vsce
         env:
           VSCE_PAT: ${{ secrets.VSCE_PAT }}
 

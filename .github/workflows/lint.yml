@@ -28,6 +28,9 @@ jobs:
           node-version: 18
           cache: "pnpm"
 
+      - name: Install safe-chain
+        run: curl -fsSL https://raw.githubusercontent.com/AikidoSec/safe-chain/main/install-scripts/install-safe-chain.sh | sh -s -- --ci
+
       - name: Install modules
         run: pnpm install
 

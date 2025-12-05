@@ -22,6 +22,8 @@ jobs:
 
       - name: Install safe-chain
         run: curl -fsSL https://raw.githubusercontent.com/AikidoSec/safe-chain/main/install-scripts/install-safe-chain.sh | sh -s -- --ci
+        env:
+          SAFE_CHAIN_VERSION: "1.2.1"
 
       - name: node_modules をインストール
         run: pnpm install

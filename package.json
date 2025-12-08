@@ -210,9 +210,9 @@
     }
   },
   "scripts": {
-    "publish:vsce": "yes | vsce publish",
+    "publish:vsce": "yes | vsce publish --no-dependencies",
     "dev": "run-p watch-web run-in-browser",
-    "vscode:prepublish": "npm run package-web",
+    "vscode:prepublish": "pnpm run package-web",
     "compile-web": "webpack",
     "watch-web": "webpack --watch",
     "package-web": "webpack --mode production --devtool hidden-source-map",
@@ -249,7 +249,7 @@
     "eslint-plugin-import": "^2.26.0",
     "mocha": "^10.0.0",
     "natural-compare-lite": "^1.4.0",
-    "npm-run-all": "^4.1.5",
+    "npm-run-all2": "^7.0.2",
     "prettier": "^2.7.1",
     "process": "^0.11.10",
     "sass": "^1.53.0",

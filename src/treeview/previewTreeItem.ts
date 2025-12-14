@@ -72,8 +72,8 @@ export abstract class PreviewTreeItem extends vscode.TreeItem {
     const sortOrder = zennPreviewConfig.get<string>("sortOrder");
     const order = sortOrder === "asc" ? 1 : -1;
 
-    // 作成日時あるいは更新日時でソート
-    if (sortArticle === "created" || sortArticle === "updated") {
+    // 更新日時でソート
+    if (sortArticle === "updated") {
       const statsPromises = items.map(async (item) => {
         if (item.contentUri) {
           try {
@@ -94,18 +94,13 @@ export abstract class PreviewTreeItem extends vscode.TreeItem {
         const bStat = statsMap.get(b.path);
 
         if (aStat && bStat) {
-          // created
-          if (sortArticle === "created") {
-            return (aStat.ctime - bStat.ctime) * order;
-          } 
-          // updated
-          else {
-            return (aStat.mtime - bStat.mtime) * order;
-          }
+          return (aStat.mtime - bStat.mtime) * order;
         }
 
-        // ファイルの作成・更新時刻が取れなかった場合はpathで比較
-        return a.path.localeCompare(b.path, "ja", { sensitivity: "base" }) * order;
+        // ファイルの更新時刻が取れなかった場合はpathで比較
+        return (
+          a.path.localeCompare(b.path, "ja", { sensitivity: "base" }) * order
+        );
       });
     }
 
@@ -136,12 +131,16 @@ export abstract class PreviewTreeItem extends vscode.TreeItem {
         }
 
         // 絵文字除去後ラベルが両方空の場合はpathで比較 (元々ラベルがなかった場合など)
-        return a.path.localeCompare(b.path, "ja", { sensitivity: "base" }) * order;
+        return (
+          a.path.localeCompare(b.path, "ja", { sensitivity: "base" }) * order
+        );
       }
 
       // ファイルパスでソート
       else {
-        return a.path.localeCompare(b.path, "ja", { sensitivity: "base" }) * order;
+        return (
+          a.path.localeCompare(b.path, "ja", { sensitivity: "base" }) * order
+        );
       }
     });
   }

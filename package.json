@@ -199,13 +199,11 @@
           "enum": [
             null,
             "title",
-            "created",
             "updated"
           ],
           "enumDescriptions": [
             "ファイルパス",
             "タイトル",
-            "作成日時",
             "更新日時"
           ],
           "markdownDescription": "記事をソートする基準を設定します。"

@@ -2,7 +2,7 @@
   "name": "zenn-preview",
   "publisher": "zenn",
   "displayName": "Zenn Preview for github.dev",
-  "description": "Zenn のコンテンツを github.dev でプレビューできるようにする VSCode 拡張",
+  "description": "Zenn のコンテンツを github.dev でプレビューできるようにする VSCode 拡張機能",
   "icon": "public/assets/zenn-icon.png",
   "homepage": "https://marketplace.visualstudio.com/items?itemName=zenn.zenn-preview",
   "repository": {

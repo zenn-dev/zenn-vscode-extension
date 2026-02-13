@@ -150,7 +150,7 @@ export const loadArticlePreviewContent = async (
     article: article.value,
     fullPath: toFullPath(uri),
     filename: article.filename,
-    html: markdownToHtml(article.markdown, panel),
+    html: await markdownToHtml(article.markdown, panel),
     panelTitle: `${
       getArticleTitle({
         emoji: article.value.emoji,

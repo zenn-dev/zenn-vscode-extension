@@ -238,7 +238,7 @@
     "@types/webpack-env": "^1.17.0",
     "@typescript-eslint/eslint-plugin": "^5.30.0",
     "@typescript-eslint/parser": "^5.30.0",
-    "@vscode/test-web": "^0.0.65",
+    "@vscode/test-web": "^0.0.79",
     "@vscode/vsce": "^3.2.2",
     "assert": "^2.0.0",
     "buffer": "^6.0.3",
@@ -266,9 +266,9 @@
     "js-yaml": "^4.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "zenn-content-css": "^0.1.155",
-    "zenn-embed-elements": "^0.1.155",
-    "zenn-markdown-html": "^0.1.155",
-    "zenn-model": "^0.1.155"
+    "zenn-content-css": "^0.4.5",
+    "zenn-embed-elements": "^0.4.5",
+    "zenn-markdown-html": "^0.4.5",
+    "zenn-model": "^0.4.5"
   }
 }

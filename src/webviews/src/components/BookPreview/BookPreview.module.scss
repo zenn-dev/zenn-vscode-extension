@@ -15,7 +15,7 @@
 }
 
 .coverImage {
-  background: #fff;
+  background: var(--c-bg-page);
   object-fit: cover;
   box-shadow: 0 9px 20px -9px rgb(0 27 68 / 52%), 0 0 3px rgb(0 21 60 / 10%);
   border-radius: 5px;
@@ -57,7 +57,7 @@
   color: var(--c-gray);
   font-size: 0.9em;
   border: solid 1px var(--c-gray-border);
-  background: #fff;
+  background: var(--c-bg-page);
   padding: 0.1em 0.4em;
   border-radius: 5px;
   margin: 3px 6px 3px 0;

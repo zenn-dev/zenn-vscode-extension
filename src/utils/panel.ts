@@ -16,6 +16,7 @@ export const createWebviewHtml = (webviewSrc: vscode.Uri) => {
     `  <head>` +
     `    <meta charset="utf-8">` +
     `    <meta name="viewport" content="width=device-width,initial-scale=1.0">` +
+    `    <meta name="color-scheme" content="light dark">` +
     `    <title>Zenn Preview</title>` +
     `    <!-- 埋め込み要素のイベントを処理するためのスクリプト -->` +
     `    <script src="https://embed.zenn.studio/js/listen-embed-event.js"></script>` +

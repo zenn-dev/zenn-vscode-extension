@@ -9,6 +9,9 @@
   --c-gray-bg: #edf2f7;
   --c-error: #fa5d5d;
   --c-error-bg: #fff0f0;
+  --c-bg-page: #ffffff;
+  --c-nav-bg: rgb(213 225 234);
+  --c-warning: #ff9715;
   /* Font */
   --font-base: -apple-system, "BlinkMacSystemFont", "Hiragino Kaku Gothic ProN",
     "Hiragino Sans", Meiryo, sans-serif, "Segoe UI Emoji";
@@ -16,8 +19,23 @@
     "Segoe UI Emoji";
 }
 
+[data-theme^="dark"] {
+  --c-primary: #3ea8ff;
+  --c-primary-darker: #0f93ff;
+  --c-primary-bg: #1a2f44;
+  --c-body: rgba(255, 255, 255, 0.85);
+  --c-gray: #9ba3ab;
+  --c-gray-border: #2d3741;
+  --c-gray-bg: #1e2a35;
+  --c-error: #ff6b6b;
+  --c-error-bg: #311818;
+  --c-bg-page: #0d1117;
+  --c-nav-bg: #161b22;
+  --c-warning: #e5a21a;
+}
+
 html {
-  background: white;
+  background: var(--c-bg-page);
   box-sizing: border-box;
   font-size: 16px;
   -ms-text-size-adjust: 100%;

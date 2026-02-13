@@ -12,7 +12,7 @@
 .emoji {
   margin-top: -0.5em;
   font-size: 56px;
-  color: #000;
+  color: var(--c-body);
 }
 
 .title {
@@ -48,7 +48,7 @@
   color: var(--c-gray);
   font-size: 0.9em;
   border: solid 1px var(--c-gray-border);
-  background: #fff;
+  background: var(--c-bg-page);
   padding: 0.1em 0.4em;
   border-radius: 5px;
   margin: 3px 6px 3px 0;

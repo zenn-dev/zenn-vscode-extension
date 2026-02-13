@@ -27,7 +27,8 @@ const App = () => {
   // MutationObserverでクラスの変化を監視する
   useEffect(() => {
     const applyTheme = () => {
-      const isDark = document.body.classList.contains("vscode-dark");
+      const isDark = document.body.classList.contains("vscode-dark") ||
+        document.body.classList.contains("vscode-high-contrast");
       const theme = isDark ? "dark" : "light";
       document.documentElement.setAttribute("data-theme", theme);
       document.documentElement.style.colorScheme = theme;

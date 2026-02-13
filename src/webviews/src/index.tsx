@@ -22,6 +22,24 @@ const App = () => {
     import("zenn-embed-elements");
   }, []);
 
+  // VSCodeのテーマに合わせてdata-theme属性を設定する
+  // VSCode webviewはbodyに vscode-dark / vscode-light クラスを付与するため、
+  // MutationObserverでクラスの変化を監視する
+  useEffect(() => {
+    const applyTheme = () => {
+      const isDark = document.body.classList.contains("vscode-dark") ||
+        document.body.classList.contains("vscode-high-contrast");
+      const theme = isDark ? "dark" : "light";
+      document.documentElement.setAttribute("data-theme", theme);
+      document.documentElement.style.colorScheme = theme;
+    };
+    applyTheme();
+
+    const observer = new MutationObserver(applyTheme);
+    observer.observe(document.body, { attributes: true, attributeFilter: ["class"] });
+    return () => observer.disconnect();
+  }, []);
+
   useEffect(() => {
     const onMessage = (event: MessageEvent) => {
       const msg = event.data as PreviewEvent;

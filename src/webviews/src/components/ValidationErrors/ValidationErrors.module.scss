@@ -1,6 +1,6 @@
 .validationError {
   padding: 1.2rem 1.4rem 1.3rem;
-  background: #fff;
+  background: var(--c-bg-page);
   border-radius: 10px;
 }
 
@@ -12,7 +12,7 @@
 
 .warnings {
   .errorIcon {
-    color: #ff9715;
+    color: var(--c-warning);
   }
 }
 
@@ -24,7 +24,7 @@
 
 .warningTitle {
   font-size: 0.95rem;
-  color: #ff9715;
+  color: var(--c-warning);
   font-weight: 700;
 }
 

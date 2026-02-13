@@ -70,10 +70,17 @@ const webExtensionConfig = {
     ],
   },
   plugins: [
-    new webpack.ProvidePlugin({ 
+    new webpack.ProvidePlugin({
       process: "process/browser.js",
       Buffer: ["buffer", "Buffer"],
-    })
+    }),
+    // webworker環境でもブラウザとして認識させる（Shikiがブラウザ用JSエンジンを使うために必要）
+    new webpack.DefinePlugin({
+      "typeof window": JSON.stringify("object"),
+    }),
+    // Shikiの言語文法を個別チャンクに分割させず、メインバンドルに統合する
+    // webworker環境では動的チャンクをロードできないため必要
+    new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 }),
   ],
   externals: {
     vscode: "commonjs vscode", // ignored because it doesn't exist

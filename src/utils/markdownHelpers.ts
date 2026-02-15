@@ -34,15 +34,16 @@ export const transformLocalImage =
 /**
  * Markdown を HTML に変換する
  */
-export const markdownToHtml = (
+export const markdownToHtml = async (
   markdown: string,
   panel: vscode.WebviewPanel
-): string => {
+): Promise<string> => {
+  const html = await ZennMarkdownToHtml(markdown, {
+    embedOrigin: "https://embed.zenn.studio",
+  });
   return [transformLocalImage(panel)].reduce(
     (text, transformer) => transformer(text),
-    ZennMarkdownToHtml(markdown, {
-      embedOrigin: "https://embed.zenn.studio",
-    })
+    html
   );
 };
 

@@ -122,7 +122,7 @@ export const loadBookChapterPreviewContent = async (
     filename: chapter.filename,
     bookFullPath: toFullPath(book.uri),
     bookFilename: book.filename,
-    html: markdownToHtml(chapter.markdown, panel),
+    html: await markdownToHtml(chapter.markdown, panel),
     panelTitle: `${
       chapter.value.title || chapter.filename || "チャプター"
     } のプレビュー`,

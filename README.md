@@ -1,7 +1,14 @@
-> **🚩 この拡張機能はまだ β 版です** <br /> 
-> **🚩 現在はブラウザ上で動くことを想定してます。ローカルの VSCode でも一応動作しますが保証はしません**
-
 # Zenn VSCode Extension
+
+> **🚩 この拡張機能は開発を終了しました**
+>
+> 本拡張機能「Zenn Preview for github.dev」は開発を終了し、このリポジトリはアーカイブされています。Visual Studio Marketplace からも削除しているため、新規のインストールや再インストール、今後のアップデートはできません。インストール済みの環境では引き続き動作しますが、不具合の修正やサポートは行いません。
+>
+> 今後の執筆・プレビューには [zenn-cli](https://zenn.dev/zenn/articles/zenn-cli-guide) をご利用ください。経緯は [提供終了のお知らせ](https://info.zenn.dev/2026-08-19-zenn-vscode-extension-deprecation) と [予告 Issue #142](https://github.com/zenn-dev/zenn-vscode-extension/issues/142) をご覧ください。
+>
+> これまでご利用・ご貢献いただいたみなさまに感謝いたします。
+
+以下は開発終了時点の内容です。
 
 ブラウザ上で実行される VSCode で、Zenn のコンテンツを表示するための拡張機能です。
 
